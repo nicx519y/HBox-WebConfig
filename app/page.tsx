@@ -1,101 +1,90 @@
-import Image from "next/image";
+'use client'
+
+import { LuCheckCheck , LuLightbulb , LuLayoutGrid, LuUnfoldVertical, LuFolderCog    } from "react-icons/lu"
+import { Tabs, Container, Grid, createListCollection, Flex  } from "@chakra-ui/react"
+import { useEffect, useState } from "react";
+import { GamePlatform, Profile } from "@/components/profile-select";
+import { KeymappingContent } from "@/components/keymapping-content";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  
+  const [profiles, setProfiles] = useState(createListCollection<Profile>({ items: [] }));
+  const [gamePlatforms, setGamePlatforms] = useState(createListCollection<GamePlatform>({ items: [] }));
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  useEffect(() => {
+    setProfiles(createListCollection({
+      items: [
+        {label: "Profile 1", value: "Profile1"},
+        {label: "Profile 2", value: "Profile2"},
+        {label: "Profile 3", value: "Profile3"},
+        {label: "Profile 4", value: "Profile4"},
+        {label: "Profile 5", value: "Profile5"},
+        {label: "Profile 6", value: "Profile6"},
+        {label: "Profile 7", value: "Profile7"},
+      ]
+    }));
+  }, []);
+
+  useEffect(() => {
+    setGamePlatforms(createListCollection({
+      items: [
+        {label: "XInput", value: "XInput"},
+        {label: "PS4", value: "PS4"},
+        {label: "PS5", value: "PS5"},
+        {label: "Switch", value: "Switch"},
+      ]
+    }));
+  }, []);
+
+  return (
+    <Flex direction="column" height={"100vh"} >
+      <Grid height={"60px"} width={"100%"} px={8} py={3} >
+        
+      </Grid>
+      <Container fluid flex={1} >
+        <Tabs.Root key={"enclosed"} defaultValue="keyMapping" variant={"enclosed"} height={"100%"} >
+          <Flex direction="column" height={"100%"} >
+            <Tabs.List width={"100%"} justifyContent={"center"}>
+              <Tabs.Trigger value="keyMapping">
+                <LuLayoutGrid />
+                Key Mapping
+              </Tabs.Trigger>
+              <Tabs.Trigger value="LEDsEffect">
+                <LuLightbulb  />
+                LEDs Effect
+              </Tabs.Trigger>
+              <Tabs.Trigger value="rapidTrigger">
+                <LuUnfoldVertical  />
+                Rapid Trigger
+              </Tabs.Trigger>
+              <Tabs.Trigger value="calibration">
+                <LuCheckCheck  />
+                Calibration
+              </Tabs.Trigger>
+              <Tabs.Trigger value="firmware">
+                <LuFolderCog  />
+                Firmware
+              </Tabs.Trigger>
+              <Tabs.Indicator rounded="18" />
+            </Tabs.List>
+            <Tabs.Content value="keyMapping" flex={1} >
+              <KeymappingContent profiles={profiles} gamePlatforms={gamePlatforms} />
+            </Tabs.Content>
+            <Tabs.Content value="LEDsEffect" flex={1} >
+              Manage your projects
+            </Tabs.Content>
+            <Tabs.Content value="rapidTrigger" flex={1} >
+              Manage your tasks for freelancers
+            </Tabs.Content>
+            <Tabs.Content value="calibration" flex={1} >
+              Manage your tasks for freelancers
+            </Tabs.Content>
+            <Tabs.Content value="firmware" flex={1} >
+              Manage your tasks for freelancers
+            </Tabs.Content>
+          </Flex>
+        </Tabs.Root>
+      </Container>
+    </Flex>
   );
 }
