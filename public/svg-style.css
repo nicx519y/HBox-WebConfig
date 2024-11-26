@@ -1,0 +1,42 @@
+
+
+
+.cls-path {
+    fill: none;
+    stroke: #fff;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1px;
+}
+
+.frame-path {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+}
+
+text {
+    text-align: center;
+    font-family: "Helvetica", cursive;
+    fill: #ccc;
+    font-size: .9rem;
+    /* font-weight: bold; */    
+    cursor: default;    
+    pointer-events: none;
+}
+
+.button {
+    cursor: pointer;
+    fill: #000;
+}
+
+.button:hover {
+    stroke-width: 3px;
+    stroke: green;
+}
+
+.button:active {
+    stroke-width: 3px;
+    stroke: yellowgreen;
+}
+

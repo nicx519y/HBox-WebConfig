@@ -1,90 +1,163 @@
 'use client'
 
-import { LuCheckCheck , LuLightbulb , LuLayoutGrid, LuUnfoldVertical, LuFolderCog    } from "react-icons/lu"
-import { Tabs, Container, Grid, createListCollection, Flex  } from "@chakra-ui/react"
-import { useEffect, useState } from "react";
-import { GamePlatform, Profile } from "@/components/profile-select";
-import { KeymappingContent } from "@/components/keymapping-content";
+import { LuCheckCheck, LuLightbulb, LuLayoutGrid, LuUnfoldVertical, LuFolderCog } from "react-icons/lu"
+import { Tabs, Container, Grid, Flex } from "@chakra-ui/react"
+import { Toaster } from "@/components/ui/toaster";
+import { KeysSettingContent } from "@/components/keys-setting-content";
+import { GameProfile, GamepadConfig } from "@/types/gamepad-config";
+import { useState } from "react";
+import { setProfileDetails, switchDefaultProfile, resetKeyProfile, createProfile, deleteProfile, getGamepadConfig } from "@/controller/services";
 
 export default function Home() {
-  
-  const [profiles, setProfiles] = useState(createListCollection<Profile>({ items: [] }));
-  const [gamePlatforms, setGamePlatforms] = useState(createListCollection<GamePlatform>({ items: [] }));
 
-  useEffect(() => {
-    setProfiles(createListCollection({
-      items: [
-        {label: "Profile 1", value: "Profile1"},
-        {label: "Profile 2", value: "Profile2"},
-        {label: "Profile 3", value: "Profile3"},
-        {label: "Profile 4", value: "Profile4"},
-        {label: "Profile 5", value: "Profile5"},
-        {label: "Profile 6", value: "Profile6"},
-        {label: "Profile 7", value: "Profile7"},
-      ]
-    }));
-  }, []);
+    const [gamepadConfig, setGamepadConfig] = useState<GamepadConfig>({});
 
-  useEffect(() => {
-    setGamePlatforms(createListCollection({
-      items: [
-        {label: "XInput", value: "XInput"},
-        {label: "PS4", value: "PS4"},
-        {label: "PS5", value: "PS5"},
-        {label: "Switch", value: "Switch"},
-      ]
-    }));
-  }, []);
+    /**
+     * Set the details of a profile
+     * @param profileId 
+     * @param profileDetails 
+     * @returns 
+     */
+    const setProfileDetailsHandler = (profileId: string, profileDetails: GameProfile): Promise<void> => {
+        console.log("setProfileDetailsHandler: ", profileId, profileDetails);
 
-  return (
-    <Flex direction="column" height={"100vh"} >
-      <Grid height={"60px"} width={"100%"} px={8} py={3} >
+        return new Promise((resolve, reject) => {
+            setProfileDetails(profileId, profileDetails)
+                .then(() => getGamepadConfig().then(setGamepadConfig).then(resolve).catch(reject))
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Switch the default profile
+     * @param profileId 
+     * @returns 
+     */
+    const switchDefaultProfileHandler = (profileId: string): Promise<void> => {
+        console.log("switchDefaultProfileHandler: ", profileId);
         
-      </Grid>
-      <Container fluid flex={1} >
-        <Tabs.Root key={"enclosed"} defaultValue="keyMapping" variant={"enclosed"} height={"100%"} >
-          <Flex direction="column" height={"100%"} >
-            <Tabs.List width={"100%"} justifyContent={"center"}>
-              <Tabs.Trigger value="keyMapping">
-                <LuLayoutGrid />
-                Key Mapping
-              </Tabs.Trigger>
-              <Tabs.Trigger value="LEDsEffect">
-                <LuLightbulb  />
-                LEDs Effect
-              </Tabs.Trigger>
-              <Tabs.Trigger value="rapidTrigger">
-                <LuUnfoldVertical  />
-                Rapid Trigger
-              </Tabs.Trigger>
-              <Tabs.Trigger value="calibration">
-                <LuCheckCheck  />
-                Calibration
-              </Tabs.Trigger>
-              <Tabs.Trigger value="firmware">
-                <LuFolderCog  />
-                Firmware
-              </Tabs.Trigger>
-              <Tabs.Indicator rounded="18" />
-            </Tabs.List>
-            <Tabs.Content value="keyMapping" flex={1} >
-              <KeymappingContent profiles={profiles} gamePlatforms={gamePlatforms} />
-            </Tabs.Content>
-            <Tabs.Content value="LEDsEffect" flex={1} >
-              Manage your projects
-            </Tabs.Content>
-            <Tabs.Content value="rapidTrigger" flex={1} >
-              Manage your tasks for freelancers
-            </Tabs.Content>
-            <Tabs.Content value="calibration" flex={1} >
-              Manage your tasks for freelancers
-            </Tabs.Content>
-            <Tabs.Content value="firmware" flex={1} >
-              Manage your tasks for freelancers
-            </Tabs.Content>
-          </Flex>
-        </Tabs.Root>
-      </Container>
-    </Flex>
-  );
+        return new Promise((resolve, reject) => {
+            switchDefaultProfile(profileId)
+                .then(() => getGamepadConfig().then(setGamepadConfig).then(resolve).catch(reject))
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Reset the key mapping of a profile
+     * @param profileId 
+     * @returns 
+     */
+    const resetKeyProfileHandler = (profileId: string): Promise<void> => {
+        console.log("resetKeyProfileHandler: ", profileId);
+        
+        return new Promise((resolve, reject) => {
+            resetKeyProfile(profileId)
+                .then(() => getGamepadConfig().then(setGamepadConfig).then(resolve).catch(reject))
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Create a new profile
+     * @param profileName 
+     * @returns 
+     */
+    const createProfileHandler = (profileName: string): Promise<void> => {
+        console.log("createProfileHandler: ", profileName);
+        
+        return new Promise((resolve, reject) => {
+            createProfile(profileName)
+                .then((id: string) => switchDefaultProfile(id)) // Set the new profile as the default profile
+                .then(() => getGamepadConfig().then(setGamepadConfig).then(resolve).catch(reject)) // Get the gamepad config and update the state
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Delete a profile
+     * @param profileId 
+     * @returns 
+     */
+    const deleteProfileHandler = (profileId: string): Promise<void> => {
+        console.log("deleteProfileHandler: ", profileId);
+        
+        return new Promise((resolve, reject) => {
+            // Find the next profile to be the default profile
+            const newId = gamepadConfig.profiles?.find(profile => profile.id !== profileId)?.id ?? gamepadConfig.profiles?.[0].id;
+
+            deleteProfile(profileId)
+                .then(() => switchDefaultProfile(newId ?? "")) // Set the new profile as the default profile
+                .then(() => getGamepadConfig().then(setGamepadConfig).then(resolve).catch(reject)) // Get the gamepad config and update the state
+                .catch(reject);
+        });
+    }
+
+    const resetGamepadConfigHandler = (): Promise<void> => {
+        console.log("resetGamepadConfigHandler");
+        
+        return new Promise((resolve, reject) => {
+            getGamepadConfig().then(setGamepadConfig).then(resolve).catch(reject);
+        });
+    }
+
+    return (    
+        <Flex direction="column" height={"100vh"} >
+            <Grid height={"60px"} width={"100%"} px={8} py={3} >
+            </Grid>
+            <Container fluid flex={1} >
+                <Tabs.Root key={"enclosed"} defaultValue="keyMapping" variant={"enclosed"} height={"100%"} >
+                <Flex direction="column" height={"100%"} >
+                    <Tabs.List width={"100%"} justifyContent={"center"}>
+                        <Tabs.Trigger value="keyMapping">
+                            <LuLayoutGrid />
+                            Key Settings
+                        </Tabs.Trigger>
+                        <Tabs.Trigger value="LEDsEffect">
+                            <LuLightbulb />
+                            LEDs Effect
+                        </Tabs.Trigger>
+                        <Tabs.Trigger value="rapidTrigger">
+                            <LuUnfoldVertical />
+                            Rapid Trigger
+                        </Tabs.Trigger>
+                        <Tabs.Trigger value="calibration">
+                            <LuCheckCheck />
+                            Calibration
+                        </Tabs.Trigger>
+                        <Tabs.Trigger value="firmware">
+                            <LuFolderCog />
+                            Firmware
+                        </Tabs.Trigger>
+                        <Tabs.Indicator rounded="18" />
+                    </Tabs.List>
+                    <Tabs.Content value="keyMapping" flex={1} >
+                        <KeysSettingContent 
+                            gamepadConfig={gamepadConfig} 
+                            setProfileDetailsHandler={setProfileDetailsHandler} 
+                            switchDefaultProfileHandler={switchDefaultProfileHandler} 
+                            resetKeyProfileHandler={resetKeyProfileHandler} 
+                            createProfileHandler={createProfileHandler} 
+                            deleteProfileHandler={deleteProfileHandler} 
+                            resetGamepadConfigHandler={resetGamepadConfigHandler}
+                        />
+                    </Tabs.Content>
+                    <Tabs.Content value="LEDsEffect" flex={1} >
+                        Manage your projects
+                    </Tabs.Content>
+                    <Tabs.Content value="rapidTrigger" flex={1} >
+                        Manage your tasks for freelancers
+                    </Tabs.Content>
+                    <Tabs.Content value="calibration" flex={1} >
+                        Manage your tasks for freelancers
+                    </Tabs.Content>
+                    <Tabs.Content value="firmware" flex={1} >
+                        Manage your tasks for freelancers
+                        </Tabs.Content>
+                    </Flex>
+                </Tabs.Root>
+            </Container>
+            <Toaster />
+        </Flex>
+    );
 }
