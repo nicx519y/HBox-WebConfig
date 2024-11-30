@@ -1,32 +1,23 @@
 'use client';
 
-import { Box, chakra, Image } from "@chakra-ui/react";
+import { Box, chakra } from "@chakra-ui/react";
 import "@/public/svg-style.css";
 
 const CustomSvg = chakra('svg', {
     base: {
         width: "800px",
         height: "650px",
+        position: "relative",
     }
 });
 
-export default function Hitbox(
-    props: {
-        onClick?: (id: number) => void;
-    }
-) {
-
+export default function Hitbox(props: { onClick?: (id: number) => void }) {
     const handleClick = (event: any) => {
-        // 获取被点击的元素
         const target = event.target;
         if(event.type === "mousedown") {
-            // 检查被点击的元素是否具有特定的类名或属性
             if (target.matches('.button')) {
-                console.log('Clickable element clicked:', target.id);
-                // send button id to parent component
                 props.onClick?.(Number(target.id.replace("btn-", "")));
             }
-        // mouse up event, reset input key
         } else if(event.type === "mouseup") {
             props.onClick?.(-1);
         }
@@ -34,7 +25,10 @@ export default function Hitbox(
 
     return (
         <CustomSvg>
-            <svg  xmlns="http://www.w3.org/2000/svg" onMouseDown={handleClick} onMouseUp={handleClick}  >
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                onMouseDown={handleClick} 
+                onMouseUp={handleClick}
+            >
                 <title>hitbox</title>
                 <rect className="frame-path" x="0.36" y="0.36" width="787.82" height="507.1" rx="10" />
                 
@@ -88,10 +82,10 @@ export default function Hitbox(
                 <circle id="btn-15" className="cls-path button" cx="630.36" cy="156.06" r="28.63" />
                 <circle id="btn-16" className="cls-path button" cx="599.94" cy="92.52" r="28.63" />
 
-                <circle id="btn-17" className="cls-path button" cx="51.99" cy="46.03" r="11.37" />
-                <circle id="btn-18" className="cls-path button" cx="96.01" cy="46.03" r="11.37" />
-                <circle id="btn-19" className="cls-path button" cx="140.02" cy="46.03" r="11.37" />
-                <circle id="btn-20" className="cls-path button" cx="184.03" cy="46.03" r="11.37" />
+                <circle className="cls-path" cx="51.99" cy="46.03" r="11.37" />
+                <circle id="btn-19" className="cls-path button" cx="96.01" cy="46.03" r="11.37" />
+                <circle id="btn-18" className="cls-path button" cx="140.02" cy="46.03" r="11.37" />
+                <circle id="btn-17" className="cls-path button" cx="184.03" cy="46.03" r="11.37" />
 
                 <text x="373" y="385" > 1 </text>
                 <text x="296" y="358" > 2 </text>
@@ -110,13 +104,12 @@ export default function Hitbox(
                 <text x="521" y="103" > 14 </text>
                 <text x="622" y="160" > 15 </text>
                 <text x="591" y="97" > 16 </text>
-                <text x="42" y="78" > 17 </text>
-                <text x="88" y="78" > 18 </text>
-                <text x="130" y="78" > 19 </text>
-                <text x="174" y="78" > 20 </text>
+                <text x="42" y="78" > Fn </text>
+                <text x="88" y="78" > 19 </text>
+                <text x="130" y="78" > 18 </text>
+                <text x="174" y="78" > 17 </text>
 
             </svg>
-            
         </CustomSvg>
-    )
+    );
 }

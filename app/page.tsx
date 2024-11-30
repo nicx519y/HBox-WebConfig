@@ -1,16 +1,35 @@
 'use client'
 
 import { LuCheckCheck, LuLightbulb, LuLayoutGrid, LuUnfoldVertical, LuFolderCog } from "react-icons/lu"
-import { Tabs, Container, Grid, Flex } from "@chakra-ui/react"
+import { Tabs, Container, Grid, Flex, Center, VStack } from "@chakra-ui/react"
 import { Toaster } from "@/components/ui/toaster";
 import { KeysSettingContent } from "@/components/keys-setting-content";
-import { GameProfile, GamepadConfig } from "@/types/gamepad-config";
-import { useState } from "react";
+import { GameProfile, GameProfileList, GamepadConfig } from "@/types/gamepad-config";
+import { useEffect, useState } from "react";
 import { setProfileDetails, switchDefaultProfile, resetKeyProfile, createProfile, deleteProfile, getGamepadConfig } from "@/controller/services";
+import { ProfileSelect } from "@/components/profile-select";
+import { LEDsSettingContent } from "@/components/leds-setting-content";
 
 export default function Home() {
 
     const [gamepadConfig, setGamepadConfig] = useState<GamepadConfig>({});
+
+    const [profileList, setProfileList] = useState<GameProfileList>({
+        defaultId: "",
+        maxNumProfiles: 0,
+        items: [],
+    });
+
+    useEffect(() => {
+        setProfileList({
+            defaultId: gamepadConfig.defaultProfileId ?? "",
+            maxNumProfiles: gamepadConfig.numProfilesMax ?? 0,
+            items: gamepadConfig.profiles?.map(p => ({
+                id: p.id ?? "",
+                name: p.name ?? "",
+            })) ?? [],
+        });
+    }, [gamepadConfig]);
 
     /**
      * Set the details of a profile
@@ -38,21 +57,6 @@ export default function Home() {
         
         return new Promise((resolve, reject) => {
             switchDefaultProfile(profileId)
-                .then(() => getGamepadConfig().then(setGamepadConfig).then(resolve).catch(reject))
-                .catch(reject);
-        });
-    }
-
-    /**
-     * Reset the key mapping of a profile
-     * @param profileId 
-     * @returns 
-     */
-    const resetKeyProfileHandler = (profileId: string): Promise<void> => {
-        console.log("resetKeyProfileHandler: ", profileId);
-        
-        return new Promise((resolve, reject) => {
-            resetKeyProfile(profileId)
                 .then(() => getGamepadConfig().then(setGamepadConfig).then(resolve).catch(reject))
                 .catch(reject);
         });
@@ -93,7 +97,7 @@ export default function Home() {
         });
     }
 
-    const resetGamepadConfigHandler = (): Promise<void> => {
+    const resetProfileDetailsHandler = (): Promise<void> => {
         console.log("resetGamepadConfigHandler");
         
         return new Promise((resolve, reject) => {
@@ -108,7 +112,7 @@ export default function Home() {
             <Container fluid flex={1} >
                 <Tabs.Root key={"enclosed"} defaultValue="keyMapping" variant={"enclosed"} height={"100%"} >
                 <Flex direction="column" height={"100%"} >
-                    <Tabs.List width={"100%"} justifyContent={"center"}>
+                    <Tabs.List width={"100%"} justifyContent={"center"} colorPalette={"green"} >
                         <Tabs.Trigger value="keyMapping">
                             <LuLayoutGrid />
                             Key Settings
@@ -131,27 +135,38 @@ export default function Home() {
                         </Tabs.Trigger>
                         <Tabs.Indicator rounded="18" />
                     </Tabs.List>
-                    <Tabs.Content value="keyMapping" flex={1} >
+
+                    <Center pt={4} >
+                        <ProfileSelect
+                            profileList={profileList}
+                            switchDefaultProfile={switchDefaultProfileHandler}
+                            createProfile={createProfileHandler}
+                            deleteProfile={deleteProfileHandler}
+                            setProfileDetails={setProfileDetailsHandler}
+                        />
+                    </Center>
+                    
+                    <Tabs.Content value="keyMapping" flex={1} padding={0} >
                         <KeysSettingContent 
                             gamepadConfig={gamepadConfig} 
                             setProfileDetailsHandler={setProfileDetailsHandler} 
-                            switchDefaultProfileHandler={switchDefaultProfileHandler} 
-                            resetKeyProfileHandler={resetKeyProfileHandler} 
-                            createProfileHandler={createProfileHandler} 
-                            deleteProfileHandler={deleteProfileHandler} 
-                            resetGamepadConfigHandler={resetGamepadConfigHandler}
+                            resetGamepadConfigHandler={resetProfileDetailsHandler}
                         />
                     </Tabs.Content>
-                    <Tabs.Content value="LEDsEffect" flex={1} >
-                        Manage your projects
+                    <Tabs.Content value="LEDsEffect" flex={1} padding={0}  >
+                        <LEDsSettingContent
+                            gamepadConfig={gamepadConfig}
+                            setProfileDetailsHandler={setProfileDetailsHandler}
+                            resetProfileDetailsHandler={resetProfileDetailsHandler}
+                        />
                     </Tabs.Content>
-                    <Tabs.Content value="rapidTrigger" flex={1} >
+                    <Tabs.Content value="rapidTrigger" flex={1} padding={0}  >
                         Manage your tasks for freelancers
                     </Tabs.Content>
-                    <Tabs.Content value="calibration" flex={1} >
+                    <Tabs.Content value="calibration" flex={1} padding={0}  >
                         Manage your tasks for freelancers
                     </Tabs.Content>
-                    <Tabs.Content value="firmware" flex={1} >
+                    <Tabs.Content value="firmware" flex={1} padding={0}  >
                         Manage your tasks for freelancers
                         </Tabs.Content>
                     </Flex>

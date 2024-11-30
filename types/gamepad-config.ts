@@ -158,6 +158,10 @@ export type GameProfile = {
     fourWayMode?: boolean,
     socdMode?: GameSocdMode, 
     keyMapping?: Map<GameControllerButton, Number[]>,
+    ledEnabled?: boolean,
+    ledEffectStyle?: LedsEffectStyle,
+    ledColors?: string[],
+    ledBrightness?: number,
 }
 
 export type ADCButton = {
@@ -180,3 +184,23 @@ export type GamepadConfig = {
     GPIOButtons?: GPIOButton[],
     profiles?: GameProfile[],
 }
+
+export enum LedsEffectStyle {
+    STATIC = "STATIC",
+    BREATHING = "BREATHING",
+    // WAVE = "WAVE",
+}
+
+export const LedsEffectStyleList = Object.values(LedsEffectStyle);
+
+export const LedsEffectStyleLabelMap = new Map<LedsEffectStyle, { label: string, description: string, icon: string, hasBackColor2: boolean }>([
+    [LedsEffectStyle.STATIC, { label: "Static", description: "Static color", icon: "sun-dim", hasBackColor2: false }],
+    [LedsEffectStyle.BREATHING, { label: "Breathing", description: "Breathing color", icon: "activity", hasBackColor2: true }],
+]);
+
+export const ledColorsLabel = [ "Front Color", "Back Color 1", "Back Color 2" ];
+
+// LEDS animation cycle in milliseconds 
+export const LEDS_ANIMATION_CYCLE = 6000;
+// LEDS animation step in milliseconds
+export const LEDS_ANIMATION_STEP = 80;

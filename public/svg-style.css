@@ -26,8 +26,8 @@ text {
 }
 
 .button {
-    cursor: pointer;
     fill: #000;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -39,4 +39,5 @@ text {
     stroke-width: 3px;
     stroke: yellowgreen;
 }
+
 
