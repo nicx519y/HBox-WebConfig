@@ -47,7 +47,7 @@ export default function KeymappingField(
                                 closable={isActive}
                                 colorPalette={isActive ? "green" : "gray"}
                                 onClick={() => tagClick(hitboxButton)}
-                            >{`KEY-${hitboxButton}`}</Tag>
+                            >{`KEY-${hitboxButton + 1}`}</Tag>
                         ))}
                     </HStack>
                 </Box>

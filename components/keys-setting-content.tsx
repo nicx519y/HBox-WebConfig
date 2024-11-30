@@ -79,6 +79,7 @@ export function KeysSettingContent(
     }
 
     const hitboxButtonClick = (keyId: number) => {
+        console.log("hitboxButtonClick: ", keyId);
         setInputKey(keyId);
     }
 

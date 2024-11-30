@@ -12,6 +12,7 @@ import {
     HStack,
     parseColor,
     Text,
+    Color,
 } from "@chakra-ui/react";
 
 import { Field } from "@/components/ui/field"
@@ -43,9 +44,10 @@ import {
     LedsEffectStyleList,
     LedsEffectStyleLabelMap,
     ledColorsLabel,
+    LEDS_COLOR_DEFAULT,
 } from "@/types/gamepad-config";
-import Hitbox from "@/components/hitbox";
 import { LuSunDim, LuActivity } from "react-icons/lu";
+import Hitbox from "./hitbox";
 
 export function LEDsSettingContent(
 
@@ -64,9 +66,11 @@ export function LEDsSettingContent(
 
 
     const [ledsEffectStyle, setLedsEffectStyle] = useState<LedsEffectStyle>(LedsEffectStyle.STATIC);
-    const [ledColors, setLedColors] = useState<string[]>(["#000000", "#000000", "#000000"]);
-    const [ledBrightness, setLedBrightness] = useState<number>(0);
-    const [ledEnabled, setLedEnabled] = useState<boolean>(false);
+    const [color1, setColor1] = useState<Color>(parseColor("#000000"));
+    const [color2, setColor2] = useState<Color>(parseColor("#000000"));
+    const [color3, setColor3] = useState<Color>(parseColor("#000000"));
+    const [ledBrightness, setLedBrightness] = useState<number>(75);
+    const [ledEnabled, setLedEnabled] = useState<boolean>(true);
 
     const iconMap: Record<string, JSX.Element> = {
         'sun-dim': <LuSunDim />,
@@ -78,8 +82,10 @@ export function LEDsSettingContent(
         const defaultProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
         if (defaultProfile) {
             setLedsEffectStyle(defaultProfile.ledEffectStyle ?? LedsEffectStyle.STATIC);
-            setLedColors(defaultProfile.ledColors ?? ['#000000', '#000000', '#000000']);
-            setLedBrightness(defaultProfile.ledBrightness ?? 0);
+            setColor1(parseColor(defaultProfile.ledColors?.[0] ?? "#000000"));
+            setColor2(parseColor(defaultProfile.ledColors?.[1] ?? "#000000"));
+            setColor3(parseColor(defaultProfile.ledColors?.[2] ?? "#000000"));
+            setLedBrightness(defaultProfile.ledBrightness ?? 75);
             setLedEnabled(defaultProfile.ledEnabled ?? true);
         }
     }, [gamepadConfig]);
@@ -104,7 +110,15 @@ export function LEDsSettingContent(
                 <Flex flex={1} margin={"0 auto"} >
                     <Flex direction="row" width={"1700px"} padding={"18px"} >
                         <Center flex={1}  >
-                            <Hitbox />
+                            <Hitbox 
+                                hasLeds={true}
+                                colorEnabled={ledEnabled} 
+                                frontColor={color1} 
+                                backColor1={color2} 
+                                backColor2={color3} 
+                                effectStyle={ledsEffectStyle} 
+                                brightness={ledBrightness}
+                            />
                         </Center>
                         <Center width={"700px"}  >
                             <Fieldset.Root>
@@ -159,13 +173,18 @@ export function LEDsSettingContent(
                                             
                                             {/* LED Colors */}
                                             <Field >
-                                                {ledColors.map((color, index) => (
+                                                    {[color1, color2, color3].map((color, index) => (
                                                     <ColorPickerRoot 
                                                         key={index} 
-                                                        defaultValue={parseColor(color)} 
+                                                        defaultValue={color} 
                                                         maxW="200px" 
                                                         disabled={colorPickerDisabled(index)} 
-                                                        
+                                                        onValueChangeEnd={(e) => {
+                                                            const hex = e.value;
+                                                            if(index === 0) setColor1(hex);
+                                                            if(index === 1) setColor2(hex);
+                                                            if(index === 2) setColor3(hex);
+                                                        }}
                                                     >
                                                         <ColorPickerLabel color={colorPickerDisabled(index) ? "gray.800" : "gray.400"} >{ledColorsLabel[index]}</ColorPickerLabel>
                                                         <ColorPickerControl >
@@ -175,7 +194,6 @@ export function LEDsSettingContent(
                                                         <ColorPickerContent>
                                                             <ColorPickerArea />
                                                             <HStack>
-                                                                <ColorPickerEyeDropper />
                                                                 <ColorPickerSliders  />
                                                             </HStack>
                                                         </ColorPickerContent>

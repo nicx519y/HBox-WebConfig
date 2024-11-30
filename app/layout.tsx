@@ -1,4 +1,5 @@
 import { Provider } from "@/components/ui/provider"
+import StyledComponentsRegistry from '@/lib/registry'
 
 export default function RootLayout({
   children,
@@ -8,9 +9,11 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body>
-        <Provider>
-          {children}
-        </Provider>
+        <StyledComponentsRegistry>
+          <Provider>
+            {children}
+          </Provider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   )

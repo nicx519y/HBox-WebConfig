@@ -204,3 +204,5 @@ export const ledColorsLabel = [ "Front Color", "Back Color 1", "Back Color 2" ];
 export const LEDS_ANIMATION_CYCLE = 6000;
 // LEDS animation step in milliseconds
 export const LEDS_ANIMATION_STEP = 80;
+// Default color for LEDs
+export const LEDS_COLOR_DEFAULT = "#000000";
