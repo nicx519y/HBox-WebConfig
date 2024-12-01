@@ -26,19 +26,22 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
     { label: 'Firmware', path: '/firmware', icon: LuCpu }
   ];
 
-  const currentTabIndex = tabs.findIndex(tab => tab.path === pathname);
-
   return (
     <Flex direction="column" height="100%" flex={1} >
       <Tabs.Root
-        defaultValue="/keys-setting"
+        defaultValue={pathname}
         size="lg"
         variant="enclosed"
         colorPalette={"green"}
       >
         <Tabs.List justifyContent="center" width="100%">
           {tabs.map((tab, index) => (
-            <Tabs.Trigger key={index} value={tab.path} onClick={() => router.push(tab.path)} width="180px" >
+            <Tabs.Trigger 
+              key={index} 
+              value={tab.path} 
+              onClick={() => router.push(tab.path)}
+              width="180px"
+            >
               <HStack>
                 <tab.icon size={18} />
                 <span>{tab.label}</span>

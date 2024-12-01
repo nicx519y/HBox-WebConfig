@@ -149,19 +149,22 @@ export const GameSocdModeLabelMap = new Map<GameSocdMode, { label: string, descr
     }],
 ]);
 
-export type GameProfile = {
-    id?: string,
-    name?: string,
-    inputMode?: Platform,
-    invertXAxis?: boolean,
-    invertYAxis?: boolean,
-    fourWayMode?: boolean,
-    socdMode?: GameSocdMode, 
-    keyMapping?: Map<GameControllerButton, Number[]>,
-    ledEnabled?: boolean,
-    ledEffectStyle?: LedsEffectStyle,
-    ledColors?: string[],
-    ledBrightness?: number,
+export interface GameProfile {
+    id: string;
+    name?: string;
+    inputMode?: Platform;
+    socdMode?: GameSocdMode;
+    invertXAxis?: boolean;
+    invertYAxis?: boolean;
+    fourWayMode?: boolean;
+    keyMapping?: Map<GameControllerButton, number[]>;
+    triggerConfigs?: Map<number, RapidTriggerConfig>;
+    ledsConfigs?: {
+        ledEnabled: boolean;
+        ledsEffectStyle: LedsEffectStyle;
+        ledColors: string[];
+        ledBrightness: number;
+    };
 }
 
 export type ADCButton = {
@@ -189,6 +192,13 @@ export enum LedsEffectStyle {
     STATIC = "STATIC",
     BREATHING = "BREATHING",
     // WAVE = "WAVE",
+}
+
+export type RapidTriggerConfig = {
+    topDeadzone: number;
+    bottomDeadzone: number;
+    pressAccuracy: number;
+    releaseAccuracy: number;
 }
 
 export const LedsEffectStyleList = Object.values(LedsEffectStyle);

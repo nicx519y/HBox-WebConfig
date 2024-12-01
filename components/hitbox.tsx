@@ -30,22 +30,28 @@ const StyledCircle = styled.circle<{
   $color?: string;
   $opacity?: number;
   $interactive?: boolean;
+  $highlight?: boolean;
 }>`
   stroke: #fff;
   stroke-width: 1px;
+//   stroke-dasharray: ${props => props.$highlight ? '8,6' : 'none'};
   cursor: ${props => props.$interactive ? 'pointer' : 'default'};
   pointer-events: ${props => props.$interactive ? 'auto' : 'none'};
   opacity: ${props => props.$opacity};
   fill: ${props => props.$color};
+  stroke: ${props => props.$highlight ? 'yellowgreen' : '#fff'};
+  stroke-width: ${props => props.$highlight ? '4px' : '1px'};
 
   &:hover {
-    stroke-width: ${props => props.$interactive ? '3px' : '1px'};
+    stroke-width: ${props => props.$interactive ? '4px' : '1px'};
     stroke: ${props => props.$interactive ? 'green' : '#fff'};
+    // stroke-dasharray: ${props => props.$interactive ? '8,6' : 'none'};
   }
 
   &:active {
-    stroke-width: ${props => props.$interactive ? '3px' : '1px'};
-    stroke: ${props => props.$interactive ? 'yellowgreen' : '#fff'} ;
+    stroke-width: ${props => props.$interactive ? '4px' : '1px'};
+    stroke: ${props => props.$interactive ? 'yellowgreen' : '#fff'};
+    // stroke-dasharray: ${props => props.$interactive ? '8,6' : 'none'};
   }
 `;
 
@@ -82,7 +88,7 @@ const StyledText = styled.text`
   cursor: default;
   pointer-events: none;
   stroke: #000;
-  stroke-width: 0.3px;
+  stroke-width: 1.8px;
   paint-order: stroke fill;
 `;
 
@@ -125,10 +131,11 @@ const lerpColor = (color1: Color, color2: Color, t: number) => {
  * Hitbox
  * @param props 
  * onClick: (id: number) => void - 点击事件
- * colorEnabled: boolean - 是否��用颜色
+ * colorEnabled: boolean - 是否用颜色
  * color1: string - 默认颜色
  * color2: string - 呼吸颜色
  * brightness: number - 亮度
+ * interactiveIds: number[] - 可交互按钮id列表  
  * @returns 
  */
 export default function Hitbox(props: { 
@@ -140,6 +147,8 @@ export default function Hitbox(props: {
     backColor2?: Color,
     brightness?: number,
     effectStyle?: LedsEffectStyle,
+    interactiveIds?: number[],
+    highlightIds?: number[],
 }) {
 
     const [colorList, setColorList] = useState<Color[]>(Array(btnLen).fill(LEDS_COLOR_DEFAULT));
@@ -154,26 +163,24 @@ export default function Hitbox(props: {
 
     const handleClick = (event: React.MouseEvent<SVGElement>) => {
         const target = event.target as SVGElement;
+        if(!target.id || !target.id.startsWith("btn-")) return;
+        const id = Number(target.id.replace("btn-", ""));
+        if(id === Number.NaN || !(props.interactiveIds?.includes(id) ?? false)) return;
         if(event.type === "mousedown") {
-            if (target.matches('[id^="btn-"]')) {
-                const id = Number(target.id.replace("btn-", ""));
-                props.onClick?.(id);
-                pressedButtonListRef.current[id] = 1;
-            }
+            props.onClick?.(id);
+            pressedButtonListRef.current[id] = 1;
         } else if(event.type === "mouseup") {
             props.onClick?.(-1);
-            if (target.matches('[id^="btn-"]')) {
-                const id = Number(target.id.replace("btn-", ""));
-                pressedButtonListRef.current[id] = -1;
-            }
+            pressedButtonListRef.current[id] = -1;
         }
     };
 
     const handleLeave = (event: React.MouseEvent<SVGElement>) => {
-        console.log(event.type); 
        const target = event.target as SVGElement;
-       if (target.matches('[id^="btn-"]') && event.type === "mouseleave") {
-            const id = Number(target.id.replace("btn-", ""));
+       if(!target.id || !target.id.startsWith("btn-")) return;
+       const id = Number(target.id.replace("btn-", ""));
+       if(id === Number.NaN || !(props.interactiveIds?.includes(id) ?? false)) return;
+       if (event.type === "mouseleave") {
             pressedButtonListRef.current[id] = -1;
        }
     }
@@ -310,10 +317,11 @@ export default function Hitbox(props: {
                     cx={item.x} 
                     cy={item.y} 
                     r={item.r} 
+                    onMouseLeave={handleLeave}
                     $color={ [16, 17, 18, 19].includes(index) ? LEDS_COLOR_DEFAULT : colorList[index]?.toString('css') ?? LEDS_COLOR_DEFAULT} 
                     $opacity={1} 
-                    $interactive={ index !== 19 } 
-                    onMouseLeave={handleLeave}
+                    $interactive={ props.interactiveIds?.includes(index) ?? false } 
+                    $highlight={props.highlightIds?.includes(index) ?? false}
                 />
             ))}
 
