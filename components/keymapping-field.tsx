@@ -2,9 +2,7 @@
 
 import { Field } from "@/components/ui/field"
 import { Tag } from "@/components/ui/tag"
-import { GameControllerButton } from "@/types/gamepad-config";
 import { Box, HStack, Text } from "@chakra-ui/react"
-import { useEffect } from "react";
 
 export default function KeymappingField(
     props: {

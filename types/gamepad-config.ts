@@ -149,6 +149,64 @@ export const GameSocdModeLabelMap = new Map<GameSocdMode, { label: string, descr
     }],
 ]);
 
+export enum HotkeyAction {
+    LedsEffectStyleNext = "LedsEffectStyleNext",
+    LedsEffectStylePrev = "LedsEffectStylePrev",
+    LedsBrightnessUp = "LedsBrightnessUp",
+    LedsBrightnessDown = "LedsBrightnessDown",
+    LedsEnableSwitch = "LedsEnableSwitch",
+    WebConfigMode = "WebConfigMode",
+    XInputMode = "XInputMode",
+    PS4Mode = "PS4Mode",
+    NSSwitchMode = "NSSwitchMode",
+    SystemReboot = "SystemReboot",
+}
+
+export const HotkeyActionList = Object.values(HotkeyAction);
+
+export const HotkeyActionLabelMap = new Map<HotkeyAction, { label: string, description: string }>([
+    [HotkeyAction.LedsEffectStyleNext, { 
+        label: "Next LED Effect", 
+        description: "Switch to next LED effect style" 
+    }],
+    [HotkeyAction.LedsEffectStylePrev, { 
+        label: "Previous LED Effect", 
+        description: "Switch to previous LED effect style" 
+    }],
+    [HotkeyAction.LedsBrightnessUp, { 
+        label: "Increase Brightness", 
+        description: "Increase LED brightness" 
+    }],
+    [HotkeyAction.LedsBrightnessDown, { 
+        label: "Decrease Brightness", 
+        description: "Decrease LED brightness" 
+    }],
+    [HotkeyAction.LedsEnableSwitch, { 
+        label: "Toggle LEDs", 
+        description: "Enable/Disable LEDs" 
+    }],
+    [HotkeyAction.WebConfigMode, { 
+        label: "Web Config Mode", 
+        description: "Enter web configuration mode" 
+    }],
+    [HotkeyAction.XInputMode, { 
+        label: "XInput Mode", 
+        description: "Switch to XInput mode" 
+    }],
+    [HotkeyAction.PS4Mode, { 
+        label: "PS4 Mode", 
+        description: "Switch to PS4 mode" 
+    }],
+    [HotkeyAction.NSSwitchMode, { 
+        label: "Switch Mode", 
+        description: "Switch to Nintendo Switch mode" 
+    }],
+    [HotkeyAction.SystemReboot, { 
+        label: "System Reboot", 
+        description: "Reboot the system" 
+    }],
+]);
+
 export interface GameProfile {
     id: string;
     name?: string;
@@ -165,6 +223,7 @@ export interface GameProfile {
         ledColors: string[];
         ledBrightness: number;
     };
+    hotkeys?: Map<number, HotkeyAction>;
 }
 
 export type ADCButton = {

@@ -21,18 +21,21 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
     { label: 'Keys Setting', path: '/keys-setting', icon: LuKeyboard },
     { label: 'LEDs Setting', path: '/leds-setting', icon: LuLightbulb },
     { label: 'Rapid Trigger', path: '/rapid-trigger', icon: LuRocket },
-    { label: 'Calibration', path: '/calibration', icon: LuCheckCheck },
     { label: 'Hotkeys Setting', path: '/hotkeys-setting', icon: LuKeyRound },
     { label: 'Firmware', path: '/firmware', icon: LuCpu }
   ];
 
+  const showProfileSelect = !['/hotkeys-setting', '/firmware'].includes(pathname);
+
   return (
-    <Flex direction="column" height="100%" flex={1} >
+    <Flex direction="column" height="100%" flex={1}>
       <Tabs.Root
         defaultValue={pathname}
         size="lg"
         variant="enclosed"
-        colorPalette={"green"}
+        colorPalette="green"
+        backgroundColor="rgba(0, 0, 0, 0.3)"
+        borderBottom="1px solid rgba(0, 255, 0, 0.1)"
       >
         <Tabs.List justifyContent="center" width="100%">
           {tabs.map((tab, index) => (
@@ -51,21 +54,23 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
         </Tabs.List>
       </Tabs.Root>
 
-      <Flex direction="column" flex={1} height="100%" >
-        <Center pt={4} >
-          <ProfileSelect
-            profileList={{
-              defaultId: "",
-              maxNumProfiles: 1,
-              items: []
-            }}
-            switchDefaultProfile={async () => { }}
-            createProfile={async () => { }}
-            deleteProfile={async () => { }}
-            setProfileDetails={async () => { }}
-          />
+      <Flex direction="column" flex={1} height="100%">
+        <Center pt={4} height="50px"  >
+        {showProfileSelect && (
+            <ProfileSelect
+              profileList={{
+                defaultId: "",
+                maxNumProfiles: 1,
+                items: []
+              }}
+              switchDefaultProfile={async () => { }}
+              createProfile={async () => { }}
+              deleteProfile={async () => { }}
+              setProfileDetails={async () => { }}
+            />
+          )}
         </Center>
-        <Center pt={4} flex={1}  >
+        <Center pt={4} flex={1}>
           {children}
         </Center>
       </Flex>
