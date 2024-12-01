@@ -105,7 +105,7 @@ export function HotkeysSettingContent(
                                     {Array.from({ length: 10 }, (_, i) => (
                                         <HotkeysField 
                                             key={i}
-                                            value={{ key: i, action: hotkeys.get(i) ?? HotkeyAction.LedsEffectStyleNext }}
+                                            value={{ key: i, action: hotkeys.get(i) ?? "" }}
                                             changeValue={(value) => updateHotkey(i, value.action)}
                                             isActive={true}
                                         />

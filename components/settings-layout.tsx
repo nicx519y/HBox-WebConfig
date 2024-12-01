@@ -31,13 +31,13 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
     <Flex direction="column" height="100%" flex={1}>
       <Tabs.Root
         defaultValue={pathname}
-        size="lg"
+        size="md"
         variant="enclosed"
         colorPalette="green"
         backgroundColor="rgba(0, 0, 0, 0.3)"
         borderBottom="1px solid rgba(0, 255, 0, 0.1)"
       >
-        <Tabs.List justifyContent="center" width="100%">
+        <Tabs.List justifyContent="center" width="100%"  >
           {tabs.map((tab, index) => (
             <Tabs.Trigger 
               key={index} 
