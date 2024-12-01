@@ -39,14 +39,14 @@ export function KeysSettingContent(
     props: {
         gamepadConfig: GamepadConfig,
         setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => Promise<void>,
-        resetGamepadConfigHandler: () => Promise<void>,
+        resetProfileDetailsHandler: () => Promise<void>,
     }
 ) {
 
     const {
         gamepadConfig,
         setProfileDetailsHandler,
-        resetGamepadConfigHandler,
+        resetProfileDetailsHandler,
     } = props;
 
     
@@ -212,7 +212,7 @@ export function KeysSettingContent(
 
                                     </Fieldset.Content>
                                     <Stack direction={"row"} gap={4} justifyContent={"flex-start"} padding={"32px 0px"} >
-                                        <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetGamepadConfigHandler} >
+                                        <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetailsHandler} >
                                             Reset
                                         </Button>
                                         <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailHandler} >

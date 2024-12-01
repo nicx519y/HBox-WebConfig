@@ -34,7 +34,7 @@ export default function KeymappingFieldset(
         
         // input key is valid
         if(inputKey >= 0) {
-
+            
             const activeKeyMapping = keyMapping.get(activeButton) ?? [];
             if(activeKeyMapping.indexOf(inputKey) !== -1) { // key already binded
                 toaster.create({

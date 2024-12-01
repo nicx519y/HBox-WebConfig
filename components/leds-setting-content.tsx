@@ -28,7 +28,6 @@ import {
     ColorPickerArea,
     ColorPickerContent,
     ColorPickerControl,
-    ColorPickerEyeDropper,
     ColorPickerInput,
     ColorPickerLabel,
     ColorPickerRoot,
@@ -43,8 +42,7 @@ import {
     LedsEffectStyle,
     LedsEffectStyleList,
     LedsEffectStyleLabelMap,
-    ledColorsLabel,
-    LEDS_COLOR_DEFAULT,
+    ledColorsLabel, 
 } from "@/types/gamepad-config";
 import { LuSunDim, LuActivity } from "react-icons/lu";
 import Hitbox from "./hitbox";
