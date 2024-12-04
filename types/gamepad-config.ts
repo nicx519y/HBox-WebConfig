@@ -150,11 +150,13 @@ export const GameSocdModeLabelMap = new Map<GameSocdMode, { label: string, descr
 ]);
 
 export enum HotkeyAction {
+    None = "None",
     LedsEffectStyleNext = "LedsEffectStyleNext",
     LedsEffectStylePrev = "LedsEffectStylePrev",
     LedsBrightnessUp = "LedsBrightnessUp",
     LedsBrightnessDown = "LedsBrightnessDown",
     LedsEnableSwitch = "LedsEnableSwitch",
+    CalibrationMode = "CalibrationMode",
     WebConfigMode = "WebConfigMode",
     XInputMode = "XInputMode",
     PS4Mode = "PS4Mode",
@@ -165,6 +167,10 @@ export enum HotkeyAction {
 export const HotkeyActionList = Object.values(HotkeyAction);
 
 export const HotkeyActionLabelMap = new Map<HotkeyAction, { label: string, description: string }>([
+    [HotkeyAction.None, { 
+        label: "None", 
+        description: "No action" 
+    }],
     [HotkeyAction.LedsEffectStyleNext, { 
         label: "Next LED Effect", 
         description: "Switch to next LED effect style" 
@@ -207,6 +213,11 @@ export const HotkeyActionLabelMap = new Map<HotkeyAction, { label: string, descr
     }],
 ]);
 
+export type Hotkey = {
+    key: number,
+    action: HotkeyAction,
+}
+
 export interface GameProfile {
     id: string;
     name?: string;
@@ -223,7 +234,7 @@ export interface GameProfile {
         ledColors: string[];
         ledBrightness: number;
     };
-    hotkeys?: Map<number, HotkeyAction>;
+    hotkeys?: Hotkey[];
 }
 
 export type ADCButton = {
@@ -275,3 +286,5 @@ export const LEDS_ANIMATION_CYCLE = 6000;
 export const LEDS_ANIMATION_STEP = 80;
 // Default color for LEDs
 export const LEDS_COLOR_DEFAULT = "#000000";
+// Default number of hotkeys max
+export const DEFAULT_NUM_HOTKEYS_MAX = 11;

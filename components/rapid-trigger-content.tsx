@@ -167,7 +167,7 @@ export function RapidTriggerContent(
                             <br />
                             - Release Accuracy: The accuracy of the trigger when released.
                         </Fieldset.HelperText>
-                        <Fieldset.Content>
+                        <Fieldset.Content pt="30px" >
                             <Stack gap={6}>
 
                                 <Switch

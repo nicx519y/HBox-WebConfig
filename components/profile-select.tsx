@@ -3,32 +3,42 @@
 import { PlatformList, GameProfileList, GameProfile } from "@/types/gamepad-config";
 import { useMemo, useState } from "react";
 import { 
-    SelectRoot, 
-    SelectTrigger, 
-    SelectContent, 
-    SelectItem, 
-    SelectValueText, 
-    MenuRoot,
-    MenuTrigger,
-    MenuContent,
-    MenuItem,
     IconButton,
     Stack,  
     createListCollection,
     useDisclosure,
-    DialogRoot,
-    DialogContent,  
-    DialogHeader,
     Portal,
-    DialogTitle,
-    DialogBody,
     Input,
     Button,
-    DialogFooter,
 } from "@chakra-ui/react"
+
+import {
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+} from "@/components/ui/dialog"
+
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "@/components/ui/menu"
+
+import {
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/ui/select"
+
 import { Alert } from "@/components/ui/alert"
 import { Field } from "@/components/ui/field"
-import { LuMoreVertical, LuTrash, LuPlus, LuPencil } from "react-icons/lu"
+import { LuTrash, LuPlus, LuPencil, LuMenu } from "react-icons/lu"
 
 export function ProfileSelect(
     props: {
@@ -210,19 +220,18 @@ export function ProfileSelect(
 
     return (
       <>
-          <Stack direction="row" gap={2} position={"relative"} >
+          <Stack direction="row" gap={2} >
             <SelectRoot 
               size="sm" 
               width="180px" 
               collection={profilesCollection} 
               value={[defaultProfile?.id ?? ""]} 
               onValueChange={e => onDefaultProfileChange(e.value[0])} 
-              position={"relative"}
           >
             <SelectTrigger>
               <SelectValueText placeholder="Select profile" />
             </SelectTrigger>
-            <SelectContent zIndex={1000} left={0} top={"115%"}  width={"100%"} position={"absolute"} >
+            <SelectContent fontSize="xs" >
                 {profilesCollection.items.map((item) => (
                   <SelectItem item={item} key={item.value}>
                     { item.label }
@@ -234,10 +243,10 @@ export function ProfileSelect(
             <MenuRoot size={"md"} >
                 <MenuTrigger asChild  >
                     <IconButton aria-label="Settings" variant="ghost" color="gray.500" size="sm">
-                        <LuMoreVertical />
+                      <LuMenu />
                     </IconButton>
                 </MenuTrigger>
-                <MenuContent zIndex={1000} left={"101.5%"} top={0}  width={"160px"} position={"absolute"}   >
+                <MenuContent   >
                     <MenuItem onClick={renameProfileClick} value="rename">
                         <LuPencil />
                         Rename Profile
@@ -253,7 +262,6 @@ export function ProfileSelect(
                 </MenuContent>
             </MenuRoot>
           </Stack>
-          <Portal >
             <DialogRoot 
               placement="center"
               open={isRenameOpen} 
@@ -261,7 +269,7 @@ export function ProfileSelect(
               modal={true} 
               closeOnInteractOutside={true}
             >
-              <DialogContent zIndex={1001} position={"absolute"} top={"30%"} left={"50%"} transform={"translate(-50%, -50%)"}  >
+              <DialogContent zIndex={1001}  >
                 <form onSubmit={onRenameConfirm} >
                 
                   <DialogHeader>
@@ -295,7 +303,7 @@ export function ProfileSelect(
               closeOnInteractOutside={true}
             >
               <form onSubmit={onAddConfirm} >
-                <DialogContent zIndex={1001} position={"absolute"} top={"30%"} left={"50%"} transform={"translate(-50%, -50%)"}  >
+                <DialogContent >
                   <DialogHeader>
                   <DialogTitle fontSize={"md"} >Create New Profile</DialogTitle>
                   </DialogHeader>
@@ -324,7 +332,7 @@ export function ProfileSelect(
               modal={true} 
               closeOnInteractOutside={true}
             >
-              <DialogContent zIndex={1001} position={"absolute"} top={"30%"} left={"50%"} transform={"translate(-50%, -50%)"}  >
+              <DialogContent  >
                 <DialogHeader>
                 </DialogHeader>
                 <DialogBody>
@@ -336,7 +344,6 @@ export function ProfileSelect(
                 </DialogFooter>
               </DialogContent>
             </DialogRoot>
-          </Portal>
         </>
   )
 }

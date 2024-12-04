@@ -1,14 +1,12 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { Box, Flex, Center, Tabs, HStack } from '@chakra-ui/react';
+import { Flex, Center, Tabs, HStack } from '@chakra-ui/react';
 import { ProfileSelect } from '@/components/profile-select';
-import { useGamepadConfig } from '@/contexts/gamepad-config-context';
 import { 
   LuKeyboard, 
   LuRocket, 
   LuLightbulb, 
-  LuCheckCheck, 
   LuKeyRound,
   LuCpu
 } from 'react-icons/lu';
@@ -31,11 +29,14 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
     <Flex direction="column" height="100%" flex={1}>
       <Tabs.Root
         defaultValue={pathname}
+        // lazyMount={true}
+        // unmountOnExit={true}
         size="md"
-        variant="enclosed"
+        variant="subtle"
         colorPalette="green"
         backgroundColor="rgba(0, 0, 0, 0.3)"
         borderBottom="1px solid rgba(0, 255, 0, 0.1)"
+        boxShadow="0 1px 10px rgba(0, 0, 0, 0.7)"
       >
         <Tabs.List justifyContent="center" width="100%"  >
           {tabs.map((tab, index) => (
@@ -44,6 +45,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
               value={tab.path} 
               onClick={() => router.push(tab.path)}
               width="180px"
+              justifyContent="center"
             >
               <HStack>
                 <tab.icon size={18} />
@@ -51,6 +53,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
               </HStack>
             </Tabs.Trigger>
           ))}
+          <Tabs.Indicator rounded="l2" />
         </Tabs.List>
       </Tabs.Root>
 
