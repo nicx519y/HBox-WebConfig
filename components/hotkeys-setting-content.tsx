@@ -60,7 +60,7 @@ export function HotkeysSettingContent(
         const keys = hotkeys.map(h => h.key);
         const keyIndex = keys.indexOf(hotkey.key);
         // 如果 hotkey 的 key 已经在 hotkeys 中，并且不是当前正在编辑的 hotkey，则不更新
-        if(keyIndex !== -1 && keyIndex !== index) {
+        if(keyIndex >= 0 && keyIndex !== index && hotkey.key >= 0) {
             toaster.create({
                 title: "Key already binded.",
                 description: "Please select another key, or unbind the key first.",
