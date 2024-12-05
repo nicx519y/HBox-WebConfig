@@ -55,17 +55,17 @@ export function KeysSettingContent(
     const [invertXAxis, setInvertXAxis] = useState<boolean>(false);
     const [invertYAxis, setInvertYAxis] = useState<boolean>(false);
     const [fourWayMode, setFourWayMode] = useState<boolean>(false);
-    const [keyMapping, setKeyMapping] = useState<Map<GameControllerButton, number[]>>(new Map());
+    const [keyMapping, setKeyMapping] = useState<{ [key in GameControllerButton]?: number[] }>({});
     const [autoSwitch, setAutoSwitch] = useState<boolean>(true);
     const [inputKey, setInputKey] = useState<number>(-1);
 
     useEffect(() => {
-        setInputMode(gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId)?.inputMode ?? Platform.XINPUT);
-        setSocdMode(gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId)?.socdMode ?? GameSocdMode.SOCD_MODE_UP_PRIORITY);
-        setInvertXAxis(gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId)?.invertXAxis ?? false);
-        setInvertYAxis(gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId)?.invertYAxis ?? false);
-        setFourWayMode(gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId)?.fourWayMode ?? false);
-        setKeyMapping(gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId)?.keyMapping ?? new Map());
+        setInputMode(gamepadConfig.profiles?.[0]?.keysConfig?.inputMode ?? Platform.XINPUT);
+        setSocdMode(gamepadConfig.profiles?.[0]?.keysConfig?.socdMode ?? GameSocdMode.SOCD_MODE_UP_PRIORITY);
+        setInvertXAxis(gamepadConfig.profiles?.[0]?.keysConfig?.invertXAxis ?? false);
+        setInvertYAxis(gamepadConfig.profiles?.[0]?.keysConfig?.invertYAxis ?? false);
+        setFourWayMode(gamepadConfig.profiles?.[0]?.keysConfig?.fourWayMode ?? false);
+        setKeyMapping(gamepadConfig.profiles?.[0]?.keysConfig?.keyMapping ?? {});
 
     }, [gamepadConfig]);
 
@@ -75,7 +75,10 @@ export function KeysSettingContent(
      * @param hitboxButtons - hitbox buttons
      */
     const setHitboxButtons = (key: string, hitboxButtons: number[]) => {
-        setKeyMapping(new Map(keyMapping).set(key as GameControllerButton, hitboxButtons));
+        setKeyMapping({
+            ...keyMapping,
+            [key as GameControllerButton]: hitboxButtons,
+        });
     }
 
     const hitboxButtonClick = (keyId: number) => {
@@ -85,19 +88,19 @@ export function KeysSettingContent(
 
     const saveProfileDetailHandler = () => {
 
-        const newProfileDetails = {
+        const newProfile: GameProfile = {
             id: gamepadConfig.defaultProfileId ?? "",
-            invertXAxis: invertXAxis,
-            invertYAxis: invertYAxis,
-            fourWayMode: fourWayMode,
-            socdMode: socdMode,
-            inputMode: inputMode,
-            keyMapping: keyMapping,
+            keysConfig: {
+                invertXAxis: invertXAxis,
+                invertYAxis: invertYAxis,
+                fourWayMode: fourWayMode,
+                socdMode: socdMode,
+                inputMode: inputMode,
+                keyMapping: keyMapping,
+            },
         }
 
-        console.log("saveProfileDetailHandler: ", newProfileDetails);
-
-        setProfileDetailsHandler(gamepadConfig.defaultProfileId ?? "", newProfileDetails as GameProfile);
+        setProfileDetailsHandler(gamepadConfig.defaultProfileId ?? "", newProfile);
     }
 
     return (
@@ -155,7 +158,7 @@ export function KeysSettingContent(
                                     colorPalette={"green"}
                                     size={"sm"}
                                     variant={"subtle"}
-                                    defaultValue={inputMode?.toString() ?? Platform.XINPUT.toString()}
+                                    value={inputMode?.toString() ?? Platform.XINPUT.toString()}
                                     onValueChange={(detail) => setInputMode(detail.value as Platform)}
                                 >
                                     <RadioCardLabel>Input Mode Choice</RadioCardLabel>
@@ -180,7 +183,7 @@ export function KeysSettingContent(
                                     colorPalette={"green"}
                                     size={"sm"}
                                     variant={"subtle"}
-                                    defaultValue={socdMode?.toString() ?? GameSocdMode.SOCD_MODE_UP_PRIORITY.toString()}
+                                    value={socdMode?.toString() ?? GameSocdMode.SOCD_MODE_UP_PRIORITY.toString()}
                                     onValueChange={(detail) => setSocdMode(detail.value as GameSocdMode)}
                                 >
                                     <RadioCardLabel>SOCD Mode Choice</RadioCardLabel>

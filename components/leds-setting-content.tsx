@@ -152,7 +152,7 @@ export function LEDsSettingContent(
                                         colorPalette={ledEnabled ? "green" : "gray"}
                                         size={"sm"}
                                         variant={"subtle"}
-                                        defaultValue={ledsEffectStyle?.toString() ?? LedsEffectStyle.STATIC.toString()}
+                                        value={ledsEffectStyle?.toString() ?? LedsEffectStyle.STATIC.toString()}
                                         onValueChange={(detail) => setLedsEffectStyle(detail.value as LedsEffectStyle)}
                                         disabled={!ledEnabled}
                                     >
@@ -180,13 +180,18 @@ export function LEDsSettingContent(
 
                                     {/* LED Colors */}
                                     <Field >
-                                        {[color1, color2, color3].map((color, index) => (
+                                        {Array.from({ length: 3 }).map((_, index) => (
                                             <ColorPickerRoot
                                                 key={index}
-                                                defaultValue={color}
+                                                value={
+                                                    index === 0 ? color1 :
+                                                    index === 1 ? color2 :
+                                                    index === 2 ? color3 :
+                                                    parseColor(LEDS_COLOR_DEFAULT)  
+                                                }
                                                 maxW="200px"
                                                 disabled={colorPickerDisabled(index)}
-                                                onValueChangeEnd={(e) => {
+                                                onValueChange={(e) => {
                                                     const hex = e.value;
                                                     if (index === 0) setColor1(hex);
                                                     if (index === 1) setColor2(hex);
@@ -214,7 +219,7 @@ export function LEDsSettingContent(
                                         size={"md"}
                                         colorPalette={"green"}
                                         width={"300px"}
-                                        defaultValue={[ledBrightness]}
+                                        value={[ledBrightness]}
                                         onValueChange={(e) => setLedBrightness(e.value[0])}
                                         disabled={!ledEnabled}
                                         marks={[

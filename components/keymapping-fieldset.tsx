@@ -7,7 +7,7 @@ import {
     XInputButtonMap,
     PS4ButtonMap,
     SwitchButtonMap,    
-    NumBindKeyPerButtonMax,
+    NUM_BIND_KEY_PER_BUTTON_MAX,
 } from "@/types/gamepad-config";
 import KeymappingField from "@/components/keymapping-field";
 import { toaster } from "@/components/ui/toaster";
@@ -18,7 +18,7 @@ export default function KeymappingFieldset(
     props: {
         inputMode: Platform,
         inputKey: number,
-        keyMapping: Map<GameControllerButton, number[]>,
+        keyMapping: { [key in GameControllerButton]?: number[] },
         autoSwitch: boolean,
         changeKeyMappingHandler: (key: GameControllerButton, value: number[]) => void,
     }
@@ -35,7 +35,7 @@ export default function KeymappingFieldset(
         // input key is valid
         if(inputKey >= 0) {
             
-            const activeKeyMapping = keyMapping.get(activeButton) ?? [];
+            const activeKeyMapping = keyMapping[activeButton] ?? [];
             if(activeKeyMapping.indexOf(inputKey) !== -1) { // key already binded
                 toaster.create({
                     title: "Key already binded.",
@@ -43,7 +43,7 @@ export default function KeymappingFieldset(
                     type: "error",
                 });
                 return;
-            } else if(activeKeyMapping.length >= NumBindKeyPerButtonMax) { // key not binded, and reach max number of key binding per button
+            } else if(activeKeyMapping.length >= NUM_BIND_KEY_PER_BUTTON_MAX) { // key not binded, and reach max number of key binding per button
                 toaster.create({
                     title: "Max number of key binding per button reached.",
                     description: "Please unbind some keys first.",
@@ -53,13 +53,13 @@ export default function KeymappingFieldset(
             } else { // key not binded, and not reach max number of key binding per button
 
                 // remove input key from other button
-                keyMapping.forEach((value, key) => {
+                Object.entries(keyMapping).forEach(([key, value]) => {
                     if(key !== activeButton && value.indexOf(inputKey) !== -1) {
                         value.splice(value.indexOf(inputKey), 1);
-                        changeKeyMappingHandler(key, value);
+                        changeKeyMappingHandler(key as GameControllerButton, value);
                         toaster.create({
                             title: "Key already binded on other button.",
-                            description: `Unbinded from [ ${ buttonLabelMap.get(key) ?? "" } ] button and Rebinded to [ ${ buttonLabelMap.get(activeButton) ?? "" } ] button.`,
+                            description: `Unbinded from [ ${ buttonLabelMap.get(key as GameControllerButton) ?? "" } ] button and Rebinded to [ ${ buttonLabelMap.get(activeButton) ?? "" } ] button.`,
                             type: "info",
                         });
                     }
@@ -98,7 +98,7 @@ export default function KeymappingFieldset(
                         key={ index }  
                         onClick={() => setActiveButton(gameControllerButton)}
                         label={buttonLabelMap.get(gameControllerButton) ?? ""} 
-                        value={keyMapping?.get(gameControllerButton) ?? []}
+                        value={keyMapping[gameControllerButton] ?? []}
                         changeValue={(v: number[]) => changeKeyMappingHandler(gameControllerButton, v)} 
                         isActive={activeButton === gameControllerButton}
                     />

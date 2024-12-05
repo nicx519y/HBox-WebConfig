@@ -27,10 +27,11 @@ export default function HotkeysField(
         value: Hotkey,
         onValueChange: (value: Hotkey) => void,
         isActive: boolean,
+        disabled?: boolean,
         onFieldClick?: (index: number) => void,
     }
 ) {
-    const { index, value, onValueChange, isActive, onFieldClick } = props;
+    const { index, value, onValueChange, isActive, disabled, onFieldClick } = props;
 
     /**
      * 创建热键选择列表
@@ -62,8 +63,9 @@ export default function HotkeysField(
                 borderColor={isActive ? "green.400" : "gray.800"} 
                 borderRadius="sm" 
                 mr="1" 
-                cursor="pointer"
-                onClick={() => onFieldClick?.(index)}
+                cursor={disabled ? "not-allowed" : "pointer"}
+                onClick={() => (!disabled) && onFieldClick?.(index)}
+                opacity={disabled ? 0.7 : 1}
             >
                 <Tag colorPalette={isActive ? "green" : "gray"} >{`Fn`}</Tag>
                 <Text>{` + `}</Text>
@@ -71,7 +73,7 @@ export default function HotkeysField(
                     <Tag 
                         closable={isActive} 
                         colorPalette={isActive ? "green" : "gray"} 
-                        onClick={ () => isActive && tagCloseClick() }
+                        onClick={ () => (!disabled) && isActive && tagCloseClick() }
                     >{`KEY-${value.key + 1}`}</Tag>
                 }
             </HStack>
@@ -82,6 +84,7 @@ export default function HotkeysField(
                 value={[value.action ?? HotkeyAction.None]}
                 onValueChange={e => onValueChange({ ...value, action: e.value[0] as HotkeyAction })}
                 width="240px"
+                disabled={disabled}
             >
 
                 <SelectTrigger >

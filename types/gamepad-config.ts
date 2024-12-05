@@ -1,3 +1,16 @@
+export const NUM_PROFILES_MAX = 8;
+// LEDS animation cycle in milliseconds 
+export const LEDS_ANIMATION_CYCLE = 6000;
+// LEDS animation step in milliseconds
+export const LEDS_ANIMATION_STEP = 80;
+// Default color for LEDs
+export const LEDS_COLOR_DEFAULT = "#000000";
+// Default number of hotkeys max
+export const DEFAULT_NUM_HOTKEYS_MAX = 11;
+// max number of key binding per button
+export const NUM_BIND_KEY_PER_BUTTON_MAX = 3;
+
+
 export enum Platform {
     XINPUT = "XINPUT",
     PS4 = "PS4",
@@ -43,10 +56,7 @@ export enum GameControllerButton {
 }
 
 export const GameControllerButtonList = Object.values(GameControllerButton);
-/**
- * max number of key binding per button
- */
-export const NumBindKeyPerButtonMax = 3;
+
 
 
 export const XInputButtonMap = new Map<GameControllerButton, string>([
@@ -216,18 +226,28 @@ export const HotkeyActionLabelMap = new Map<HotkeyAction, { label: string, descr
 export type Hotkey = {
     key: number,
     action: HotkeyAction,
+    isLocked?: boolean,
 }
 
-export interface GameProfile {
-    id: string;
-    name?: string;
+export interface KeysConfig {
     inputMode?: Platform;
     socdMode?: GameSocdMode;
     invertXAxis?: boolean;
     invertYAxis?: boolean;
     fourWayMode?: boolean;
-    keyMapping?: Map<GameControllerButton, number[]>;
-    triggerConfigs?: Map<number, RapidTriggerConfig>;
+    keyMapping?: {
+        [key in GameControllerButton]?: number[];
+    };
+}
+
+export interface GameProfile {
+    id: string;
+    name?: string;
+    keysConfig?: KeysConfig;
+    triggerConfigs?: {
+        isAllBtnsConfiguring?: boolean;
+        triggerConfigs?: RapidTriggerConfig[];
+    };
     ledsConfigs?: {
         ledEnabled: boolean;
         ledsEffectStyle: LedsEffectStyle;
@@ -280,11 +300,3 @@ export const LedsEffectStyleLabelMap = new Map<LedsEffectStyle, { label: string,
 
 export const ledColorsLabel = [ "Front Color", "Back Color 1", "Back Color 2" ];
 
-// LEDS animation cycle in milliseconds 
-export const LEDS_ANIMATION_CYCLE = 6000;
-// LEDS animation step in milliseconds
-export const LEDS_ANIMATION_STEP = 80;
-// Default color for LEDs
-export const LEDS_COLOR_DEFAULT = "#000000";
-// Default number of hotkeys max
-export const DEFAULT_NUM_HOTKEYS_MAX = 11;

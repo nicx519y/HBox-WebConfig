@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import {
     GameProfile,
     GamepadConfig,
-    GameControllerButton,
     RapidTriggerConfig
 } from "@/types/gamepad-config";
 import Hitbox from "@/components/hitbox";
@@ -47,25 +46,24 @@ export function RapidTriggerContent(
     } = props;
 
     const [selectedButton, setSelectedButton] = useState<number | null>(0); // 当前选中的按钮
-    const [triggerConfigs, setTriggerConfigs] = useState<Map<number, TriggerConfig>>(new Map()); // 按钮配置
+    const [triggerConfigs, setTriggerConfigs] = useState<RapidTriggerConfig[]>([]); // 按钮配置
     const [isAllBtnsConfiguring, setIsAllBtnsConfiguring] = useState(false); // 是否同时配置所有按钮
-    const [allBtnsConfig, setAllBtnsConfig] = useState<RapidTriggerConfig>({  // 覆盖所有按钮的配置
-        topDeadzone: 0,
-        bottomDeadzone: 0,
-        pressAccuracy: 0,
-        releaseAccuracy: 0
-    });
+    const [allBtnsConfig, setAllBtnsConfig] = useState<RapidTriggerConfig>({...defaultTriggerConfig});
+    
+    // 所有按钮的键值
+    const allKeys = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
 
     /**
      * 加载触发配置
      */
     useEffect(() => {
         // Load trigger configs from gamepadConfig when it changes
-        const configs = new Map(
-            Array.from(gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId)?.triggerConfigs ?? [])
-                .map(([key, value]) => [Number(key), value])
-        );
-        setTriggerConfigs(configs);
+        const currentProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
+        if (!currentProfile) return;
+        const triggerConfigs = { ...currentProfile.triggerConfigs };
+        setIsAllBtnsConfiguring(triggerConfigs.isAllBtnsConfiguring ?? false);
+        setTriggerConfigs(allKeys.map(key => triggerConfigs.triggerConfigs?.[key] ?? defaultTriggerConfig));
+        setAllBtnsConfig(triggerConfigs.triggerConfigs?.[0] ?? defaultTriggerConfig);
     }, [gamepadConfig]);
 
     /**
@@ -73,7 +71,7 @@ export function RapidTriggerContent(
      */
     const getCurrentConfig = () => {
         if (selectedButton === null) return defaultTriggerConfig;
-        return triggerConfigs.get(selectedButton) ?? defaultTriggerConfig;
+        return triggerConfigs[selectedButton] ?? defaultTriggerConfig;  
     };
 
     /**
@@ -82,12 +80,11 @@ export function RapidTriggerContent(
     const updateConfig = (key: keyof TriggerConfig, value: number) => {
         if (selectedButton === null) return;
 
-        const newConfigs = new Map(triggerConfigs);
-        newConfigs.set(selectedButton, {
+        triggerConfigs[selectedButton] = {
             ...getCurrentConfig(),
             [key]: value
-        });
-        setTriggerConfigs(newConfigs);
+        };
+        setTriggerConfigs(triggerConfigs);
     };
 
     /**
@@ -119,18 +116,30 @@ export function RapidTriggerContent(
     const saveProfileDetailHandler = async () => {
         const currentProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
         const profileId = gamepadConfig.defaultProfileId;
-        if (!currentProfile || typeof(profileId) !== 'number') return;
+        if (!currentProfile || typeof(profileId) !== 'string') return;
+        
+        if (isAllBtnsConfiguring) {
+            const newTriggerConfigs: RapidTriggerConfig[] = [];
+            allKeys.forEach((key, index) => {
+                newTriggerConfigs[index] = allBtnsConfig;
+            });
 
-        // 使用 unknown 作为中间类型进行安全转换
-        const convertedConfigs = new Map(
-            Array.from(triggerConfigs.entries())
-                .map(([key, value]) => [(key as unknown) as number, value])
-        );
-
-        await setProfileDetailsHandler(profileId, {
-            ...currentProfile,
-            triggerConfigs: convertedConfigs
-        });
+            await setProfileDetailsHandler(profileId, {
+                id: profileId,
+                triggerConfigs: {
+                    isAllBtnsConfiguring: isAllBtnsConfiguring,
+                    triggerConfigs: newTriggerConfigs
+                }
+            });
+        } else {
+            await setProfileDetailsHandler(profileId, {
+                id: profileId,
+                triggerConfigs: {
+                    isAllBtnsConfiguring: isAllBtnsConfiguring,
+                    triggerConfigs: triggerConfigs
+                }
+            });
+        }
     };
 
     /**
@@ -148,8 +157,8 @@ export function RapidTriggerContent(
             <Center width="100%" flex={1} >
                 <Hitbox 
                     onClick={(id) => handleButtonClick(id)}
-                    highlightIds={!isAllBtnsConfiguring ? [selectedButton ?? -1] : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]}
-                    interactiveIds={[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]} 
+                    highlightIds={!isAllBtnsConfiguring ? [selectedButton ?? -1] : allKeys}
+                    interactiveIds={allKeys} 
                 />
             </Center>
             <Center width="700px" >

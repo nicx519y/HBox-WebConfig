@@ -12,8 +12,8 @@ import {
     GameProfile,
     GamepadConfig,
     HotkeyAction,
-    Hotkey,
     DEFAULT_NUM_HOTKEYS_MAX,
+    Hotkey,
 } from "@/types/gamepad-config";
 import Hitbox from "@/components/hitbox";
 import HotkeysField from "./hotkeys-field";
@@ -38,10 +38,21 @@ export function HotkeysSettingContent(
     useEffect(() => {
         // 从 gamepadConfig 加载 hotkeys 配置
         const currentProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
-        if (currentProfile?.hotkeys) {
-            setHotkeys(currentProfile.hotkeys.slice());
-        }
+
+        setHotkeys(Array.from({ length: DEFAULT_NUM_HOTKEYS_MAX }, (_, i) => {
+            return currentProfile?.hotkeys?.[i] ?? { key: -1, action: HotkeyAction.None, isLocked: false };
+        }));
+        
     }, [gamepadConfig]);
+
+    useMemo(() => {
+        if(activeHotkeyIndex >= 0 && hotkeys[activeHotkeyIndex]?.isLocked === true) {
+            const index = hotkeys.findIndex(h => h.isLocked === undefined || h.isLocked === false);
+            if(index >= 0) {
+                setActiveHotkeyIndex(index);
+            }
+        }
+    }, [hotkeys]);  
 
     const saveProfileDetailHandler = async () => {
         const currentProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
@@ -100,6 +111,8 @@ export function HotkeysSettingContent(
                             - Click on the hotkey field and press the desired key on the hitbox to bind the hotkey.
                             <br />
                             - Choice the hotkey action from the dropdown list.
+                            <br />
+                            - Locked hotkeys are used for web configuration mode because this function is required.
                         </Fieldset.HelperText>
                         <Fieldset.Content pt="30px" >
                             <Stack gap={4}>
@@ -111,6 +124,7 @@ export function HotkeysSettingContent(
                                         onValueChange={(changeDetail) => updateHotkey(i, changeDetail)}
                                         isActive={ i === activeHotkeyIndex }
                                         onFieldClick={(index) => setActiveHotkeyIndex(index)}
+                                        disabled={hotkeys[i]?.isLocked ?? false}
                                     />
                                 ))}
 
