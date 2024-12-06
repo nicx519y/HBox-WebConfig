@@ -51,30 +51,15 @@ const converProfileDetails = (profile: any) => {
 }
 
 /**
- * convert GamepadConfig
- * @param gamepadConfig - GamepadConfig
- */
-const convertGamepadConfig = (gamepadConfig: any) => {
-    const newConfig: GamepadConfig = {
-        ...gamepadConfig,
-    }
-    newConfig.profiles = gamepadConfig.profiles?.map((profile: any) => converProfileDetails(profile)) ?? [];
-
-    console.log("convertGamepadConfig: ", newConfig);
-
-    return newConfig;
-}
-
-/**
  * process response
  * @param response - Response
  * @returns 
  */
-const processResponse = async (response: Response) => {
+const processResponse = async (response: Response, setError: (error: string | null) => void) => {
     if (!response.ok) throw new Error('Failed to fetch config');
     const data = await response.json();
     if(data.errNo) {
-        console.error(data.errorMessage);
+        setError(data.errorMessage);
         return;
     }
     return data.data;
@@ -112,7 +97,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
                     'Content-Type': 'application/json',
                 },
             });
-            const data = await processResponse(response);
+            const data = await processResponse(response, setError);
             if (!data) {
                 throw new Error('Failed to fetch default profile');
             };
@@ -134,7 +119,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
                     'Content-Type': 'application/json',
                 },
             }); 
-            const data = await processResponse(response);
+            const data = await processResponse(response, setError);
             if (!data) {
                 throw new Error('Failed to fetch profile list');
             };
@@ -156,7 +141,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
                     'Content-Type': 'application/json',
                 },
             });
-            const data = await processResponse(response);
+            const data = await processResponse(response, setError);
             if (!data) {
                 throw new Error('Failed to fetch hotkeys config');
             };
@@ -180,7 +165,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
                 body: JSON.stringify({ profileId, profileDetails }),
             });
 
-            const data = await processResponse(response);
+            const data = await processResponse(response, setError);
             if (!data) {
                 throw new Error('Failed to update profile');
             };
@@ -201,7 +186,6 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     };
 
     const resetProfileDetails = async () => {
-        console.log("resetProfileDetails");
         await fetchDefaultProfile();
     };
 
@@ -216,9 +200,9 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
                 body: JSON.stringify({ profileName }),
             });
 
-            const data = await processResponse(response);
+            const data = await processResponse(response, setError);
             if (!data) {
-                throw new Error('Failed to create profile');
+                return;
             };
             setProfileList(data.profileList);
             setError(null);
@@ -241,9 +225,9 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
                 body: JSON.stringify({ profileId }),
             });
 
-            const data = await processResponse(response);
+            const data = await processResponse(response, setError);
             if (!data) {
-                throw new Error('Failed to delete profile');
+                return;
             };
             setProfileList(data.profileList);
             setError(null);
@@ -266,11 +250,10 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
                 },
                 body: JSON.stringify({ profileId }),
             });
-            const data = await processResponse(response);
+            const data = await processResponse(response, setError);
             if (!data) {
-                throw new Error('Failed to switch profile');
+                return;
             };
-            console.log("switchProfile: ", data.profileList);
             setProfileList(data.profileList);
             setError(null);
         } catch (err) {
@@ -291,9 +274,9 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
                 },
                 body: JSON.stringify({ hotkeysConfig }),
             });
-            const data = await processResponse(response);
+            const data = await processResponse(response, setError);
             if (!data) {
-                throw new Error('Failed to update hotkeys config'); 
+                return;
             }
             setHotkeysConfig(data.hotkeysConfig);
             setError(null);

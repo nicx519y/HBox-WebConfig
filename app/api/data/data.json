@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultProfileId": "profile-1733497033916",
+  "defaultProfileId": "default",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
@@ -197,7 +197,11 @@
           "R3": [
             0
           ],
-          "B1": [
+          "B1": [],
+          "B3": [
+            10
+          ],
+          "B4": [
             7
           ]
         }
@@ -217,8 +221,8 @@
         "triggerConfigs": [
           {
             "topDeadzone": 0.6,
-            "bottomDeadzone": 0.2,
-            "pressAccuracy": 0,
+            "bottomDeadzone": 0.4,
+            "pressAccuracy": 0.6,
             "releaseAccuracy": 0
           },
           {
@@ -372,97 +376,97 @@
         "triggerConfigs": [
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           },
           {
             "topDeadzone": 0.2,
-            "bottomDeadzone": 0.2,
+            "bottomDeadzone": 0.5,
             "pressAccuracy": 0.2,
             "releaseAccuracy": 0.2
           }
@@ -548,6 +552,110 @@
         "isAllBtnsConfiguring": true,
         "triggerConfigs": []
       }
+    },
+    {
+      "id": "profile-1733505020737",
+      "name": "341dqsdafasfasdaf",
+      "keysConfig": {
+        "invertXAxis": false,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_NEUTRAL",
+        "inputMode": "XINPUT",
+        "keyMapping": {}
+      },
+      "ledsConfigs": {
+        "ledEnabled": false,
+        "ledsEffectStyle": "STATIC",
+        "ledColors": [
+          "#000000",
+          "#000000",
+          "#000000"
+        ],
+        "ledBrightness": 0
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": []
+      }
+    },
+    {
+      "id": "profile-1733505030944",
+      "name": "12",
+      "keysConfig": {
+        "invertXAxis": false,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_NEUTRAL",
+        "inputMode": "XINPUT",
+        "keyMapping": {}
+      },
+      "ledsConfigs": {
+        "ledEnabled": false,
+        "ledsEffectStyle": "STATIC",
+        "ledColors": [
+          "#000000",
+          "#000000",
+          "#000000"
+        ],
+        "ledBrightness": 0
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": []
+      }
+    },
+    {
+      "id": "profile-1733505033867",
+      "name": "4123",
+      "keysConfig": {
+        "invertXAxis": false,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_NEUTRAL",
+        "inputMode": "XINPUT",
+        "keyMapping": {}
+      },
+      "ledsConfigs": {
+        "ledEnabled": false,
+        "ledsEffectStyle": "STATIC",
+        "ledColors": [
+          "#000000",
+          "#000000",
+          "#000000"
+        ],
+        "ledBrightness": 0
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": []
+      }
+    },
+    {
+      "id": "profile-1733505038179",
+      "name": "124213",
+      "keysConfig": {
+        "invertXAxis": false,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_NEUTRAL",
+        "inputMode": "XINPUT",
+        "keyMapping": {}
+      },
+      "ledsConfigs": {
+        "ledEnabled": false,
+        "ledsEffectStyle": "STATIC",
+        "ledColors": [
+          "#000000",
+          "#000000",
+          "#000000"
+        ],
+        "ledBrightness": 0
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": []
+      }
     }
   ],
   "hotkeys": [
@@ -562,7 +670,7 @@
       "isLocked": false
     },
     {
-      "key": -1,
+      "key": 14,
       "action": "None",
       "isLocked": false
     },
