@@ -270,6 +270,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             if (!data) {
                 throw new Error('Failed to switch profile');
             };
+            console.log("switchProfile: ", data.profileList);
             setProfileList(data.profileList);
             setError(null);
         } catch (err) {

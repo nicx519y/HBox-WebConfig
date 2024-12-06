@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-
-import { getProfileDetails, getProfileList, storedConfig } from "@/app/api/data/store";
-import { Platform } from "@/types/gamepad-config";
+import { getConfig, getProfileList, updateConfig } from "@/app/api/data/store";
+import { GameProfile } from "@/types/gamepad-config";
 
 export async function POST(request: Request) {
     try {
@@ -13,19 +12,20 @@ export async function POST(request: Request) {
         if (profileId === "default") {
             return NextResponse.json({ errNo: 1, errorMessage: 'First profile cannot be deleted' });
         }
-        if (!storedConfig.profiles
-            || storedConfig.profiles.length <= 1
-            || storedConfig.profiles.find(p => p.id === profileId) === undefined) {
+
+        const config = await getConfig();
+        if (!config.profiles || config.profiles.length <= 1) {
             return NextResponse.json({ errNo: 1, errorMessage: 'Profile not found' });
         }
 
-        storedConfig.profiles = storedConfig.profiles?.filter(p => p.id !== profileId);
-        storedConfig.defaultProfileId = storedConfig.profiles?.[0]?.id ?? "";
+        config.profiles = config.profiles.filter((p: GameProfile) => p.id !== profileId);
+        config.defaultProfileId = config.profiles[0]?.id ?? "";
+        await updateConfig(config);
 
         return NextResponse.json({
             errNo: 0,
             data: {
-                profileList: getProfileList(),
+                profileList: await getProfileList(),
             },
         });
     } catch (error) {

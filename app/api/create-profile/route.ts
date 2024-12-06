@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-
-import { storedConfig, getProfileDetails, getProfileList, getInitialProfileDetails } from "@/app/api/data/store";
+import { getConfig, getProfileList, getInitialProfileDetails, updateConfig } from "@/app/api/data/store";
 
 export async function POST(request: Request) {
     try {
@@ -11,17 +10,20 @@ export async function POST(request: Request) {
             return NextResponse.json({ errNo: 1, errorMessage: 'Profile name is required' });
         }
 
-        if (!storedConfig.profiles || storedConfig.profiles.length >= (storedConfig.numProfilesMax ?? 0)) {
+        const config = await getConfig();
+        if (!config.profiles || config.profiles.length >= (config.numProfilesMax ?? 0)) {
             return NextResponse.json({ errNo: 1, errorMessage: 'Max number of profiles reached' });
         }
 
-        storedConfig.profiles?.push(getInitialProfileDetails(newProfileId, profileName));
-        storedConfig.defaultProfileId = newProfileId;
+        const newProfile = await getInitialProfileDetails(newProfileId, profileName);
+        config.profiles.push(newProfile);
+        config.defaultProfileId = newProfileId;
+        await updateConfig(config);
 
         return NextResponse.json({
             errNo: 0,
             data: {
-                profileList: getProfileList(),
+                profileList: await getProfileList(),
             },
         });
     } catch (error) {

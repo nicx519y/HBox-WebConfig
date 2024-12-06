@@ -127,11 +127,11 @@ export type GameProfileList = {
 }
 
 export enum GameSocdMode {
-    SOCD_MODE_UP_PRIORITY = "SOCD_MODE_UP_PRIORITY",
-    SOCD_MODE_NEUTRAL = "SOCD_MODE_NEUTRAL",
-    SOCD_MODE_SECOND_INPUT_PRIORITY = "SOCD_MODE_SECOND_INPUT_PRIORITY",
-    SOCD_MODE_FIRST_INPUT_PRIORITY = "SOCD_MODE_FIRST_INPUT_PRIORITY",
-    SOCD_MODE_BYPASS = "SOCD_MODE_BYPASS",
+    SOCD_MODE_NEUTRAL = "SOCD_MODE_NEUTRAL", // 中性 up + down = neutral, left + right = neutral
+    SOCD_MODE_UP_PRIORITY = "SOCD_MODE_UP_PRIORITY", // 上优先 up + down = up, left + right = neutral
+    SOCD_MODE_SECOND_INPUT_PRIORITY = "SOCD_MODE_SECOND_INPUT_PRIORITY", // 第二输入优先 
+    SOCD_MODE_FIRST_INPUT_PRIORITY = "SOCD_MODE_FIRST_INPUT_PRIORITY", // 第一输入优先 
+    SOCD_MODE_BYPASS = "SOCD_MODE_BYPASS", // 绕过 不做任何处理 所有dpad信号都有效
 }
 
 export const GameSocdModeList = Object.values(GameSocdMode);

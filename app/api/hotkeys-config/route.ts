@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { storedConfig } from '@/app/api/data/store';
+import { getConfig } from '@/app/api/data/store';
 
 /**
  * Get hotkeys config
@@ -7,13 +7,14 @@ import { storedConfig } from '@/app/api/data/store';
  */
 export async function GET() {
     try {
-        if (!storedConfig.hotkeys) {
+        const config = await getConfig();
+        if (!config.hotkeys) {
             return NextResponse.json({ errNo: 1, errorMessage: 'No hotkeys config' });
         }
         return NextResponse.json({
             errNo: 0,
             data: {
-                hotkeysConfig: storedConfig.hotkeys,
+                hotkeysConfig: config.hotkeys,
             },
         });
     } catch (error) {

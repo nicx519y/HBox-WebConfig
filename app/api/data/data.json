@@ -1,0 +1,610 @@
+{
+  "version": 1,
+  "defaultProfileId": "profile-1733497033916",
+  "isCalibrateCompleted": false,
+  "numProfilesMax": 10,
+  "profiles": [
+    {
+      "id": "default",
+      "name": "Default Profile",
+      "keysConfig": {
+        "invertXAxis": true,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_SECOND_INPUT_PRIORITY",
+        "inputMode": "PS4",
+        "keyMapping": {
+          "DPAD_UP": [
+            12
+          ],
+          "DPAD_DOWN": [
+            8
+          ],
+          "DPAD_LEFT": [],
+          "DPAD_RIGHT": [
+            3
+          ],
+          "L1": [
+            6
+          ],
+          "R1": [
+            4
+          ],
+          "L2": [
+            5
+          ],
+          "R2": [
+            1
+          ],
+          "L3": [
+            2
+          ],
+          "R3": [
+            0
+          ],
+          "B1": [
+            7
+          ]
+        }
+      },
+      "ledsConfigs": {
+        "ledEnabled": true,
+        "ledsEffectStyle": "BREATHING",
+        "ledColors": [
+          "#5AC700",
+          "#2C0AA3",
+          "#380000"
+        ],
+        "ledBrightness": 75
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": [
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          },
+          {
+            "topDeadzone": 0.4,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile-1733497033916",
+      "name": "MyProfile11",
+      "keysConfig": {
+        "invertXAxis": true,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_SECOND_INPUT_PRIORITY",
+        "inputMode": "PS4",
+        "keyMapping": {
+          "DPAD_UP": [
+            12
+          ],
+          "DPAD_DOWN": [
+            8
+          ],
+          "DPAD_LEFT": [],
+          "DPAD_RIGHT": [
+            3
+          ],
+          "L1": [
+            6
+          ],
+          "R1": [
+            4
+          ],
+          "L2": [
+            5
+          ],
+          "R2": [
+            1
+          ],
+          "L3": [
+            2
+          ],
+          "R3": [
+            0
+          ],
+          "B1": [
+            7
+          ]
+        }
+      },
+      "ledsConfigs": {
+        "ledEnabled": true,
+        "ledsEffectStyle": "BREATHING",
+        "ledColors": [
+          "#5AC700",
+          "#2C0AA3",
+          "#380000"
+        ],
+        "ledBrightness": 75
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": false,
+        "triggerConfigs": [
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0.5,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile-1733498883450",
+      "name": "MyProfile3",
+      "keysConfig": {
+        "invertXAxis": true,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_SECOND_INPUT_PRIORITY",
+        "inputMode": "XINPUT",
+        "keyMapping": {
+          "DPAD_UP": [
+            12
+          ],
+          "DPAD_DOWN": [
+            8
+          ],
+          "DPAD_LEFT": [],
+          "DPAD_RIGHT": [
+            3
+          ],
+          "L1": [
+            6
+          ],
+          "R1": [
+            4
+          ],
+          "L2": [
+            5
+          ],
+          "R2": [
+            1
+          ],
+          "L3": [
+            2
+          ],
+          "R3": [
+            0
+          ],
+          "B1": [
+            7
+          ]
+        }
+      },
+      "ledsConfigs": {
+        "ledEnabled": true,
+        "ledsEffectStyle": "BREATHING",
+        "ledColors": [
+          "#5AC700",
+          "#E32417",
+          "#380000"
+        ],
+        "ledBrightness": 75
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": [
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          },
+          {
+            "topDeadzone": 0.2,
+            "bottomDeadzone": 0.2,
+            "pressAccuracy": 0.2,
+            "releaseAccuracy": 0.2
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile-1733498969937",
+      "name": "Profile4",
+      "keysConfig": {
+        "invertXAxis": true,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_SECOND_INPUT_PRIORITY",
+        "inputMode": "PS4",
+        "keyMapping": {
+          "DPAD_UP": [
+            12
+          ],
+          "DPAD_DOWN": [
+            8
+          ],
+          "DPAD_LEFT": [],
+          "DPAD_RIGHT": [
+            3
+          ],
+          "L1": [
+            6
+          ],
+          "R1": [
+            4
+          ],
+          "L2": [
+            5
+          ],
+          "R2": [
+            1
+          ],
+          "L3": [
+            2
+          ],
+          "R3": [
+            0
+          ],
+          "B1": [
+            7
+          ]
+        }
+      },
+      "ledsConfigs": {
+        "ledEnabled": true,
+        "ledsEffectStyle": "STATIC",
+        "ledColors": [
+          "#5AC700",
+          "#2C0AA3",
+          "#380000"
+        ],
+        "ledBrightness": 75
+      }
+    },
+    {
+      "id": "profile-1733499833211",
+      "name": "NewProfile1112",
+      "keysConfig": {
+        "invertXAxis": false,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_SECOND_INPUT_PRIORITY",
+        "inputMode": "XINPUT",
+        "keyMapping": {}
+      },
+      "ledsConfigs": {
+        "ledEnabled": false,
+        "ledsEffectStyle": "STATIC",
+        "ledColors": [
+          "#000000",
+          "#000000",
+          "#000000"
+        ],
+        "ledBrightness": 0
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": []
+      }
+    }
+  ],
+  "hotkeys": [
+    {
+      "key": 0,
+      "action": "WebConfigMode",
+      "isLocked": true
+    },
+    {
+      "key": 12,
+      "action": "LedsEffectStylePrev",
+      "isLocked": false
+    },
+    {
+      "key": -1,
+      "action": "None",
+      "isLocked": false
+    },
+    {
+      "key": 10,
+      "action": "LedsEnableSwitch",
+      "isLocked": false
+    },
+    {
+      "key": -1,
+      "action": "None",
+      "isLocked": false
+    },
+    {
+      "key": 3,
+      "action": "LedsBrightnessDown",
+      "isLocked": false
+    },
+    {
+      "key": -1,
+      "action": "LedsBrightnessDown",
+      "isLocked": false
+    },
+    {
+      "key": -1,
+      "action": "None",
+      "isLocked": false
+    },
+    {
+      "key": -1,
+      "action": "None",
+      "isLocked": false
+    },
+    {
+      "key": -1,
+      "action": "None",
+      "isLocked": false
+    },
+    {
+      "key": -1,
+      "action": "None",
+      "isLocked": false
+    }
+  ]
+}

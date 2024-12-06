@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { storedConfig } from '@/app/api/data/store';
+import { getConfig, updateConfig } from '@/app/api/data/store';
 import { Hotkey } from '@/types/gamepad-config';
 
 /**
@@ -15,16 +15,18 @@ export async function POST(request: Request) {
             return NextResponse.json({ errNo: 1, errorMessage: 'Parameter error.' });  
         }
 
-        if (!storedConfig.hotkeys) {
+        const config = await getConfig();
+        if (!config.hotkeys) {
             return NextResponse.json({ errNo: 1, errorMessage: 'No hotkeys config' });
         }
 
-        storedConfig.hotkeys = hotkeysConfig;
+        config.hotkeys = hotkeysConfig;
+        await updateConfig(config);
 
         return NextResponse.json({
             errNo: 0,
             data: {
-                hotkeysConfig: storedConfig.hotkeys,
+                hotkeysConfig: config.hotkeys,
             },
         });
 

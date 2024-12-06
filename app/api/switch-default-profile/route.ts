@@ -1,6 +1,6 @@
 import { GamepadConfig, GameProfile } from '@/types/gamepad-config';
 import { NextResponse } from 'next/server';
-import { storedConfig, getProfileDetails, getProfileList } from '@/app/api/data/store';
+import { getConfig, getProfileDetails, getProfileList, updateConfig } from '@/app/api/data/store';
 
 export async function POST(request: Request) {
     try {
@@ -8,18 +8,18 @@ export async function POST(request: Request) {
 
         if (!profileId || profileId === "") return NextResponse.json({ errNo: 1, errorMessage: 'Profile ID is required' });
 
-        if (!storedConfig.profiles 
-            || storedConfig.profiles.length === 0 
-            || !getProfileDetails(profileId)) {
+        const config = await getConfig();
+        if (!config.profiles || config.profiles.length === 0 || !getProfileDetails(profileId)) {
             return NextResponse.json({ errNo: 1, errorMessage: 'No profiles found' });
         }
         
-        storedConfig.defaultProfileId = profileId;
+        config.defaultProfileId = profileId;
+        await updateConfig(config);
 
         return NextResponse.json({
             errNo: 0,
             data: {
-                profileList: getProfileList(),
+                profileList: await getProfileList(),
             },
         });
     } catch (error) {

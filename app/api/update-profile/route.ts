@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { storedConfig, getProfileDetails } from '@/app/api/data/store';
+import { getConfig, getProfileDetails, updateConfig } from '@/app/api/data/store';
 import { GameProfile } from '@/types/gamepad-config';
 
 /**
@@ -10,11 +10,11 @@ import { GameProfile } from '@/types/gamepad-config';
 export async function POST(request: Request) {
     try {
         const { profileId, profileDetails }: { profileId: string, profileDetails: GameProfile } = await request.json();
+        
+        const config = await getConfig();
+        if (!config.profiles) return NextResponse.json({ error: 'No profiles found' });
 
-        if (!storedConfig.profiles) return NextResponse.json({ error: 'No profiles found' });
-
-        let profile = storedConfig.profiles.find(profile => profile.id === profileId);
-
+        let profile = config.profiles.find(profile => profile.id === profileId);
         if (!profile) return NextResponse.json({ error: 'Profile not found' });
 
         profile = {
@@ -43,12 +43,13 @@ export async function POST(request: Request) {
             };
         }
 
-        storedConfig.profiles = storedConfig.profiles.map(p => p.id === profileId ? profile : p);
+        config.profiles = config.profiles.map(p => p.id === profileId ? profile : p);
+        await updateConfig(config);
 
         return NextResponse.json({
             errNo: 0,
             data: {
-                profileDetails: getProfileDetails(profileId),
+                profileDetails: await getProfileDetails(profileId),
             },
         });
     } catch (error) {

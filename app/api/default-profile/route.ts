@@ -1,18 +1,21 @@
 import { NextResponse } from 'next/server';
-import { storedConfig, getProfileDetails } from '@/app/api/data/store';
+import { getConfig, getProfileDetails } from '@/app/api/data/store';
 
 export async function GET() {
     try {
-        if (!storedConfig.profiles
-            || !storedConfig.defaultProfileId
-            || storedConfig.defaultProfileId === ""
-            || storedConfig.profiles.length === 0) {
+        const config = await getConfig();
+        if (!config.profiles
+            || !config.defaultProfileId
+            || config.defaultProfileId === ""
+            || config.profiles.length === 0) {
             return NextResponse.json({ errNo: 1, errorMessage: 'No default profile' });
         }
+
+        const profileDetails = await getProfileDetails(config.defaultProfileId);
         return NextResponse.json({
             errNo: 0,
             data: {
-                profileDetails: getProfileDetails(storedConfig.defaultProfileId),
+                profileDetails,
             },
         });
     } catch (error) {
