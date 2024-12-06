@@ -35,8 +35,8 @@ const defaultTriggerConfig: TriggerConfig = {
 export function     RapidTriggerContent(
     props: {
         defaultProfile: GameProfile,
-        setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => Promise<void>,
-        resetProfileDetailsHandler: () => Promise<void>,
+        setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => void,
+        resetProfileDetailsHandler: () => void,
     }
 ) {
     const {

@@ -52,8 +52,8 @@ export function LEDsSettingContent(
 
     props: {
         defaultProfile: GameProfile,
-        setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => Promise<void>,
-        resetProfileDetailsHandler: () => Promise<void>,
+        setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => void,
+        resetProfileDetailsHandler: () => void,
     }
 ) {
 
