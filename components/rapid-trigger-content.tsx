@@ -32,15 +32,15 @@ const defaultTriggerConfig: TriggerConfig = {
     releaseAccuracy: 0
 };
 
-export function RapidTriggerContent(
+export function     RapidTriggerContent(
     props: {
-        gamepadConfig: GamepadConfig,
+        defaultProfile: GameProfile,
         setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => Promise<void>,
         resetProfileDetailsHandler: () => Promise<void>,
     }
 ) {
     const {
-        gamepadConfig,
+        defaultProfile,
         setProfileDetailsHandler,
         resetProfileDetailsHandler,
     } = props;
@@ -58,13 +58,11 @@ export function RapidTriggerContent(
      */
     useEffect(() => {
         // Load trigger configs from gamepadConfig when it changes
-        const currentProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
-        if (!currentProfile) return;
-        const triggerConfigs = { ...currentProfile.triggerConfigs };
+        const triggerConfigs = { ...defaultProfile.triggerConfigs };
         setIsAllBtnsConfiguring(triggerConfigs.isAllBtnsConfiguring ?? false);
         setTriggerConfigs(allKeys.map(key => triggerConfigs.triggerConfigs?.[key] ?? defaultTriggerConfig));
         setAllBtnsConfig(triggerConfigs.triggerConfigs?.[0] ?? defaultTriggerConfig);
-    }, [gamepadConfig]);
+    }, [defaultProfile]);
 
     /**
      * 获取当前配置
@@ -114,10 +112,7 @@ export function RapidTriggerContent(
      * 保存配置
      */ 
     const saveProfileDetailHandler = async () => {
-        const currentProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
-        const profileId = gamepadConfig.defaultProfileId;
-        if (!currentProfile || typeof(profileId) !== 'string') return;
-        
+        const profileId = defaultProfile.id;
         if (isAllBtnsConfiguring) {
             const newTriggerConfigs: RapidTriggerConfig[] = [];
             allKeys.forEach((key, index) => {

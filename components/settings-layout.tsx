@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { Flex, Center, Tabs, HStack } from '@chakra-ui/react';
 import { ProfileSelect } from '@/components/profile-select';
+import { useGamepadConfig } from '@/contexts/gamepad-config-context';
 import { 
   LuKeyboard, 
   LuRocket, 
@@ -22,6 +23,8 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
     { label: 'Hotkeys Setting', path: '/hotkeys-setting', icon: LuKeyRound },
     { label: 'Firmware', path: '/firmware', icon: LuCpu }
   ];
+
+  const { deleteProfile, createProfile, switchProfile, setProfileDetails, profileList } = useGamepadConfig();
 
   const showProfileSelect = !['/hotkeys-setting', '/firmware'].includes(pathname);
 
@@ -61,15 +64,11 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
         <Center pt={4} height="50px"  >
         {showProfileSelect && (
             <ProfileSelect
-              profileList={{
-                defaultId: "",
-                maxNumProfiles: 1,
-                items: []
-              }}
-              switchDefaultProfile={async () => { }}
-              createProfile={async () => { }}
-              deleteProfile={async () => { }}
-              setProfileDetails={async () => { }}
+              profileList={profileList}
+              switchDefaultProfile={switchProfile}
+              createProfile={createProfile}
+              deleteProfile={deleteProfile}
+              setProfileDetails={setProfileDetails}
             />
           )}
         </Center>

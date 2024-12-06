@@ -4,11 +4,11 @@ import { LEDsSettingContent } from "@/components/leds-setting-content";
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 
 export default function LedsSettingPage() {
-  const { gamepadConfig, setProfileDetails, resetProfileDetails } = useGamepadConfig();
+  const { defaultProfile, setProfileDetails, resetProfileDetails } = useGamepadConfig();
   
   return (
     <LEDsSettingContent 
-      gamepadConfig={gamepadConfig}
+      defaultProfile={defaultProfile}
       setProfileDetailsHandler={setProfileDetails}
       resetProfileDetailsHandler={resetProfileDetails}
     />

@@ -4,11 +4,11 @@ import { RapidTriggerContent } from "@/components/rapid-trigger-content";
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 
 export default function RapidTriggerPage() {
-  const { gamepadConfig, setProfileDetails, resetProfileDetails } = useGamepadConfig();
+  const { defaultProfile, setProfileDetails, resetProfileDetails } = useGamepadConfig();
   
   return (
     <RapidTriggerContent 
-      gamepadConfig={gamepadConfig}
+      defaultProfile={defaultProfile}
       setProfileDetailsHandler={setProfileDetails}
       resetProfileDetailsHandler={resetProfileDetails}
     />

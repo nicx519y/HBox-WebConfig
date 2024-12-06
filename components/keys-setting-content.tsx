@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/radio-card"
 import {
     GameProfile,
-    GamepadConfig,
     GameSocdMode,
     GameSocdModeList,
     GameSocdModeLabelMap,
@@ -37,14 +36,14 @@ import { ToggleTip } from "@/components/ui/toggle-tip"
 export function KeysSettingContent(
 
     props: {
-        gamepadConfig: GamepadConfig,
+        defaultProfile: GameProfile,
         setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => Promise<void>,
         resetProfileDetailsHandler: () => Promise<void>,
     }
 ) {
 
     const {
-        gamepadConfig,
+        defaultProfile,
         setProfileDetailsHandler,
         resetProfileDetailsHandler,
     } = props;
@@ -60,14 +59,14 @@ export function KeysSettingContent(
     const [inputKey, setInputKey] = useState<number>(-1);
 
     useEffect(() => {
-        setInputMode(gamepadConfig.profiles?.[0]?.keysConfig?.inputMode ?? Platform.XINPUT);
-        setSocdMode(gamepadConfig.profiles?.[0]?.keysConfig?.socdMode ?? GameSocdMode.SOCD_MODE_UP_PRIORITY);
-        setInvertXAxis(gamepadConfig.profiles?.[0]?.keysConfig?.invertXAxis ?? false);
-        setInvertYAxis(gamepadConfig.profiles?.[0]?.keysConfig?.invertYAxis ?? false);
-        setFourWayMode(gamepadConfig.profiles?.[0]?.keysConfig?.fourWayMode ?? false);
-        setKeyMapping(gamepadConfig.profiles?.[0]?.keysConfig?.keyMapping ?? {});
+        setInputMode(defaultProfile.keysConfig?.inputMode ?? Platform.XINPUT);
+        setSocdMode(defaultProfile.keysConfig?.socdMode ?? GameSocdMode.SOCD_MODE_UP_PRIORITY);
+        setInvertXAxis(defaultProfile.keysConfig?.invertXAxis ?? false);
+        setInvertYAxis(defaultProfile.keysConfig?.invertYAxis ?? false);
+        setFourWayMode(defaultProfile.keysConfig?.fourWayMode ?? false);
+        setKeyMapping(defaultProfile.keysConfig?.keyMapping ?? {});
 
-    }, [gamepadConfig]);
+    }, [defaultProfile]);
 
     /**
      * set key mapping
@@ -82,14 +81,13 @@ export function KeysSettingContent(
     }
 
     const hitboxButtonClick = (keyId: number) => {
-        console.log("hitboxButtonClick: ", keyId);
         setInputKey(keyId);
     }
 
     const saveProfileDetailHandler = () => {
 
         const newProfile: GameProfile = {
-            id: gamepadConfig.defaultProfileId ?? "",
+            id: defaultProfile.id,
             keysConfig: {
                 invertXAxis: invertXAxis,
                 invertYAxis: invertYAxis,
@@ -100,7 +98,7 @@ export function KeysSettingContent(
             },
         }
 
-        setProfileDetailsHandler(gamepadConfig.defaultProfileId ?? "", newProfile);
+        setProfileDetailsHandler(defaultProfile.id, newProfile);
     }
 
     return (

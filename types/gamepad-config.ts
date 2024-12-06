@@ -254,7 +254,6 @@ export interface GameProfile {
         ledColors: string[];
         ledBrightness: number;
     };
-    hotkeys?: Hotkey[];
 }
 
 export type ADCButton = {
@@ -268,14 +267,15 @@ export type GPIOButton = {
     virtualPin: number,
 }
 
-export type GamepadConfig = {
-    version?: number,
-    defaultProfileId?: string,
-    isCalibrateCompleted?: boolean,
-    numProfilesMax?: number,
-    ADCButtons?: ADCButton[],
-    GPIOButtons?: GPIOButton[],
-    profiles?: GameProfile[],
+export interface GamepadConfig {
+    version?: number;
+    defaultProfileId?: string;
+    isCalibrateCompleted?: boolean;
+    numProfilesMax?: number;
+    ADCButtons?: ADCButton[];
+    GPIOButtons?: GPIOButton[];
+    profiles?: GameProfile[];
+    hotkeys?: Hotkey[];
 }
 
 export enum LedsEffectStyle {

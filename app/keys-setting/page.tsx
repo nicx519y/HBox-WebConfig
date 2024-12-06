@@ -4,11 +4,11 @@ import { KeysSettingContent } from "@/components/keys-setting-content";
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 
 export default function KeysSettingPage() {
-  const { gamepadConfig, setProfileDetails, resetProfileDetails } = useGamepadConfig();
+  const { defaultProfile, setProfileDetails, resetProfileDetails } = useGamepadConfig();
   
   return (
     <KeysSettingContent 
-      gamepadConfig={gamepadConfig}
+      defaultProfile={defaultProfile}
       setProfileDetailsHandler={setProfileDetails}
       resetProfileDetailsHandler={resetProfileDetails}
     />

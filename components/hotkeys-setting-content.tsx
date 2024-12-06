@@ -9,8 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState, useMemo } from "react";
 import {
-    GameProfile,
-    GamepadConfig,
     HotkeyAction,
     DEFAULT_NUM_HOTKEYS_MAX,
     Hotkey,
@@ -21,15 +19,15 @@ import { toaster } from "@/components/ui/toaster";
 
 export function HotkeysSettingContent(
     props: {
-        gamepadConfig: GamepadConfig,
-        setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => Promise<void>,
-        resetProfileDetailsHandler: () => Promise<void>,
+        hotkeysConfig: Hotkey[],
+        resetHotkeysConfigHandler: () => void,
+        setHotkeysConfigHandler: (hotkeysConfig: Hotkey[]) => void,
     }
 ) {
     const {
-        gamepadConfig,
-        setProfileDetailsHandler,
-        resetProfileDetailsHandler,
+        hotkeysConfig,
+        resetHotkeysConfigHandler,
+        setHotkeysConfigHandler,
     } = props;
 
     const [hotkeys, setHotkeys] = useState<Hotkey[]>([]);
@@ -37,13 +35,10 @@ export function HotkeysSettingContent(
     
     useEffect(() => {
         // 从 gamepadConfig 加载 hotkeys 配置
-        const currentProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
-
         setHotkeys(Array.from({ length: DEFAULT_NUM_HOTKEYS_MAX }, (_, i) => {
-            return currentProfile?.hotkeys?.[i] ?? { key: -1, action: HotkeyAction.None, isLocked: false };
+            return hotkeysConfig?.[i] ?? { key: -1, action: HotkeyAction.None, isLocked: false };
         }));
-        
-    }, [gamepadConfig]);
+    }, [hotkeysConfig]);
 
     useMemo(() => {
         if(activeHotkeyIndex >= 0 && hotkeys[activeHotkeyIndex]?.isLocked === true) {
@@ -54,15 +49,9 @@ export function HotkeysSettingContent(
         }
     }, [hotkeys]);  
 
-    const saveProfileDetailHandler = async () => {
-        const currentProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
-        const profileId = gamepadConfig.defaultProfileId;
-        if (!currentProfile || !profileId) return;
-
-        await setProfileDetailsHandler(profileId, {
-            ...currentProfile,
-            hotkeys: hotkeys
-        });
+    const saveHotkeysConfigHandler = async () => {
+        if (!hotkeysConfig) return;
+        return await setHotkeysConfigHandler(hotkeys);
     };
 
     const updateHotkey = (index: number, hotkey: Hotkey) => {
@@ -134,7 +123,7 @@ export function HotkeysSettingContent(
                                         variant="surface"
                                         size="lg"
                                         width="140px"
-                                        onClick={resetProfileDetailsHandler}
+                                        onClick={resetHotkeysConfigHandler}
                                     >
                                         Reset
                                     </Button>
@@ -142,7 +131,7 @@ export function HotkeysSettingContent(
                                         colorPalette="green"
                                         size="lg"
                                         width="140px"
-                                        onClick={saveProfileDetailHandler}
+                                        onClick={saveHotkeysConfigHandler}
                                     >
                                         Save
                                     </Button>

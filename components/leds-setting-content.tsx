@@ -51,14 +51,14 @@ import Hitbox from "./hitbox";
 export function LEDsSettingContent(
 
     props: {
-        gamepadConfig: GamepadConfig,
+        defaultProfile: GameProfile,
         setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => Promise<void>,
         resetProfileDetailsHandler: () => Promise<void>,
     }
 ) {
 
     const {
-        gamepadConfig,
+        defaultProfile,
         setProfileDetailsHandler,
         resetProfileDetailsHandler,
     } = props;
@@ -78,8 +78,7 @@ export function LEDsSettingContent(
 
     // Initialize the state with the default profile details
     useEffect(() => {
-        const defaultProfile = gamepadConfig.profiles?.find(p => p.id === gamepadConfig.defaultProfileId);
-        const ledsConfigs = defaultProfile?.ledsConfigs;
+        const ledsConfigs = defaultProfile.ledsConfigs;
         if (ledsConfigs) {
             setLedsEffectStyle(ledsConfigs.ledsEffectStyle  ?? LedsEffectStyle.STATIC);
             setColor1(parseColor(ledsConfigs.ledColors?.[0] ?? LEDS_COLOR_DEFAULT));
@@ -88,12 +87,12 @@ export function LEDsSettingContent(
             setLedBrightness(ledsConfigs.ledBrightness ?? 75);
             setLedEnabled(ledsConfigs.ledEnabled ?? true);
         }
-    }, [gamepadConfig]);
+    }, [defaultProfile]);
 
     // Save the profile details
     const saveProfileDetailsHandler = () => {
         const newProfileDetails = {
-            id: gamepadConfig.defaultProfileId ?? "",
+            id: defaultProfile.id,
             ledsConfigs: {
                 ledEnabled: ledEnabled,
                 ledsEffectStyle: ledsEffectStyle,
@@ -103,7 +102,7 @@ export function LEDsSettingContent(
         }
 
         console.log("saveProfileDetailHandler: ", newProfileDetails);
-        setProfileDetailsHandler(gamepadConfig.defaultProfileId ?? "", newProfileDetails as GameProfile);
+        setProfileDetailsHandler(defaultProfile.id, newProfileDetails as GameProfile);
     }
 
     const colorPickerDisabled = (index: number) => {
