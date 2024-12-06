@@ -28,7 +28,7 @@ export async function POST(request: Request) {
                 profileList: await getProfileList(),
             },
         });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ errNo: 1, errorMessage: 'Failed to delete profile' }, { status: 500 });
     }
 } 

@@ -52,7 +52,7 @@ export async function POST(request: Request) {
                 profileDetails: await getProfileDetails(profileId),
             },
         });
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to update config' }, { status: 500 });
+    } catch {
+        return NextResponse.json({ errNo: 1, errorMessage: 'Failed to update config' }, { status: 500 });
     }
 } 

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
                 profileList: await getProfileList(),
             },
         });
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to add profile' }, { status: 500 });
+    } catch {
+        return NextResponse.json({ errNo: 1, errorMessage: 'Failed to add profile' }, { status: 500 });
     }
 } 

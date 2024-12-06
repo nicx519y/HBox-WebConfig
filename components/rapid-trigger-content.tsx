@@ -13,7 +13,6 @@ import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
 import {
     GameProfile,
-    GamepadConfig,
     RapidTriggerConfig
 } from "@/types/gamepad-config";
 import Hitbox from "@/components/hitbox";

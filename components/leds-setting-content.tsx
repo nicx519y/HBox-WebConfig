@@ -38,7 +38,6 @@ import {
 import { useEffect, useState } from "react";
 import {
     GameProfile,
-    GamepadConfig,
     LedsEffectStyle,
     LedsEffectStyleList,
     LedsEffectStyleLabelMap,

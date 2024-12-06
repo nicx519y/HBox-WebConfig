@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultProfileId": "default",
+  "defaultProfileId": "profile-1733505020737",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
@@ -521,10 +521,111 @@
         "ledsEffectStyle": "STATIC",
         "ledColors": [
           "#5AC700",
-          "#2C0AA3",
+          "#463491",
           "#380000"
         ],
-        "ledBrightness": 75
+        "ledBrightness": 44
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": false,
+        "triggerConfigs": [
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0,
+            "bottomDeadzone": 0,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          }
+        ]
       }
     },
     {
@@ -565,18 +666,115 @@
         "keyMapping": {}
       },
       "ledsConfigs": {
-        "ledEnabled": false,
+        "ledEnabled": true,
         "ledsEffectStyle": "STATIC",
         "ledColors": [
-          "#000000",
-          "#000000",
+          "#C21B1B",
+          "#2E18D9",
           "#000000"
         ],
-        "ledBrightness": 0
+        "ledBrightness": 52
       },
       "triggerConfigs": {
         "isAllBtnsConfiguring": true,
-        "triggerConfigs": []
+        "triggerConfigs": [
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0,
+            "releaseAccuracy": 0
+          }
+        ]
       }
     },
     {
@@ -628,7 +826,104 @@
       },
       "triggerConfigs": {
         "isAllBtnsConfiguring": true,
-        "triggerConfigs": []
+        "triggerConfigs": [
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.6,
+            "bottomDeadzone": 0.3,
+            "pressAccuracy": 0.3,
+            "releaseAccuracy": 0
+          }
+        ]
       }
     },
     {
@@ -671,7 +966,7 @@
     },
     {
       "key": 14,
-      "action": "None",
+      "action": "LedsEnableSwitch",
       "isLocked": false
     },
     {

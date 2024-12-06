@@ -1,4 +1,3 @@
-import { GamepadConfig, GameProfile } from '@/types/gamepad-config';
 import { NextResponse } from 'next/server';
 import { getConfig, getProfileDetails, getProfileList, updateConfig } from '@/app/api/data/store';
 
@@ -22,7 +21,7 @@ export async function POST(request: Request) {
                 profileList: await getProfileList(),
             },
         });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ errNo: 1, errorMessage: 'Failed to switch default profile' }, { status: 500 });
     }
 } 

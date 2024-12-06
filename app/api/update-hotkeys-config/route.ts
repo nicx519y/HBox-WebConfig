@@ -30,7 +30,7 @@ export async function POST(request: Request) {
             },
         });
 
-    } catch (error) {
+    } catch {
         return NextResponse.json({ errNo: 1, errorMessage: 'Failed to update hotkeys config' }, { status: 500 });
     }
 } 

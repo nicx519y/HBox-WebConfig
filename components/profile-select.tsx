@@ -1,6 +1,6 @@
 "use client"
 
-import { PlatformList, GameProfileList, GameProfile, GamepadConfig, NUM_PROFILES_MAX } from "@/types/gamepad-config";
+import { GameProfileList, GameProfile } from "@/types/gamepad-config";
 import { useMemo, useState } from "react";
 import {
     IconButton,
@@ -38,7 +38,6 @@ import {
 import { Alert } from "@/components/ui/alert"
 import { Field } from "@/components/ui/field"
 import { LuTrash, LuPlus, LuPencil, LuMenu } from "react-icons/lu"
-import { toaster } from "./ui/toaster";
 
 export function ProfileSelect(
     props: {
@@ -142,7 +141,11 @@ export function ProfileSelect(
      * @param e - The open state of the dialog.
      */
     const onRenameOpenChange = (e: boolean) => {
-        e ? onRenameOpen() : onRenameClose();
+        if (e) {
+            onRenameOpen();
+        } else {
+            onRenameClose();
+        }
     }
 
     /**
@@ -166,7 +169,11 @@ export function ProfileSelect(
      * @param e - The open state of the dialog.
      */
     const onCreateOpenChange = (e: boolean) => {
-        e ? onCreateOpen() : onCreateClose();
+        if (e) {
+            onCreateOpen();
+        } else {
+            onCreateClose();
+        }
     }
 
     /**

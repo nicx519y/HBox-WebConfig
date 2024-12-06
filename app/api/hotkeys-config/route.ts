@@ -17,7 +17,7 @@ export async function GET() {
                 hotkeysConfig: config.hotkeys,
             },
         });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ errNo: 1, errorMessage: 'Failed to fetch hotkeys config' });
     }
 } 

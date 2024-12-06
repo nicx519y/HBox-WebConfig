@@ -1,21 +1,14 @@
 'use client';
 
-import styled, { keyframes, css } from 'styled-components';
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { LEDS_ANIMATION_CYCLE, LEDS_COLOR_DEFAULT, LedsEffectStyle } from "@/types/gamepad-config";
 import { Color, parseColor } from '@chakra-ui/react';
+import styled from "styled-components";
 
 const StyledSvg = styled.svg`
   width: 800px;
   height: 650px;
   position: relative;
-`;
-
-// 创建一个动态的 keyframes 生成函数
-const createBreathingAnimation = (color1: string, color2: string) => keyframes`
-  0% { fill: ${color1}; }
-  50% { fill: ${color2}; }
-  100% { fill: ${color1}; }
 `;
 
 /**
@@ -235,9 +228,9 @@ export default function Hitbox(props: {
     useEffect(() => {
         const brightness = props.brightness ?? 100;
         if(props.frontColor) {
-            const r = props.frontColor.getChannelValue('red') * (brightness / 100 ?? 1);
-            const g = props.frontColor.getChannelValue('green') * (brightness / 100 ?? 1);
-            const b = props.frontColor.getChannelValue('blue') * (brightness / 100 ?? 1);
+            const r = props.frontColor.getChannelValue('red') * (brightness / 100);
+            const g = props.frontColor.getChannelValue('green') * (brightness / 100);
+            const b = props.frontColor.getChannelValue('blue') * (brightness / 100);
             frontColorRef.current = parseColor(`rgb(${r}, ${g}, ${b})`);
         }
     }, [props.frontColor, props.brightness]);
@@ -245,9 +238,9 @@ export default function Hitbox(props: {
     useEffect(() => {
         const brightness = props.brightness ?? 100;
         if(props.backColor1) {
-            const r = props.backColor1.getChannelValue('red') * (brightness / 100 ?? 1);
-            const g = props.backColor1.getChannelValue('green') * (brightness / 100 ?? 1);
-            const b = props.backColor1.getChannelValue('blue') * (brightness / 100 ?? 1);
+            const r = props.backColor1.getChannelValue('red') * (brightness / 100);
+            const g = props.backColor1.getChannelValue('green') * (brightness / 100);
+            const b = props.backColor1.getChannelValue('blue') * (brightness / 100);
             backColor1Ref.current = parseColor(`rgb(${r}, ${g}, ${b})`);
         }
     }, [props.backColor1, props.brightness]);
@@ -255,9 +248,9 @@ export default function Hitbox(props: {
     useEffect(() => {
         const brightness = props.brightness ?? 100;
         if(props.backColor2) {
-            const r = props.backColor2.getChannelValue('red') * (brightness / 100 ?? 1);
-            const g = props.backColor2.getChannelValue('green') * (brightness / 100 ?? 1);
-            const b = props.backColor2.getChannelValue('blue') * (brightness / 100 ?? 1);
+            const r = props.backColor2.getChannelValue('red') * (brightness / 100);
+            const g = props.backColor2.getChannelValue('green') * (brightness / 100);
+            const b = props.backColor2.getChannelValue('blue') * (brightness / 100);
             backColor2Ref.current = parseColor(`rgb(${r}, ${g}, ${b})`);
         }
     }, [props.backColor2, props.brightness]);

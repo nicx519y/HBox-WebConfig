@@ -18,7 +18,7 @@ export async function GET() {
                 profileDetails,
             },
         });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ errNo: 1, errorMessage: 'Failed to fetch default profile' });
     }
 } 

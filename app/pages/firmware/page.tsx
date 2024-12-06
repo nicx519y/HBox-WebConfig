@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Center, Fieldset, Stack, Text } from "@chakra-ui/react";
+import { Box, Fieldset, Stack, Text } from "@chakra-ui/react";
 
 export default function FirmwarePage() {
   return (
