@@ -17,16 +17,16 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
   const pathname = usePathname();
 
   const tabs = [
-    { label: 'Keys Setting', path: '/keys-setting', icon: LuKeyboard },
-    { label: 'LEDs Setting', path: '/leds-setting', icon: LuLightbulb },
-    { label: 'Rapid Trigger', path: '/rapid-trigger', icon: LuRocket },
-    { label: 'Hotkeys Setting', path: '/hotkeys-setting', icon: LuKeyRound },
-    { label: 'Firmware', path: '/firmware', icon: LuCpu }
+    { label: 'Keys Setting', path: '/pages/keys-setting', icon: LuKeyboard },
+    { label: 'LEDs Setting', path: '/pages/leds-setting', icon: LuLightbulb },
+    { label: 'Rapid Trigger', path: '/pages/rapid-trigger', icon: LuRocket },
+    { label: 'Hotkeys Setting', path: '/pages/hotkeys-setting', icon: LuKeyRound },
+    { label: 'Firmware', path: '/pages/firmware', icon: LuCpu }
   ];
 
   const { deleteProfile, createProfile, switchProfile, setProfileDetails, profileList } = useGamepadConfig();
 
-  const showProfileSelect = !['/hotkeys-setting', '/firmware'].includes(pathname);
+  const showProfileSelect = !['/pages/hotkeys-setting', '/pages/firmware'].includes(pathname);
 
   return (
     <Flex direction="column" height="100%" flex={1}>
