@@ -10,6 +10,7 @@ import { toaster, Toaster } from "@/components/ui/toaster"
 import { LoadingModal } from "@/components/ui/loading-modal"
 import { useState, useEffect } from 'react'
 import { DialogConfirm } from '@/components/dialog-confirm'
+import { DialogForm } from "@/components/dialog-form";
 
 // 创建一个内部组件来使用 context
 function AppContent({ children }: { children: React.ReactNode }) {
@@ -133,7 +134,10 @@ export default function RootLayout({
                                 {children}
                             </AppContent>
                         </GamepadConfigProvider>
+                        {/* 确认对话框组件 */}
                         <DialogConfirm />
+                        {/* 表单对话框组件 */}
+                        <DialogForm />
                     </Provider>
                 </StyledComponentsRegistry>
             </body>

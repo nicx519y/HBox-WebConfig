@@ -6,19 +6,7 @@ import {
     IconButton,
     Stack,
     createListCollection,
-    useDisclosure,
-    Input,
-    Button,
 } from "@chakra-ui/react"
-
-import {
-    DialogBody,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogRoot,
-    DialogTitle,
-} from "@/components/ui/dialog"
 
 import {
     MenuContent,
@@ -35,10 +23,9 @@ import {
     SelectValueText,
 } from "@/components/ui/select"
 
-import { Alert } from "@/components/ui/alert"
-import { Field } from "@/components/ui/field"
 import { LuTrash, LuPlus, LuPencil, LuMenu } from "react-icons/lu"
 import { openConfirm } from '@/components/dialog-confirm';
+import { openForm } from '@/components/dialog-form';
 
 export function ProfileSelect(
     props: {
@@ -69,14 +56,6 @@ export function ProfileSelect(
             label: p.name,
         })),
     }), [profileList]);
-
-    const { open: isRenameOpen, onOpen: onRenameOpen, onClose: onRenameClose } = useDisclosure();
-    const { open: isAddOpen, onOpen: onCreateOpen, onClose: onCreateClose } = useDisclosure();
-    const [newNameInvalid, setNewNameInvalid] = useState(false);
-    const [newNameErrorMessage, setNewNameErrorMessage] = useState("");
-    const [newProfileInvalid, setNewProfileInvalid] = useState(false);
-    const [newProfileErrorMessage, setNewProfileErrorMessage] = useState("");
-
 
     /**
      * Validate the profile name.
@@ -128,51 +107,54 @@ export function ProfileSelect(
     /**
      * Open the rename dialog.
      */
-    const renameProfileClick = () => {
-        setNewNameInvalid(false);
-        setNewNameErrorMessage("");
-        onRenameOpen();
-    }
+    const renameProfileClick = async () => {
+        const result = await openForm({
+            title: "Rename Profile",
+            fields: [{
+                name: "profileName",
+                label: "Profile Name",
+                defaultValue: defaultProfile?.name,
+                placeholder: "Enter new profile name",
+                validate: (value) => {
+                    if (!validateProfileName(value, () => {}, () => {})) {
+                        return "Invalid profile name";
+                    }
+                    return undefined;
+                }
+            }]
+        });
 
-    /**
-     * Open or close the rename dialog.
-     * @param e - The open state of the dialog.
-     */
-    const onRenameOpenChange = (e: boolean) => {
-        if (e) {
-            onRenameOpen();
-        } else {
-            onRenameClose();
+        if (result) {
+            await setProfileDetails(defaultProfile?.id ?? "", { 
+                id: defaultProfile?.id ?? "",
+                name: result.profileName 
+            });
         }
-    }
-
-    /**
-     * Cancel the rename of the default profile.
-     */
-    const onRenameCancel = () => {
-        onRenameClose();
-    }
+    };
 
     /**
      * Open the add dialog.
      */
-    const createProfileClick = () => {
-        setNewProfileInvalid(false);
-        setNewProfileErrorMessage("");
-        onCreateOpen();
-    }
+    const createProfileClick = async () => {
+        const result = await openForm({
+            title: "Create New Profile",
+            fields: [{
+                name: "profileName",
+                label: "Profile Name",
+                placeholder: "Enter new profile name",
+                validate: (value) => {
+                    if (!validateProfileName(value, () => {}, () => {})) {
+                        return "Invalid profile name";
+                    }
+                    return undefined;
+                }
+            }]
+        });
 
-    /**
-     * Open or close the add dialog.
-     * @param e - The open state of the dialog.
-     */
-    const onCreateOpenChange = (e: boolean) => {
-        if (e) {
-            onCreateOpen();
-        } else {
-            onCreateClose();
+        if (result) {
+            await createProfile(result.profileName);
         }
-    }
+    };
 
     /**
      * Open the delete dialog.
@@ -189,41 +171,6 @@ export function ProfileSelect(
     };
 
     /**************************************************************** set api confirmation ******************************************************************************** */
-    /**
-     * Confirm the rename of the default profile.
-     * @param e - The form event.
-     */
-    const onRenameConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const newName = (e.currentTarget.elements.namedItem("profileName") as HTMLInputElement)?.value.trim() ?? "";
-
-        if (!validateProfileName(newName, setNewNameInvalid, setNewNameErrorMessage)) {
-            return;
-        }
-
-        if (defaultProfile) {
-            await setProfileDetails(defaultProfile?.id ?? "", { ...defaultProfile, name: newName });
-            onRenameClose();
-        }
-    }
-    /**
-     * Confirm the creation of a new profile.
-     * @param e - The form event.
-     */
-    const onCreateConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
-
-        e.preventDefault();
-
-        const newName = (e.currentTarget.elements.namedItem("profileName") as HTMLInputElement)?.value.trim() ?? "";
-
-        if (!validateProfileName(newName, setNewProfileInvalid, setNewProfileErrorMessage)) {
-            return;
-        }
-
-        await createProfile(newName);
-        onCreateClose();
-    }
     /**
      * Confirm the deletion of the default profile.
      */
@@ -276,71 +223,6 @@ export function ProfileSelect(
                     </MenuContent>
                 </MenuRoot>
             </Stack>
-
-            {/* 重命名对话框 */}
-            <DialogRoot
-                placement="center"
-                open={isRenameOpen}
-                onOpenChange={e => onRenameOpenChange(e.open)}
-                modal={true}
-                closeOnInteractOutside={true}
-            >
-                <DialogContent zIndex={1001}  >
-                    <form onSubmit={onRenameConfirm} >
-
-                        <DialogHeader>
-                            <DialogTitle fontSize={"md"} >Rename Profile</DialogTitle>
-                        </DialogHeader>
-                        <DialogBody paddingBottom={2}>
-                            <Field errorText={newNameErrorMessage ?? ""} invalid={newNameInvalid} height={"62px"}  >
-                                <Input
-                                    name="profileName"
-                                    type="text"
-                                    placeholder={"Enter new profile name"}
-                                    defaultValue={defaultProfile?.name ?? ""}
-                                    autoComplete="off"
-                                />
-                            </Field>
-                        </DialogBody>
-                        <DialogFooter justifyContent={"start"} >
-                            <Button variant="surface" width={"100px"} size={"xs"} onClick={onRenameCancel} >Cancel</Button>
-                            <Button type="submit" name="submit" colorPalette={"green"} width={"100px"} size={"xs"} >Confirm</Button>
-                        </DialogFooter>
-
-                    </form>
-                </DialogContent>
-            </DialogRoot>
-            
-            {/* 新建profile对话框 */}
-            <DialogRoot
-                placement="center"
-                open={isAddOpen}
-                onOpenChange={e => onCreateOpenChange(e.open)}
-                modal={true}
-                closeOnInteractOutside={true}
-            >
-                <DialogContent >
-                    <form onSubmit={onCreateConfirm} >
-                        <DialogHeader>
-                            <DialogTitle fontSize={"md"} >Create New Profile</DialogTitle>
-                        </DialogHeader>
-                        <DialogBody paddingBottom={2}>
-                            <Field errorText={newProfileErrorMessage ?? ""} invalid={newProfileInvalid} height={"62px"}  >
-                                <Input
-                                    name="profileName"
-                                    type="text"
-                                    placeholder={"Enter new profile name"}
-                                    autoComplete="off"
-                                />
-                            </Field>
-                        </DialogBody>
-                        <DialogFooter justifyContent={"start"} >
-                            <Button variant="surface" width={"100px"} size={"xs"} onClick={onCreateClose} >Cancel</Button>
-                            <Button type="submit" name="submit" colorPalette={"green"} width={"100px"} size={"xs"} >Confirm</Button>
-                        </DialogFooter>
-                    </form>
-                </DialogContent>
-            </DialogRoot>
         </>
     )
 }

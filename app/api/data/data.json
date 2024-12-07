@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultProfileId": "profile-1733498883450",
+  "defaultProfileId": "default",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
@@ -320,7 +320,7 @@
     },
     {
       "id": "profile-1733498883450",
-      "name": "MyProfile3",
+      "name": "MyNewProfile444",
       "keysConfig": {
         "invertXAxis": true,
         "invertYAxis": false,
