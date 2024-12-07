@@ -667,13 +667,13 @@
       },
       "ledsConfigs": {
         "ledEnabled": true,
-        "ledsEffectStyle": "STATIC",
+        "ledsEffectStyle": "BREATHING",
         "ledColors": [
-          "#C21B1B",
-          "#2E18D9",
+          "#7172A3",
+          "#36852C",
           "#000000"
         ],
-        "ledBrightness": 52
+        "ledBrightness": 71
       },
       "triggerConfigs": {
         "isAllBtnsConfiguring": true,
