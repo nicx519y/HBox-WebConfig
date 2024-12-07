@@ -35,6 +35,10 @@ const useFormStore = create<FormState>(() => ({
     fields: [],
 }));
 
+/**
+ * 表单对话框
+ * @returns 
+ */
 export function DialogForm() {
     const { isOpen, title, fields, resolve } = useFormStore();
     const [errors, setErrors] = useState<{[key: string]: string}>({});

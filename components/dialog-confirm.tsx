@@ -44,7 +44,7 @@ export function DialogConfirm() {
                     <DialogTitle>{title ?? ""}</DialogTitle>
                 </DialogHeader>
                 <DialogBody>
-                    <Alert>
+                    <Alert colorPalette="yellow">
                         {message}
                     </Alert>
                 </DialogBody>

@@ -1,6 +1,6 @@
 "use client"
 
-import { GameProfileList, GameProfile } from "@/types/gamepad-config";
+import { GameProfileList, GameProfile, PROFILE_NAME_MAX_LENGTH } from "@/types/gamepad-config";
 import { useMemo } from "react";
 import {
     IconButton,
@@ -64,33 +64,25 @@ export function ProfileSelect(
      * @param setErrorMessage - The function to set the error message.
      * @returns - Whether the profile name is valid.
      */
-    const validateProfileName = (name: string, setInvalid: (invalid: boolean) => void, setErrorMessage: (errorMessage: string) => void): boolean => {
+    const validateProfileName = (name: string): [boolean, string] => {
 
         if (/[!@#$%^&*()_+\[\]{}|;:'",.<>?/\\]/.test(name)) {
-            setInvalid(true);
-            setErrorMessage("Profile name cannot contain special characters.");
-            return false;
+            return [false, "Profile name cannot contain special characters."];
         }
 
-        if (name.length > 20 || name.length < 1) {
-            setInvalid(true);
-            setErrorMessage("Profile name length must be between 1 and 20 characters, current length is " + name.length + ".");
-            return false;
+        if (name.length > PROFILE_NAME_MAX_LENGTH || name.length < 1) {
+            return [false, "Profile name length must be between 1 and " + PROFILE_NAME_MAX_LENGTH + " characters, current length is " + name.length + "."];
         }
 
         if (name === defaultProfile?.name) {
-            setInvalid(true);
-            setErrorMessage("Profile name cannot be the same as the current profile name.");
-            return false;
+            return [false, "Profile name cannot be the same as the current profile name."];
         }
 
         if (profileList.items.find(p => p.name === name)) {
-            setInvalid(true);
-            setErrorMessage("Profile name already exists.");
-            return false;
+            return [false, "Profile name already exists."];
         }
 
-        return true;
+        return [true, ""];
     }
 
     /**
@@ -116,8 +108,9 @@ export function ProfileSelect(
                 defaultValue: defaultProfile?.name,
                 placeholder: "Enter new profile name",
                 validate: (value) => {
-                    if (!validateProfileName(value, () => {}, () => {})) {
-                        return "Invalid profile name";
+                    const [isValid, errorMessage] = validateProfileName(value);
+                    if (!isValid) {
+                        return errorMessage;
                     }
                     return undefined;
                 }
@@ -143,8 +136,9 @@ export function ProfileSelect(
                 label: "Profile Name",
                 placeholder: "Enter new profile name",
                 validate: (value) => {
-                    if (!validateProfileName(value, () => {}, () => {})) {
-                        return "Invalid profile name";
+                    const [isValid, errorMessage] = validateProfileName(value);
+                    if (!isValid) {
+                        return errorMessage;
                     }
                     return undefined;
                 }

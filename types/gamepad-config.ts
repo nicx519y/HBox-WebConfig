@@ -9,6 +9,8 @@ export const LEDS_COLOR_DEFAULT = "#000000";
 export const DEFAULT_NUM_HOTKEYS_MAX = 11;
 // max number of key binding per button
 export const NUM_BIND_KEY_PER_BUTTON_MAX = 3;
+// max length of profile name
+export const PROFILE_NAME_MAX_LENGTH = 20;
 
 
 export enum Platform {
