@@ -31,17 +31,19 @@ const defaultTriggerConfig: TriggerConfig = {
     releaseAccuracy: 0
 };
 
-export function     RapidTriggerContent(
+export function RapidTriggerContent(
     props: {
         defaultProfile: GameProfile,
         setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => void,
         resetProfileDetailsHandler: () => void,
+        setIsDirty?: (value: boolean) => void,
     }
 ) {
     const {
         defaultProfile,
         setProfileDetailsHandler,
         resetProfileDetailsHandler,
+        setIsDirty,
     } = props;
 
     const [selectedButton, setSelectedButton] = useState<number | null>(0); // 当前选中的按钮
@@ -61,6 +63,7 @@ export function     RapidTriggerContent(
         setIsAllBtnsConfiguring(triggerConfigs.isAllBtnsConfiguring ?? false);
         setTriggerConfigs(allKeys.map(key => triggerConfigs.triggerConfigs?.[key] ?? defaultTriggerConfig));
         setAllBtnsConfig(triggerConfigs.triggerConfigs?.[0] ?? defaultTriggerConfig);
+        setIsDirty?.(false);
     }, [defaultProfile]);
 
     /**
@@ -176,7 +179,10 @@ export function     RapidTriggerContent(
                                 <Switch
                                     colorPalette={"green"}
                                     checked={isAllBtnsConfiguring}
-                                    onChange={() => switchAllBtnsConfiging(!isAllBtnsConfiguring)}
+                                    onChange={() => {
+                                        switchAllBtnsConfiging(!isAllBtnsConfiguring);
+                                        setIsDirty?.(true);
+                                    }}
                                 >Configure all buttons at once</Switch>
 
                                 <Text color={!isAllBtnsConfiguring ? "green.400" : "gray.700"} >
@@ -206,7 +212,10 @@ export function     RapidTriggerContent(
                                             min={0}
                                             max={1}
                                             step={0.1}
-                                            onValueChange={(details) => isAllBtnsConfiguring ? updateAllBtnsConfig(key as keyof RapidTriggerConfig, details.value[0]) : updateConfig(key as keyof TriggerConfig, details.value[0])}
+                                            onValueChange={(details) => {
+                                                isAllBtnsConfiguring ? updateAllBtnsConfig(key as keyof RapidTriggerConfig, details.value[0]) : updateConfig(key as keyof TriggerConfig, details.value[0]);
+                                                setIsDirty?.(true);
+                                            }}
                                             disabled={selectedButton === null && !isAllBtnsConfiguring}
                                             width={"400px"}
                                             marks={[

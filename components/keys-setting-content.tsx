@@ -39,6 +39,7 @@ export function KeysSettingContent(
         defaultProfile: GameProfile,
         setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => void,
         resetProfileDetailsHandler: () => void,
+        setIsDirty?: (value: boolean) => void,
     }
 ) {
 
@@ -46,6 +47,7 @@ export function KeysSettingContent(
         defaultProfile,
         setProfileDetailsHandler,
         resetProfileDetailsHandler,
+        setIsDirty,
     } = props;
 
 
@@ -65,8 +67,9 @@ export function KeysSettingContent(
         setInvertYAxis(defaultProfile.keysConfig?.invertYAxis ?? false);
         setFourWayMode(defaultProfile.keysConfig?.fourWayMode ?? false);
         setKeyMapping(defaultProfile.keysConfig?.keyMapping ?? {});
-
+        setIsDirty?.(false); // reset the unsaved changes warning 
     }, [defaultProfile]);
+
 
     /**
      * set key mapping
@@ -147,7 +150,10 @@ export function KeysSettingContent(
                                         inputKey={inputKey}
                                         inputMode={inputMode}
                                         keyMapping={keyMapping}
-                                        changeKeyMappingHandler={setHitboxButtons}
+                                        changeKeyMappingHandler={(key, hitboxButtons) => {
+                                            setHitboxButtons(key, hitboxButtons);
+                                            setIsDirty?.(true);
+                                        }}
                                     />
                                 </Stack>
 
@@ -157,21 +163,22 @@ export function KeysSettingContent(
                                     size={"sm"}
                                     variant={"subtle"}
                                     value={inputMode?.toString() ?? Platform.XINPUT.toString()}
-                                    onValueChange={(detail) => setInputMode(detail.value as Platform)}
+                                    onValueChange={(detail) => {
+                                        setInputMode(detail.value as Platform);
+                                        setIsDirty?.(true);
+                                    }}
                                 >
                                     <RadioCardLabel>Input Mode Choice</RadioCardLabel>
                                     <SimpleGrid gap={1} columns={3} >
                                         {PlatformList.map((platform, index) => (
-                                            <Tooltip key={index} content={PlatformLabelMap.get(platform as Platform)?.description ?? ""} >
-                                                <RadioCardItem
-                                                    fontSize={"xs"}
-                                                    indicator={false}
-                                                    key={index}
-                                                    value={platform.toString()}
-                                                    label={PlatformLabelMap.get(platform as Platform)?.label ?? ""}
-                                                />
-                                            </Tooltip>
-                                        ))}
+                                            <RadioCardItem
+                                                fontSize={"xs"}
+                                                indicator={false}
+                                                key={index}
+                                                value={platform.toString()}
+                                                label={PlatformLabelMap.get(platform as Platform)?.label ?? ""}
+                                            />
+                                    ))}
                                     </SimpleGrid>
                                 </RadioCardRoot>
 
@@ -182,7 +189,10 @@ export function KeysSettingContent(
                                     size={"sm"}
                                     variant={"subtle"}
                                     value={socdMode?.toString() ?? GameSocdMode.SOCD_MODE_UP_PRIORITY.toString()}
-                                    onValueChange={(detail) => setSocdMode(detail.value as GameSocdMode)}
+                                    onValueChange={(detail) => {
+                                        setSocdMode(detail.value as GameSocdMode);
+                                        setIsDirty?.(true);
+                                    }}
                                 >
                                     <RadioCardLabel>SOCD Mode Choice</RadioCardLabel>
                                     <SimpleGrid gap={1} columns={5} >
@@ -202,8 +212,14 @@ export function KeysSettingContent(
 
                                 {/* Invert Axis Choice & Invert Y Axis Choice & FourWay Mode Choice */}
                                 <HStack gap={5} >
-                                    <Switch colorPalette={"green"} checked={invertXAxis} onChange={() => setInvertXAxis(!invertXAxis)} >Invert X Axis</Switch>
-                                    <Switch colorPalette={"green"} checked={invertYAxis} onChange={() => setInvertYAxis(!invertYAxis)} >Invert Y Axis</Switch>
+                                    <Switch colorPalette={"green"} checked={invertXAxis} onChange={() => {
+                                        setInvertXAxis(!invertXAxis);
+                                        setIsDirty?.(true);
+                                    }} >Invert X Axis</Switch>
+                                    <Switch colorPalette={"green"} checked={invertYAxis} onChange={() => {
+                                        setInvertYAxis(!invertYAxis);
+                                        setIsDirty?.(true);
+                                    }} >Invert Y Axis</Switch>
                                     {/* <Switch colorPalette={"green"} checked={fourWayMode} onChange={() => setFourWayMode(!fourWayMode)} >FourWay Mode</Switch>  
                                                 <ToggleTip content="FourWay Mode: Enable the four-way mode of the Dpad, which means the Dpad will be treated as a four-way direction pad.\n(Only available when the input mode is Switch)" >
                                                     <Button size="xs" variant="ghost">

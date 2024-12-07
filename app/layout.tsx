@@ -1,5 +1,6 @@
 'use client';
 
+import { ChakraProvider } from "@chakra-ui/react"
 import { Provider } from "@/components/ui/provider"
 import StyledComponentsRegistry from '@/lib/registry'
 import SettingsLayout from '@/components/settings-layout'
@@ -8,6 +9,7 @@ import { Box, Flex, Center, Text } from '@chakra-ui/react'
 import { toaster, Toaster } from "@/components/ui/toaster"
 import { LoadingModal } from "@/components/ui/loading-modal"
 import { useState, useEffect } from 'react'
+import { DialogConfirm } from '@/components/dialog-confirm'
 
 // 创建一个内部组件来使用 context
 function AppContent({ children }: { children: React.ReactNode }) {
@@ -131,6 +133,7 @@ export default function RootLayout({
                                 {children}
                             </AppContent>
                         </GamepadConfigProvider>
+                        <DialogConfirm />
                     </Provider>
                 </StyledComponentsRegistry>
             </body>

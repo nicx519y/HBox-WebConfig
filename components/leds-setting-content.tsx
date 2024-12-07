@@ -53,6 +53,7 @@ export function LEDsSettingContent(
         defaultProfile: GameProfile,
         setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => void,
         resetProfileDetailsHandler: () => void,
+        setIsDirty?: (value: boolean) => void,   
     }
 ) {
 
@@ -60,6 +61,7 @@ export function LEDsSettingContent(
         defaultProfile,
         setProfileDetailsHandler,
         resetProfileDetailsHandler,
+        setIsDirty,
     } = props;
 
 
@@ -85,6 +87,7 @@ export function LEDsSettingContent(
             setColor3(parseColor(ledsConfigs.ledColors?.[2] ?? LEDS_COLOR_DEFAULT));
             setLedBrightness(ledsConfigs.ledBrightness ?? 75);
             setLedEnabled(ledsConfigs.ledEnabled ?? true);
+            setIsDirty?.(false);
         }
     }, [defaultProfile]);
 
@@ -144,14 +147,21 @@ export function LEDsSettingContent(
 
                                 {/* LED Effect Style */}
                                 <Stack direction={"column"} gap={6} >
-                                    <Switch colorPalette={"green"} checked={ledEnabled} onChange={() => setLedEnabled(!ledEnabled)} >LED Enabled</Switch>
+                                    <Switch colorPalette={"green"} checked={ledEnabled} 
+                                        onChange={() => {
+                                            setLedEnabled(!ledEnabled);
+                                            setIsDirty?.(true);
+                                        }} >LED Enabled</Switch>
                                     {/* LED Effect Style */}
                                     <RadioCardRoot
                                         colorPalette={ledEnabled ? "green" : "gray"}
                                         size={"sm"}
                                         variant={"subtle"}
                                         value={ledsEffectStyle?.toString() ?? LedsEffectStyle.STATIC.toString()}
-                                        onValueChange={(detail) => setLedsEffectStyle(detail.value as LedsEffectStyle)}
+                                        onValueChange={(detail) => {
+                                            setLedsEffectStyle(detail.value as LedsEffectStyle);
+                                            setIsDirty?.(true);
+                                        }}
                                         disabled={!ledEnabled}
                                     >
                                         <RadioCardLabel>LED Effect Style Choice</RadioCardLabel>
@@ -190,6 +200,7 @@ export function LEDsSettingContent(
                                                 maxW="200px"
                                                 disabled={colorPickerDisabled(index)}
                                                 onValueChange={(e) => {
+                                                    setIsDirty?.(true);
                                                     const hex = e.value;
                                                     if (index === 0) setColor1(hex);
                                                     if (index === 1) setColor2(hex);
@@ -218,7 +229,10 @@ export function LEDsSettingContent(
                                         colorPalette={"green"}
                                         width={"300px"}
                                         value={[ledBrightness]}
-                                        onValueChange={(e) => setLedBrightness(e.value[0])}
+                                        onValueChange={(e) => {
+                                            setLedBrightness(e.value[0]);
+                                            setIsDirty?.(true);
+                                        }}
                                         disabled={!ledEnabled}
                                         marks={[
                                             { value: 0, label: "0" },

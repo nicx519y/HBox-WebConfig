@@ -22,12 +22,14 @@ export function HotkeysSettingContent(
         hotkeysConfig: Hotkey[],
         resetHotkeysConfigHandler: () => void,
         setHotkeysConfigHandler: (hotkeysConfig: Hotkey[]) => void,
+        setIsDirty?: (value: boolean) => void,  
     }
 ) {
     const {
         hotkeysConfig,
         resetHotkeysConfigHandler,
         setHotkeysConfigHandler,
+        setIsDirty,
     } = props;
 
     const [hotkeys, setHotkeys] = useState<Hotkey[]>([]);
@@ -38,6 +40,7 @@ export function HotkeysSettingContent(
         setHotkeys(Array.from({ length: DEFAULT_NUM_HOTKEYS_MAX }, (_, i) => {
             return hotkeysConfig?.[i] ?? { key: -1, action: HotkeyAction.None, isLocked: false };
         }));
+        setIsDirty?.(false);
     }, [hotkeysConfig]);
 
     useMemo(() => {
@@ -51,7 +54,7 @@ export function HotkeysSettingContent(
 
     const saveHotkeysConfigHandler = async () => {
         if (!hotkeysConfig) return;
-        return await setHotkeysConfigHandler(hotkeys);
+        await setHotkeysConfigHandler(hotkeys);
     };
 
     const updateHotkey = (index: number, hotkey: Hotkey) => {
@@ -110,7 +113,10 @@ export function HotkeysSettingContent(
                                         key={i}
                                         index={i}
                                         value={hotkeys[i] ?? { key: -1, action: HotkeyAction.None }}
-                                        onValueChange={(changeDetail) => updateHotkey(i, changeDetail)}
+                                        onValueChange={(changeDetail) => {
+                                            updateHotkey(i, changeDetail);
+                                            setIsDirty?.(true);
+                                        }}
                                         isActive={ i === activeHotkeyIndex }
                                         onFieldClick={(index) => setActiveHotkeyIndex(index)}
                                         disabled={hotkeys[i]?.isLocked ?? false}
