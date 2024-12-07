@@ -38,6 +38,7 @@ import {
 import { Alert } from "@/components/ui/alert"
 import { Field } from "@/components/ui/field"
 import { LuTrash, LuPlus, LuPencil, LuMenu } from "react-icons/lu"
+import { openConfirm } from '@/components/dialog-confirm';
 
 export function ProfileSelect(
     props: {
@@ -75,9 +76,6 @@ export function ProfileSelect(
     const [newNameErrorMessage, setNewNameErrorMessage] = useState("");
     const [newProfileInvalid, setNewProfileInvalid] = useState(false);
     const [newProfileErrorMessage, setNewProfileErrorMessage] = useState("");
-    const [alertOpen, setAlertOpen] = useState(false);
-    const [alertMessage, setAlertMessage] = useState("");
-    const [alertConfirm, setAlertConfirm] = useState(() => () => { });
 
 
     /**
@@ -179,14 +177,16 @@ export function ProfileSelect(
     /**
      * Open the delete dialog.
      */
-    const deleteProfileClick = () => {
-        setAlertConfirm(() => async () => {
-            await onDeleteConfirm();
-            setAlertOpen(false);
+    const deleteProfileClick = async () => {
+        const confirmed = await openConfirm({
+            title: "Delete Profile",
+            message: "Deleting this profile can not be undone or reverted. Are you sure you want to delete this profile?"
         });
-        setAlertMessage("Deleting this profile can not be undone or reverted. Are you sure you want to delete this profile?");
-        setAlertOpen(true);
-    }
+        
+        if (confirmed) {
+            await onDeleteConfirm();
+        }
+    };
 
     /**************************************************************** set api confirmation ******************************************************************************** */
     /**
@@ -339,26 +339,6 @@ export function ProfileSelect(
                             <Button type="submit" name="submit" colorPalette={"green"} width={"100px"} size={"xs"} >Confirm</Button>
                         </DialogFooter>
                     </form>
-                </DialogContent>
-            </DialogRoot>
-            
-            {/* 确认对话框 */}
-            <DialogRoot
-                placement="center"
-                open={alertOpen}
-                onOpenChange={e => setAlertOpen(e.open)}
-                modal={true}
-                closeOnInteractOutside={true}
-            >
-                <DialogContent  >
-                    <DialogHeader />
-                    <DialogBody>
-                        <Alert>{alertMessage}</Alert>
-                    </DialogBody>
-                    <DialogFooter justifyContent={"start"} >
-                        <Button variant="surface" width={"100px"} size={"xs"} onClick={() => setAlertOpen(false)} >Cancel</Button>
-                        <Button name="submit" colorPalette={"red"} width={"100px"} size={"xs"} onClick={() => alertConfirm()} >Confirm</Button>
-                    </DialogFooter>
                 </DialogContent>
             </DialogRoot>
         </>
