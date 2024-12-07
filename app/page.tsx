@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter()
   
   useEffect(() => {
-    router.push('/pages/keys-setting')
+    router.push('/keys-setting')
   }, [router])
   
   return null

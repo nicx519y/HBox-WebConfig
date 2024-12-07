@@ -75,6 +75,7 @@ export function HotkeysSettingContent(
         const newHotkeys = hotkeys.slice();
         newHotkeys[index] = hotkey;
         setHotkeys(newHotkeys);
+        setIsDirty?.(true); // 更新 dirty 状态
     };
 
     const handleHitboxClick = (id: number) => {
@@ -115,7 +116,6 @@ export function HotkeysSettingContent(
                                         value={hotkeys[i] ?? { key: -1, action: HotkeyAction.None }}
                                         onValueChange={(changeDetail) => {
                                             updateHotkey(i, changeDetail);
-                                            setIsDirty?.(true);
                                         }}
                                         isActive={ i === activeHotkeyIndex }
                                         onFieldClick={(index) => setActiveHotkeyIndex(index)}

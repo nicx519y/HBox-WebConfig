@@ -17,7 +17,7 @@ import {
   } from "@/components/ui/select"
 
 import { Tag } from "@/components/ui/tag"
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 
 
 
@@ -32,7 +32,6 @@ export default function HotkeysField(
     }
 ) {
     const { index, value, onValueChange, isActive, disabled, onFieldClick } = props;
-
     /**
      * 创建热键选择列表
      */

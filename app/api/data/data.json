@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "defaultProfileId": "default",
+  "defaultProfileId": "profile-1733505020737",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
     {
       "id": "default",
-      "name": "Default Profile",
+      "name": "Rename",
       "keysConfig": {
         "invertXAxis": true,
         "invertYAxis": false,
