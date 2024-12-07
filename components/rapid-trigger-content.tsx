@@ -213,7 +213,11 @@ export function RapidTriggerContent(
                                             max={1}
                                             step={0.1}
                                             onValueChange={(details) => {
-                                                isAllBtnsConfiguring ? updateAllBtnsConfig(key as keyof RapidTriggerConfig, details.value[0]) : updateConfig(key as keyof TriggerConfig, details.value[0]);
+                                                if(isAllBtnsConfiguring) {
+                                                    updateAllBtnsConfig(key as keyof RapidTriggerConfig, details.value[0]);
+                                                } else {
+                                                    updateConfig(key as keyof TriggerConfig, details.value[0]);
+                                                }
                                                 setIsDirty?.(true);
                                             }}
                                             disabled={selectedButton === null && !isAllBtnsConfiguring}

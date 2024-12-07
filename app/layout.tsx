@@ -1,6 +1,5 @@
 'use client';
 
-import { ChakraProvider } from "@chakra-ui/react"
 import { Provider } from "@/components/ui/provider"
 import StyledComponentsRegistry from '@/lib/registry'
 import SettingsLayout from '@/components/settings-layout'

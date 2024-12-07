@@ -5,7 +5,7 @@ import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 export default function RapidTriggerPage() {
   const { defaultProfile, setProfileDetails, resetProfileDetails } = useGamepadConfig();
-  const [isDirty, setIsDirty] = useUnsavedChangesWarning();
+  const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
 
   return (
     <RapidTriggerContent 

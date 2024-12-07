@@ -1,7 +1,7 @@
 "use client"
 
 import { GameProfileList, GameProfile } from "@/types/gamepad-config";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
     IconButton,
     Stack,

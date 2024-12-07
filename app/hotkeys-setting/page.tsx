@@ -6,7 +6,8 @@ import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 
 export default function HotkeysSettingPage() {
     const { hotkeysConfig, updateHotkeysConfig, fetchHotkeysConfig } = useGamepadConfig();
-    const [isDirty, setIsDirty] = useUnsavedChangesWarning();
+    const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
+
     return (
         <HotkeysSettingContent
             hotkeysConfig={hotkeysConfig}
