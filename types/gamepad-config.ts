@@ -302,3 +302,106 @@ export const LedsEffectStyleLabelMap = new Map<LedsEffectStyle, { label: string,
 
 export const ledColorsLabel = [ "Front Color", "Back Color 1", "Back Color 2" ];
 
+// UI Text Constants
+export const UI_TEXT = {
+    // Common Button Labels
+    BUTTON_RESET: "Reset",
+    BUTTON_SAVE: "Save",
+    BUTTON_REBOOT_WITH_SAVING: "Reboot With Saving",
+    BUTTON_CANCEL: "Cancel",
+    BUTTON_SUBMIT: "Submit",
+    BUTTON_CONFIRM: "Confirm",
+    
+    // Dialog Titles
+    DIALOG_REBOOT_CONFIRM_TITLE: "Are you sure?",
+    DIALOG_REBOOT_SUCCESS_TITLE: "Reboot successful",
+    DIALOG_CREATE_PROFILE_TITLE: "Create New Profile",
+    DIALOG_RENAME_PROFILE_TITLE: "Rename Profile",
+    
+    // Dialog Messages
+    DIALOG_REBOOT_CONFIRM_MESSAGE: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
+    DIALOG_REBOOT_SUCCESS_MESSAGE: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+    DIALOG_CREATE_PROFILE_CONFIRM_MESSAGE: "Creating a new profile will create a new profile and ending the current session. Are you sure to continue?",
+    DIALOG_RENAME_PROFILE_CONFIRM_MESSAGE: "Renaming the current profile will save the current profile and ending the current session. Are you sure to continue?",
+    
+    // Error Messages
+    ERROR_KEY_ALREADY_BINDED_TITLE: "Key already binded",
+    ERROR_KEY_ALREADY_BINDED_DESC: "Please select another key, or unbind the key first",
+    
+    // Profile Related
+    PROFILE_CREATE_DIALOG_TITLE: "Create New Profile",
+    PROFILE_DELETE_DIALOG_TITLE: "Delete Profile",
+    PROFILE_DELETE_CONFIRM_MESSAGE: "Deleting this profile can not be undone or reverted. Are you sure you want to delete this profile?",
+    PROFILE_NAME_LABEL: "Profile Name",
+    PROFILE_NAME_PLACEHOLDER: "Enter profile name",
+    
+    // Settings Labels
+    SETTINGS_SOCD_LABEL: "SOCD Mode",
+    SETTINGS_PLATFORM_LABEL: "Platform",
+    SETTINGS_LEDS_ENABLE_LABEL: "Enable LEDs",
+    SETTINGS_LEDS_EFFECT_LABEL: "LED Effect Style",
+    SETTINGS_LEDS_BRIGHTNESS_LABEL: "LED Brightness",
+    SETTINGS_LEDS_COLOR_FRONT_LABEL: "Front Color",
+    SETTINGS_LEDS_COLOR_BACK1_LABEL: "Back Color 1",
+    SETTINGS_LEDS_COLOR_BACK2_LABEL: "Back Color 2",
+    SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL: "Auto Switch",
+    SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL: "Manual Switch",
+    SETTINGS_RAPID_TRIGGER_ONFIGURING_BUTTON: "Configuring button: ",
+    SETTINGS_RAPID_TRIGGER_SELECT_A_BUTTON_TO_CONFIGURE: "Select a button to configure",
+    SETTINGS_RAPID_TRIGGER_TOP_DEADZONE_LABEL: "Top Deadzone (mm)",
+    SETTINGS_RAPID_TRIGGER_BOTTOM_DEADZONE_LABEL: "Bottom Deadzone (mm)",
+    SETTINGS_RAPID_TRIGGER_PRESS_ACCURACY_LABEL: "Press Accuracy (mm)",
+    SETTINGS_RAPID_TRIGGER_RELEASE_ACCURACY_LABEL: "Release Accuracy (mm)",
+
+    // Select Value Text
+    SELECT_VALUE_TEXT_PLACEHOLDER: "Select action",
+    
+    // Tooltips
+    TOOLTIP_SOCD_MODE: "SOCD (Simultaneous Opposing Cardinal Directions) handling mode",
+    TOOLTIP_PLATFORM_MODE: "Select the platform for controller input",
+    TOOLTIP_LEDS_ENABLE: "Toggle LED lighting effects",
+    TOOLTIP_LEDS_EFFECT: "Choose the LED animation style",
+    TOOLTIP_LEDS_BRIGHTNESS: "Adjust the brightness of LEDs",
+    TOOLTIP_AUTO_SWITCH: "Auto Switch: Automatically switch the button field when the input key is changed.\nManual Switch: Manually set the active button field.",
+    
+    // API Response Messages
+    API_REBOOT_SUCCESS_MESSAGE: "System is rebooting",
+    API_REBOOT_ERROR_MESSAGE: "Failed to reboot system",
+    
+    // Loading States
+    LOADING_MESSAGE: "Loading...",
+    
+    // Validation Messages
+    VALIDATION_PROFILE_NAME_MAX_LENGTH: `Profile name cannot exceed ${PROFILE_NAME_MAX_LENGTH} characters`,
+    VALIDATION_PROFILE_NAME_REQUIRED: "Profile name is required",
+    VALIDATION_PROFILE_NAME_CANNOT_BE_SAME_AS_CURRENT_PROFILE_NAME: "Profile name cannot be the same as the current profile name",
+    VALIDATION_PROFILE_NAME_ALREADY_EXISTS: "Profile name already exists",
+    VALIDATION_PROFILE_NAME_SPECIAL_CHARACTERS: "Profile name cannot contain special characters",
+    
+    // Keys Settings
+    SETTINGS_KEYS_TITLE: "KEYS SETTINGS",
+    SETTINGS_KEYS_HELPER_TEXT: `- Input Mode: The input mode of the game controller.\n- Key Mapping: The mapping relationship between the Hitbox buttons and the Game Controller buttons.`,
+
+    // LEDs Settings
+    SETTINGS_LEDS_TITLE: "LEDS SETTINGS",
+    SETTINGS_LEDS_HELPER_TEXT: "The LED effect style, colors, and brightness can be customized here.\n- Static: The LEDs are always on with the same color.\n- Breathing: The LEDs breath with the two colors.\n- Front Color: The color of the LEDs when the button is pressed.\n- back Color: The color of the LEDs based on the effect.",
+
+    // Rapid Trigger Settings
+    SETTINGS_RAPID_TRIGGER_TITLE: "RAPID TRIGGER SETTINGS",
+    SETTINGS_RAPID_TRIGGER_HELPER_TEXT: "The rapid trigger settings can be customized here.\n- Top Deadzone: The distance from the top of the trigger to the deadzone.\n- Bottom Deadzone: The distance from the bottom of the trigger to the deadzone.\n- Press Accuracy: The accuracy of the trigger when pressed.\n- Release Accuracy: The accuracy of the trigger when released.",
+
+    // Hotkeys Settings
+    SETTINGS_HOTKEYS_TITLE: "HOTKEYS SETTINGS",
+    SETTINGS_HOTKEYS_HELPER_TEXT: `Configure up to ${DEFAULT_NUM_HOTKEYS_MAX} hotkeys for quick access to various functions.\n- Click on the hotkey field and press the desired key on the hitbox to bind the hotkey.\n- Choice the hotkey action from the dropdown list.\n- Locked hotkeys are used for web configuration mode because this function is required.`,
+
+    // Profile Select
+    PROFILE_SELECT_CREATE_BUTTON: "Create New Profile",
+    PROFILE_SELECT_RENAME_BUTTON: "Rename Profile",
+    PROFILE_SELECT_DELETE_BUTTON: "Delete Profile",
+    PROFILE_SELECT_MENU_BUTTON: "Profile Menu",
+    PROFILE_SELECT_RENAME_DIALOG_TITLE: "Rename Profile",
+    PROFILE_SELECT_RENAME_FIELD_LABEL: "Profile Name",
+    PROFILE_SELECT_RENAME_FIELD_PLACEHOLDER: "Enter new profile name",
+    PROFILE_SELECT_DELETE_CONFIRM_MESSAGE: "Deleting this profile can not be undone or reverted. Are you sure you want to delete this profile?",
+} as const;
+

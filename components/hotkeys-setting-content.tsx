@@ -6,12 +6,14 @@ import {
     Stack,
     Fieldset,
     Button,
+    Text,
 } from "@chakra-ui/react";
 import { useEffect, useState, useMemo } from "react";
 import {
     HotkeyAction,
     DEFAULT_NUM_HOTKEYS_MAX,
     Hotkey,
+    UI_TEXT,
 } from "@/types/gamepad-config";
 import Hitbox from "@/components/hitbox";
 import HotkeysField from "./hotkeys-field";
@@ -58,8 +60,8 @@ export function HotkeysSettingContent() {
         // 如果 hotkey 的 key 已经在 hotkeys 中，并且不是当前正在编辑的 hotkey，则不更新
         if (keyIndex >= 0 && keyIndex !== index && hotkey.key >= 0) {
             toaster.create({
-                title: "Key already binded.",
-                description: "Please select another key, or unbind the key first.",
+                title: UI_TEXT.ERROR_KEY_ALREADY_BINDED_TITLE,
+                description: UI_TEXT.ERROR_KEY_ALREADY_BINDED_DESC,
                 type: "error",
             });
             return;
@@ -92,13 +94,7 @@ export function HotkeysSettingContent() {
                             HOTKEYS SETTINGS
                         </Fieldset.Legend>
                         <Fieldset.HelperText fontSize="smaller" color="gray.400">
-                            Configure up to 10 hotkeys for quick access to various functions.
-                            <br />
-                            - Click on the hotkey field and press the desired key on the hitbox to bind the hotkey.
-                            <br />
-                            - Choice the hotkey action from the dropdown list.
-                            <br />
-                            - Locked hotkeys are used for web configuration mode because this function is required.
+                            <Text whiteSpace="pre-wrap" >{UI_TEXT.SETTINGS_HOTKEYS_HELPER_TEXT}</Text>
                         </Fieldset.HelperText>
                         <Fieldset.Content pt="30px" >
                             <Stack gap={4}>
@@ -124,7 +120,7 @@ export function HotkeysSettingContent() {
                                         width="140px"
                                         onClick={fetchHotkeysConfig}
                                     >
-                                        Reset
+                                        {UI_TEXT.BUTTON_RESET}
                                     </Button>
                                     <Button
                                         colorPalette="green"
@@ -132,7 +128,7 @@ export function HotkeysSettingContent() {
                                         width="140px"
                                         onClick={saveHotkeysConfigHandler}
                                     >
-                                        Save
+                                        {UI_TEXT.BUTTON_SAVE}
                                     </Button>
                                     <Button
                                         colorPalette={"blue"}
@@ -140,21 +136,21 @@ export function HotkeysSettingContent() {
                                         width={"180px"}
                                         onClick={async () => {
                                             const confirmed = await openRebootConfirmDialog({
-                                                title: "Are you sure?",
-                                                message: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
-                                            });
+                                                title: UI_TEXT.DIALOG_REBOOT_CONFIRM_TITLE,
+                                                message: UI_TEXT.DIALOG_REBOOT_CONFIRM_MESSAGE,
+                                        });
                                             if (confirmed) {
                                                 await saveHotkeysConfigHandler();
                                                 await rebootSystem();
                                                 openRebootDialog({
-                                                    title: "Reboot successful",
+                                                    title: UI_TEXT.DIALOG_REBOOT_SUCCESS_TITLE,
                                                     status: "success",
-                                                    message: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+                                                    message: UI_TEXT.DIALOG_REBOOT_SUCCESS_MESSAGE,
                                                 });
                                             }
                                         }}
                                     >
-                                        Reboot With Saving
+                                        {UI_TEXT.BUTTON_REBOOT_WITH_SAVING}
                                     </Button>
                                 </Stack>
                             </Stack>

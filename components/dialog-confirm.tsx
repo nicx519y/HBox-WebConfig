@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Alert } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
+import { UI_TEXT } from '@/types/gamepad-config';
 
 interface ConfirmState {
     isOpen: boolean;
@@ -55,7 +56,7 @@ export function DialogConfirm() {
                         size={"xs"}
                         onClick={() => handleClose(false)}
                     >
-                        Cancel
+                        {UI_TEXT.BUTTON_CANCEL}
                     </Button>
                     <Button
                         name="submit"
@@ -64,7 +65,7 @@ export function DialogConfirm() {
                         size={"xs"}
                         onClick={() => handleClose(true)}
                     >
-                        Confirm
+                        {UI_TEXT.BUTTON_CONFIRM}
                     </Button>
                 </DialogFooter>
             </DialogContent>

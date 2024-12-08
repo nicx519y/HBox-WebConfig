@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Field } from "@/components/ui/field"
 import { Input } from "@chakra-ui/react"
 import { useState } from 'react';
+import { UI_TEXT } from '@/types/gamepad-config';
 
 interface FormField {
     name: string;
@@ -112,7 +113,7 @@ export function DialogForm() {
                             size="xs"
                             onClick={handleClose}
                         >
-                            Cancel
+                            {UI_TEXT.BUTTON_CANCEL}
                         </Button>
                         <Button
                             type="submit"
@@ -120,7 +121,7 @@ export function DialogForm() {
                             width="100px"
                             size="xs"
                         >
-                            Submit
+                            {UI_TEXT.BUTTON_SUBMIT}
                         </Button>
                     </DialogFooter>
                 </form>

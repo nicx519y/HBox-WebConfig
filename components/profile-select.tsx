@@ -1,6 +1,6 @@
 "use client"
 
-import { GameProfileList, GameProfile, PROFILE_NAME_MAX_LENGTH } from "@/types/gamepad-config";
+import { GameProfileList, GameProfile, PROFILE_NAME_MAX_LENGTH, UI_TEXT } from "@/types/gamepad-config";
 import { useMemo } from "react";
 import {
     IconButton,
@@ -54,19 +54,19 @@ export function ProfileSelect() {
     const validateProfileName = (name: string): [boolean, string] => {
 
         if (/[!@#$%^&*()_+\[\]{}|;:'",.<>?/\\]/.test(name)) {
-            return [false, "Profile name cannot contain special characters."];
+            return [false, UI_TEXT.VALIDATION_PROFILE_NAME_SPECIAL_CHARACTERS];
         }
 
         if (name.length > PROFILE_NAME_MAX_LENGTH || name.length < 1) {
-            return [false, "Profile name length must be between 1 and " + PROFILE_NAME_MAX_LENGTH + " characters, current length is " + name.length + "."];
+            return [false, UI_TEXT.VALIDATION_PROFILE_NAME_MAX_LENGTH];
         }
 
         if (name === defaultProfile?.name) {
-            return [false, "Profile name cannot be the same as the current profile name."];
+            return [false, UI_TEXT.VALIDATION_PROFILE_NAME_CANNOT_BE_SAME_AS_CURRENT_PROFILE_NAME];
         }
 
         if (profileList.items.find(p => p.name === name)) {
-            return [false, "Profile name already exists."];
+            return [false, UI_TEXT.VALIDATION_PROFILE_NAME_ALREADY_EXISTS];
         }
 
         return [true, ""];
@@ -88,12 +88,12 @@ export function ProfileSelect() {
      */
     const renameProfileClick = async () => {
         const result = await openForm({
-            title: "Rename Profile",
+            title: UI_TEXT.DIALOG_RENAME_PROFILE_TITLE,
             fields: [{
                 name: "profileName",
-                label: "Profile Name",
+                label: UI_TEXT.PROFILE_NAME_LABEL,
                 defaultValue: defaultProfile?.name,
-                placeholder: "Enter new profile name",
+                placeholder: UI_TEXT.PROFILE_NAME_PLACEHOLDER,
                 validate: (value) => {
                     const [isValid, errorMessage] = validateProfileName(value);
                     if (!isValid) {
@@ -117,11 +117,11 @@ export function ProfileSelect() {
      */
     const createProfileClick = async () => {
         const result = await openForm({
-            title: "Create New Profile",
+            title: UI_TEXT.PROFILE_CREATE_DIALOG_TITLE,
             fields: [{
                 name: "profileName",
-                label: "Profile Name",
-                placeholder: "Enter new profile name",
+                label: UI_TEXT.PROFILE_NAME_LABEL,
+                placeholder: UI_TEXT.PROFILE_NAME_PLACEHOLDER,
                 validate: (value) => {
                     const [isValid, errorMessage] = validateProfileName(value);
                     if (!isValid) {
@@ -142,8 +142,8 @@ export function ProfileSelect() {
      */
     const deleteProfileClick = async () => {
         const confirmed = await openConfirm({
-            title: "Delete Profile",
-            message: "Deleting this profile can not be undone or reverted. Are you sure you want to delete this profile?"
+            title: UI_TEXT.PROFILE_DELETE_DIALOG_TITLE, 
+            message: UI_TEXT.PROFILE_DELETE_CONFIRM_MESSAGE
         });
         
         if (confirmed) {
@@ -161,8 +161,7 @@ export function ProfileSelect() {
 
     return (
         <>
-            <Stack direction="row" gap={2} >
-                {/* 选择profile */}
+            <Stack direction="row" gap={2} alignItems="center">
                 <SelectRoot
                     size="sm"
                     width="218px"
@@ -170,36 +169,48 @@ export function ProfileSelect() {
                     value={[defaultProfile?.id ?? ""]}
                     onValueChange={e => onDefaultProfileChange(e.value[0])}
                 >
-                    <SelectTrigger>
-                        <SelectValueText placeholder="Select profile" />
+                    <SelectTrigger width="200px" >
+                        <SelectValueText color="gray.300" />
                     </SelectTrigger>
                     <SelectContent fontSize="xs" >
                         {profilesCollection.items.map((item) => (
-                            <SelectItem item={item} key={item.value}>
+                            <SelectItem key={item.value} item={item} color="gray.300" >
                                 {item.label}
                             </SelectItem>
                         ))}
                     </SelectContent>
                 </SelectRoot>
-                {/* 功能菜单 */}
-                <MenuRoot size={"md"} >
-                    <MenuTrigger asChild  >
-                        <IconButton aria-label="Settings" variant="ghost" color="gray.500" size="sm">
+                <MenuRoot>
+                    <MenuTrigger asChild>
+                        <IconButton
+                            aria-label={UI_TEXT.PROFILE_SELECT_MENU_BUTTON}
+                            variant="ghost"
+                            size="sm"
+                        >
                             <LuMenu />
                         </IconButton>
                     </MenuTrigger>
-                    <MenuContent   >
-                        <MenuItem onClick={renameProfileClick} value="rename">
-                            <LuPencil />
-                            Rename Current Profile
-                        </MenuItem>
-                        <MenuItem onClick={createProfileClick} value="add">
+                    <MenuContent>
+                        <MenuItem
+                            value="create"
+                            onClick={createProfileClick}
+                        >
                             <LuPlus />
-                            Create New Profile
+                            {UI_TEXT.PROFILE_SELECT_CREATE_BUTTON}
                         </MenuItem>
-                        <MenuItem onClick={deleteProfileClick} value="delete">
+                        <MenuItem
+                            value="rename"
+                            onClick={renameProfileClick}
+                        >
+                            <LuPencil />
+                            {UI_TEXT.PROFILE_SELECT_RENAME_BUTTON}
+                        </MenuItem>
+                        <MenuItem
+                            value="delete"
+                            onClick={deleteProfileClick}
+                        >
                             <LuTrash />
-                            Delete Current Profile
+                            {UI_TEXT.PROFILE_SELECT_DELETE_BUTTON}
                         </MenuItem>
                     </MenuContent>
                 </MenuRoot>

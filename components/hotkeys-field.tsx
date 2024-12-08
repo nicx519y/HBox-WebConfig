@@ -1,6 +1,6 @@
 'use client';
     
-import { Hotkey, HotkeyAction, HotkeyActionLabelMap, HotkeyActionList } from "@/types/gamepad-config";
+import { Hotkey, HotkeyAction, HotkeyActionLabelMap, HotkeyActionList, UI_TEXT } from "@/types/gamepad-config";
 import { 
     createListCollection, 
     Flex, 
@@ -87,11 +87,11 @@ export default function HotkeysField(
             >
 
                 <SelectTrigger >
-                    < SelectValueText placeholder="Select action" />
+                    < SelectValueText placeholder={UI_TEXT.SELECT_VALUE_TEXT_PLACEHOLDER} color="gray.300" />
                 </SelectTrigger>
                 <SelectContent fontSize="xs"  >
                     {hotkeyCollection.items.map((item) => (
-                        <SelectItem key={item.value} item={item}  >
+                        <SelectItem key={item.value} item={item} color="gray.300" >
                             {item.label}
                         </SelectItem>
                     ))}

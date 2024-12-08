@@ -17,6 +17,7 @@ import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
 import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
+import { UI_TEXT } from "@/types/gamepad-config";
 
 interface TriggerConfig {
     topDeadzone: number;
@@ -152,16 +153,10 @@ export function RapidTriggerContent() {
                 <Fieldset.Root width="100%">
                     <Stack direction="column" gap={4}>
                         <Fieldset.Legend fontSize="2rem" color="green.600">
-                            RAPID TRIGGER SETTINGS
+                            {UI_TEXT.SETTINGS_RAPID_TRIGGER_TITLE}
                         </Fieldset.Legend>
                         <Fieldset.HelperText fontSize="smaller" color="gray.400">
-                            - Top Deadzone: The distance from the top of the trigger to the deadzone.
-                            <br />
-                            - Bottom Deadzone: The distance from the bottom of the trigger to the deadzone.
-                            <br />
-                            - Press Accuracy: The accuracy of the trigger when pressed.
-                            <br />
-                            - Release Accuracy: The accuracy of the trigger when released.
+                            <Text whiteSpace="pre-wrap" >{UI_TEXT.SETTINGS_RAPID_TRIGGER_HELPER_TEXT}</Text>
                         </Fieldset.HelperText>
                         <Fieldset.Content pt="30px" >
                             <Stack gap={6}>
@@ -177,8 +172,8 @@ export function RapidTriggerContent() {
 
                                 <Text color={!isAllBtnsConfiguring ? "green.400" : "gray.700"} >
                                     {(selectedButton !== null && !isAllBtnsConfiguring) ?
-                                        `Configuring button: `
-                                        : 'Select a button to configure'
+                                        UI_TEXT.SETTINGS_RAPID_TRIGGER_ONFIGURING_BUTTON
+                                        : UI_TEXT.SETTINGS_RAPID_TRIGGER_SELECT_A_BUTTON_TO_CONFIGURE
                                     }
                                     {(selectedButton !== null && !isAllBtnsConfiguring) && (
                                         <Text as="span" fontWeight="bold">
@@ -189,10 +184,10 @@ export function RapidTriggerContent() {
 
                                 {/* Sliders */}
                                 {[
-                                    { key: 'topDeadzone', label: 'Top Deadzone (mm)' },
-                                    { key: 'bottomDeadzone', label: 'Bottom Deadzone (mm)' },
-                                    { key: 'pressAccuracy', label: 'Press Accuracy (mm)' },
-                                    { key: 'releaseAccuracy', label: 'Release Accuracy (mm)' },
+                                    { key: 'topDeadzone', label: UI_TEXT.SETTINGS_RAPID_TRIGGER_TOP_DEADZONE_LABEL },
+                                    { key: 'bottomDeadzone', label: UI_TEXT.SETTINGS_RAPID_TRIGGER_BOTTOM_DEADZONE_LABEL },
+                                    { key: 'pressAccuracy', label: UI_TEXT.SETTINGS_RAPID_TRIGGER_PRESS_ACCURACY_LABEL },
+                                    { key: 'releaseAccuracy', label: UI_TEXT.SETTINGS_RAPID_TRIGGER_RELEASE_ACCURACY_LABEL },
                                 ].map(({ key, label }) => (
                                     <Stack key={key} gap={6} >
                                         <Slider
@@ -236,7 +231,7 @@ export function RapidTriggerContent() {
                                         width="140px"
                                         onClick={resetProfileDetails}
                                     >
-                                        Reset
+                                        {UI_TEXT.BUTTON_RESET}
                                     </Button>
                                     <Button
                                         colorPalette="green"
@@ -244,7 +239,7 @@ export function RapidTriggerContent() {
                                         width="140px"
                                         onClick={saveProfileDetailHandler}
                                     >
-                                        Save
+                                        {UI_TEXT.BUTTON_SAVE}
                                     </Button>
                                     <Button
                                         colorPalette={"blue"}
@@ -252,21 +247,21 @@ export function RapidTriggerContent() {
                                         width={"180px"}
                                         onClick={async () => {
                                             const confirmed = await openRebootConfirmDialog({
-                                                title: "Are you sure?",
-                                                message: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
+                                                title: UI_TEXT.DIALOG_REBOOT_CONFIRM_TITLE,
+                                                message: UI_TEXT.DIALOG_REBOOT_CONFIRM_MESSAGE,
                                             });
                                             if (confirmed) {
                                                 await saveProfileDetailHandler();
                                                 await rebootSystem();
                                                 openRebootDialog({
-                                                    title: "Reboot successful",
+                                                    title: UI_TEXT.DIALOG_REBOOT_SUCCESS_TITLE,
                                                     status: "success",
-                                                    message: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+                                                    message: UI_TEXT.DIALOG_REBOOT_SUCCESS_MESSAGE,
                                                 });
                                             }
                                         }}
                                     >
-                                        Reboot With Saving
+                                        {UI_TEXT.BUTTON_REBOOT_WITH_SAVING}
                                     </Button>
                                 </Stack>
                             </Stack>

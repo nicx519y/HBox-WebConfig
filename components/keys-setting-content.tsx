@@ -9,6 +9,7 @@ import {
     Button,
     HStack,
     RadioCardLabel,
+    Text,
 } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip"
 import KeymappingFieldset from "@/components/keymapping-fieldset";
@@ -27,6 +28,7 @@ import {
     PlatformList,
     PlatformLabelMap,
     GameControllerButton,
+    UI_TEXT,
 } from "@/types/gamepad-config";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import Hitbox from "@/components/hitbox";
@@ -108,12 +110,10 @@ export function KeysSettingContent() {
                     <Fieldset.Root>
                         <Stack direction={"column"} gap={4} >
                             <Fieldset.Legend fontSize={"2rem"} color={"green.600"} >
-                                KEY SETTINGS
+                                {UI_TEXT.SETTINGS_KEYS_TITLE}
                             </Fieldset.Legend>
                             <Fieldset.HelperText fontSize={"smaller"} color={"gray.400"} >
-                                - Input Mode: The input mode of the game controller.
-                                <br />
-                                - Key Mapping: The mapping relationship between the Hitbox buttons and the Game Controller buttons.
+                                <Text whiteSpace="pre-wrap" >{UI_TEXT.SETTINGS_KEYS_HELPER_TEXT}</Text>
                             </Fieldset.HelperText>
                             <Fieldset.Content position={"relative"} paddingTop={"30px"}  >
 
@@ -124,12 +124,12 @@ export function KeysSettingContent() {
                                         <SegmentedControl
                                             width={"177px"}
                                             size={"xs"}
-                                            defaultValue={autoSwitch ? "Auto Switch" : "Manual Switch"}
-                                            items={["Auto Switch", "Manual Switch"]}
-                                            onValueChange={(detail) => setAutoSwitch(detail.value === "Auto Switch")}
+                                            defaultValue={autoSwitch ? UI_TEXT.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL : UI_TEXT.SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL}
+                                            items={[UI_TEXT.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL, UI_TEXT.SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL]}
+                                            onValueChange={(detail) => setAutoSwitch(detail.value === UI_TEXT.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL)}
                                         />
                                         <ToggleTip
-                                            content="Auto Switch: Automatically switch the button field when the input key is changed.\nManual Switch: Manually set the active button field."
+                                            content={UI_TEXT.TOOLTIP_AUTO_SWITCH}
                                         >
                                             <Button size="xs" variant="ghost">
                                                 <LuInfo />
@@ -221,11 +221,11 @@ export function KeysSettingContent() {
 
                             </Fieldset.Content>
                             <Stack direction={"row"} gap={4} justifyContent={"flex-start"} padding={"32px 0px"} >
-                                <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails} >
-                                    Reset
+                                <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails}>
+                                    {UI_TEXT.BUTTON_RESET}
                                 </Button>
-                                <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailHandler} >
-                                    Save
+                                <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailHandler}>
+                                    {UI_TEXT.BUTTON_SAVE}
                                 </Button>
                                 <Button 
                                     colorPalette={"blue"} 
@@ -233,21 +233,21 @@ export function KeysSettingContent() {
                                     width={"180px"} 
                                     onClick={async () => {
                                         const confirmed = await openRebootConfirmDialog({
-                                            title: "Are you sure?",
-                                            message: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
+                                            title: UI_TEXT.DIALOG_REBOOT_CONFIRM_TITLE,
+                                            message: UI_TEXT.DIALOG_REBOOT_CONFIRM_MESSAGE,
                                         });
                                         if (confirmed) {
                                             await saveProfileDetailHandler();
                                             await rebootSystem();
                                             openRebootDialog({
-                                                title: "Reboot successful",
+                                                title: UI_TEXT.DIALOG_REBOOT_SUCCESS_TITLE,
                                                 status: "success",
-                                                message: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+                                                message: UI_TEXT.DIALOG_REBOOT_SUCCESS_MESSAGE,
                                             });
                                         }
                                     }} 
                                 >
-                                    Reboot With Saving
+                                    {UI_TEXT.BUTTON_REBOOT_WITH_SAVING}
                                 </Button>
                             </Stack>
                         </Stack>

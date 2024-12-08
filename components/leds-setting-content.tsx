@@ -43,6 +43,7 @@ import {
     LedsEffectStyleLabelMap,
     ledColorsLabel,
     LEDS_COLOR_DEFAULT,
+    UI_TEXT,
 } from "@/types/gamepad-config";
 import { LuSunDim, LuActivity } from "react-icons/lu";
 import Hitbox from "./hitbox";
@@ -124,16 +125,10 @@ export function LEDsSettingContent() {
                     <Fieldset.Root>
                         <Stack direction={"column"} gap={4} >
                             <Fieldset.Legend fontSize={"2rem"} color={"green.600"} >
-                                LEDS SETTINGS
+                                {UI_TEXT.SETTINGS_LEDS_TITLE}
                             </Fieldset.Legend>
                             <Fieldset.HelperText fontSize={"smaller"} color={"gray.400"} >
-                                The LED effect style, colors, and brightness can be customized here.
-                                <br />
-                                - Static: The LEDs are always on with the same color.
-                                <br />
-                                - Breathing: The LEDs breath with the two colors.
-                                <br />
-                                - Front Color: The color of the LEDs when the button is pressed, And back Color: The color of the LEDs based on the effect.
+                                <Text whiteSpace="pre-wrap" >{UI_TEXT.SETTINGS_LEDS_HELPER_TEXT}</Text>
                             </Fieldset.HelperText>
                             <Fieldset.Content position={"relative"} paddingTop={"30px"}  >
 
@@ -143,7 +138,7 @@ export function LEDsSettingContent() {
                                         onChange={() => {
                                             setLedEnabled(!ledEnabled);
                                             setIsDirty?.(true);
-                                        }} >LED Enabled</Switch>
+                                        }} >{UI_TEXT.SETTINGS_LEDS_ENABLE_LABEL}</Switch>
                                     {/* LED Effect Style */}
                                     <RadioCardRoot
                                         colorPalette={ledEnabled ? "green" : "gray"}
@@ -216,7 +211,7 @@ export function LEDsSettingContent() {
 
                                     {/* LED Brightness */}
                                     <Slider
-                                        label="LED Brightness"
+                                        label={UI_TEXT.SETTINGS_LEDS_BRIGHTNESS_LABEL}
                                         size={"md"}
                                         colorPalette={"green"}
                                         width={"300px"}
@@ -235,7 +230,7 @@ export function LEDsSettingContent() {
                                         ]}
                                     />
                                     <Text fontSize={"sm"} color={"gray.400"} >
-                                        Value: {ledBrightness}
+                                        {UI_TEXT.SETTINGS_LEDS_BRIGHTNESS_LABEL}: {ledBrightness}
                                     </Text>
 
                                 </Stack>
@@ -243,10 +238,10 @@ export function LEDsSettingContent() {
                             </Fieldset.Content>
                             <Stack direction={"row"} gap={4} justifyContent={"flex-start"} padding={"32px 0px"} >
                                 <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails} >
-                                    Reset
+                                    {UI_TEXT.BUTTON_RESET}
                                 </Button>
                                 <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailsHandler} >
-                                    Save
+                                    {UI_TEXT.BUTTON_SAVE}
                                 </Button>
                                 <Button
                                     colorPalette={"blue"}
@@ -254,21 +249,21 @@ export function LEDsSettingContent() {
                                     width={"180px"}
                                     onClick={async () => {
                                         const confirmed = await openRebootConfirmDialog({
-                                            title: "Are you sure?",
-                                            message: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
+                                            title: UI_TEXT.DIALOG_REBOOT_CONFIRM_TITLE,
+                                            message: UI_TEXT.DIALOG_REBOOT_CONFIRM_MESSAGE,
                                         });
                                         if (confirmed) {
                                             await saveProfileDetailsHandler();
                                             await rebootSystem();
                                             openRebootDialog({
-                                                title: "Reboot successful",
+                                                title: UI_TEXT.DIALOG_REBOOT_SUCCESS_TITLE,
                                                 status: "success",
-                                                message: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+                                                message: UI_TEXT.DIALOG_REBOOT_SUCCESS_MESSAGE,
                                             });
                                         }
                                     }}
                                 >
-                                    Reboot With Saving
+                                    {UI_TEXT.BUTTON_REBOOT_WITH_SAVING}
                                 </Button>
                             </Stack>
                         </Stack>
