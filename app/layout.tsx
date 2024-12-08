@@ -146,11 +146,11 @@ export default function RootLayout({
                                 <AppContent>
                                     {children}
                                 </AppContent>
+                                <DialogConfirm />
+                                <DialogForm />
+                                <DialogCannotClose />
                             </LanguageProvider>
                         </GamepadConfigProvider>
-                        <DialogConfirm />
-                        <DialogForm />
-                        <DialogCannotClose />
                     </Provider>
                 </StyledComponentsRegistry>
             </body>

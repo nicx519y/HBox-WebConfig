@@ -78,49 +78,41 @@ export function DialogForm() {
     };
 
     return (
-        <DialogRoot
-            open={isOpen}
-            onOpenChange={(details) => {
-                if (!details.open) handleClose();
-            }}
-        >
+        <DialogRoot open={isOpen} onOpenChange={handleClose}>
             <DialogContent>
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
                     </DialogHeader>
                     <DialogBody>
-                        {fields.map((field) => (
+                        {fields.map((field, index) => (
                             <Field 
-                                key={field.name}
+                                key={index}
                                 label={field.label}
                                 errorText={errors[field.name]}
                                 invalid={!!errors[field.name]}
                             >
                                 <Input
                                     name={field.name}
-                                    type={field.type || "text"}
                                     defaultValue={field.defaultValue}
                                     placeholder={field.placeholder}
+                                    type={field.type || "text"}
                                     autoComplete="off"
                                 />
                             </Field>
                         ))}
                     </DialogBody>
-                    <DialogFooter justifyContent="start">
-                        <Button
-                            variant="surface"
-                            width="100px"
-                            size="xs"
+                    <DialogFooter>
+                        <Button 
+                            colorPalette="gray" 
+                            variant="surface" 
                             onClick={handleClose}
                         >
                             {t.BUTTON_CANCEL}
                         </Button>
-                        <Button
-                            type="submit"
+                        <Button 
+                            type="submit" 
                             colorPalette="green"
-                            width="100px"
-                            size="xs"
                         >
                             {t.BUTTON_SUBMIT}
                         </Button>

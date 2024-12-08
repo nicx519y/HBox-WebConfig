@@ -26,52 +26,50 @@ const useConfirmStore = create<ConfirmState>(() => ({
 }));
 
 export function DialogConfirm() {
-    const { t } = useLanguage();
     const { isOpen, title, message, resolve } = useConfirmStore();
+    const { t } = useLanguage();
 
-    const handleClose = (confirmed: boolean) => {
+    const handleClose = () => {
         useConfirmStore.setState({ isOpen: false });
-        resolve?.(confirmed);
+    };
+
+    const handleCancel = () => {
+        resolve(false);
+        handleClose();
+    };
+
+    const handleConfirm = () => {
+        resolve(true);
+        handleClose();
     };
 
     return (
-        <DialogRoot
-            open={isOpen}
-            onOpenChange={(details: { open: boolean }) => {
-                if (!details.open) handleClose(false);
-            }}
-        >
+        <DialogRoot open={isOpen} onOpenChange={handleClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>{title ?? ""}</DialogTitle>
+                    <DialogTitle>{title}</DialogTitle>
                 </DialogHeader>
                 <DialogBody>
-                    <Alert colorPalette="yellow">
-                        {message}
-                    </Alert>
+                    <Alert>{message}</Alert>
                 </DialogBody>
-                <DialogFooter justifyContent={"start"} >
-                    <Button
-                        variant="surface"
-                        width={"100px"}
-                        size={"xs"}
-                        onClick={() => handleClose(false)}
+                <DialogFooter>
+                    <Button 
+                        colorPalette="gray" 
+                        variant="surface" 
+                        onClick={handleCancel}
                     >
                         {t.BUTTON_CANCEL}
                     </Button>
-                    <Button
-                        name="submit"
-                        colorPalette={"red"}
-                        width={"100px"}
-                        size={"xs"}
-                        onClick={() => handleClose(true)}
+                    <Button 
+                        colorPalette="green" 
+                        onClick={handleConfirm}
                     >
                         {t.BUTTON_CONFIRM}
                     </Button>
                 </DialogFooter>
             </DialogContent>
         </DialogRoot>
-    )
+    );
 }
 
 export function openConfirm(options: { title?: string; message: string }): Promise<boolean> {
