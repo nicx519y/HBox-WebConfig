@@ -405,3 +405,105 @@ export const UI_TEXT = {
     PROFILE_SELECT_DELETE_CONFIRM_MESSAGE: "Deleting this profile can not be undone or reverted. Are you sure you want to delete this profile?",
 } as const;
 
+export const UI_TEXT_ZH = {
+    // 通用按钮文案
+    BUTTON_RESET: "重置",
+    BUTTON_SAVE: "保存",
+    BUTTON_REBOOT_WITH_SAVING: "保存并重启",
+    BUTTON_CANCEL: "取消",
+    BUTTON_SUBMIT: "确定",
+    BUTTON_CONFIRM: "确认",
+    
+    // 对话框标题
+    DIALOG_REBOOT_CONFIRM_TITLE: "确认重启?",
+    DIALOG_REBOOT_SUCCESS_TITLE: "重启成功",
+    DIALOG_CREATE_PROFILE_TITLE: "创建新配置",
+    DIALOG_RENAME_PROFILE_TITLE: "重命名配置",
+    
+    // 对话框消息
+    DIALOG_REBOOT_CONFIRM_MESSAGE: "保存并重启系统将会保存当前配置并结束当前会话。是否确认继续？",
+    DIALOG_REBOOT_SUCCESS_MESSAGE: "系统重启成功。您现在可以关闭此窗口并开始享受游戏体验。",
+    DIALOG_CREATE_PROFILE_CONFIRM_MESSAGE: "创建新配置将会结束当前会话。是否确认继续？",
+    DIALOG_RENAME_PROFILE_CONFIRM_MESSAGE: "重命名当前配置将会保存当前配置并结束当前会话。是否确认继续？",
+    
+    // 错误消息
+    ERROR_KEY_ALREADY_BINDED_TITLE: "按键已被绑定",
+    ERROR_KEY_ALREADY_BINDED_DESC: "请选择其他按键，或先解绑当前按键",
+    
+    // 配置相关
+    PROFILE_CREATE_DIALOG_TITLE: "创建新配置",
+    PROFILE_DELETE_DIALOG_TITLE: "删除配置",
+    PROFILE_DELETE_CONFIRM_MESSAGE: "删除此配置后将无法恢复。是否确认删除？",
+    PROFILE_NAME_LABEL: "配置名称",
+    PROFILE_NAME_PLACEHOLDER: "请输入配置名称",
+    
+    // 设置标签
+    SETTINGS_SOCD_LABEL: "SOCD模式",
+    SETTINGS_PLATFORM_LABEL: "平台",
+    SETTINGS_LEDS_ENABLE_LABEL: "启用LED",
+    SETTINGS_LEDS_EFFECT_LABEL: "LED效果样式",
+    SETTINGS_LEDS_BRIGHTNESS_LABEL: "LED亮度",
+    SETTINGS_LEDS_COLOR_FRONT_LABEL: "前置颜色",
+    SETTINGS_LEDS_COLOR_BACK1_LABEL: "背景颜色1",
+    SETTINGS_LEDS_COLOR_BACK2_LABEL: "背景颜色2",
+    SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL: "自动切换",
+    SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL: "手动切换",
+    SETTINGS_RAPID_TRIGGER_ONFIGURING_BUTTON: "正在配置按键: ",
+    SETTINGS_RAPID_TRIGGER_SELECT_A_BUTTON_TO_CONFIGURE: "请选择要配置的按键",
+    SETTINGS_RAPID_TRIGGER_TOP_DEADZONE_LABEL: "上死区(毫米)",
+    SETTINGS_RAPID_TRIGGER_BOTTOM_DEADZONE_LABEL: "下死区(毫米)",
+    SETTINGS_RAPID_TRIGGER_PRESS_ACCURACY_LABEL: "按下精度(毫米)",
+    SETTINGS_RAPID_TRIGGER_RELEASE_ACCURACY_LABEL: "释放精度(毫米)",
+    
+    // 选择值文本
+    SELECT_VALUE_TEXT_PLACEHOLDER: "选择动作",
+    
+    // 工具提示
+    TOOLTIP_SOCD_MODE: "SOCD(同时按下相对方向键)处理模式",
+    TOOLTIP_PLATFORM_MODE: "选择控制器输入平台",
+    TOOLTIP_LEDS_ENABLE: "开启/关闭LED灯光效果",
+    TOOLTIP_LEDS_EFFECT: "选择LED动画样式",
+    TOOLTIP_LEDS_BRIGHTNESS: "调整LED亮度",
+    TOOLTIP_AUTO_SWITCH: "自动切换：输入按键改变时自动切换按键区域\n手动切换：手动设置活动按键区域",
+    
+    // API响应消息
+    API_REBOOT_SUCCESS_MESSAGE: "系统正在重启",
+    API_REBOOT_ERROR_MESSAGE: "系统重启失败",
+    
+    // 加载状态
+    LOADING_MESSAGE: "加载中...",
+    
+    // 验证消息
+    VALIDATION_PROFILE_NAME_MAX_LENGTH: `配置名称不能超过${PROFILE_NAME_MAX_LENGTH}个字符`,
+    VALIDATION_PROFILE_NAME_REQUIRED: "配置名称不能为空",
+    VALIDATION_PROFILE_NAME_CANNOT_BE_SAME_AS_CURRENT_PROFILE_NAME: "新配置名称不能与当前配置名称相同",
+    VALIDATION_PROFILE_NAME_ALREADY_EXISTS: "配置名称已存在",
+    VALIDATION_PROFILE_NAME_SPECIAL_CHARACTERS: "配置名称不能包含特殊字符",
+    
+    // 按键设置
+    SETTINGS_KEYS_TITLE: "按键设置",
+    SETTINGS_KEYS_HELPER_TEXT: `- 输入模式：游戏控制器的输入模式\n- 按键映射：Hitbox按键与游戏控制器按键的映射关系`,
+    
+    // LED设置
+    SETTINGS_LEDS_TITLE: "LED设置",
+    SETTINGS_LEDS_HELPER_TEXT: "可以在这里自定义LED效果样式、颜色和亮度。\n- 静态：LED始终以相同颜色亮起\n- 呼吸：LED在两种颜色之间呼吸\n- 前置颜色：按键按下时的LED颜色\n- 背景颜色：基于效果的LED颜色",
+    
+    // 快速触发设置
+    SETTINGS_RAPID_TRIGGER_TITLE: "快速触发设置",
+    SETTINGS_RAPID_TRIGGER_HELPER_TEXT: "可以在这里自定义快速触发设置。\n- 上死区：扳机上部到死区的距离\n- 下死区：扳机下部到死区的距离\n- 按下精度：扳机按下时的精度\n- 释放精度：扳机释放时的精度",
+    
+    // 热键设置
+    SETTINGS_HOTKEYS_TITLE: "热键设置",
+    SETTINGS_HOTKEYS_HELPER_TEXT: `最多可以配置${DEFAULT_NUM_HOTKEYS_MAX}个热键来快速访问各种功能。\n- 点击热键区域并在hitbox上按下想要绑定的按键\n- 从下拉列表中选择热键动作\n- 锁定的热键用于网页配置模式，因为这个功能是必需的`,
+    
+    // 配置选择
+    PROFILE_SELECT_CREATE_BUTTON: "创建新配置",
+    PROFILE_SELECT_RENAME_BUTTON: "重命名配置",
+    PROFILE_SELECT_DELETE_BUTTON: "删除配置",
+    PROFILE_SELECT_MENU_BUTTON: "配置菜单",
+    PROFILE_SELECT_RENAME_DIALOG_TITLE: "重命名配置",
+    PROFILE_SELECT_RENAME_FIELD_LABEL: "配置名称",
+    PROFILE_SELECT_RENAME_FIELD_PLACEHOLDER: "请输入新的配置名称",
+    PROFILE_SELECT_DELETE_CONFIRM_MESSAGE: "删除此配置后将无法恢复。是否确认删除？",
+} as const;
+
