@@ -34,12 +34,12 @@ export function DialogConfirm() {
     };
 
     const handleCancel = () => {
-        resolve(false);
+        resolve?.(false);
         handleClose();
     };
 
     const handleConfirm = () => {
-        resolve(true);
+        resolve?.(true);
         handleClose();
     };
 

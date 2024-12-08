@@ -65,7 +65,7 @@ function AppContent({ children }: { children: React.ReactNode }) {
             {/* 添加语言切换按钮 */}
             <Box
                 position="fixed"
-                top={4}
+                top={"5.5px"}
                 right={4}
                 zIndex={2}
             >
