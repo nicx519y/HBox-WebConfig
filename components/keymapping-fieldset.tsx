@@ -13,6 +13,7 @@ import KeymappingField from "@/components/keymapping-field";
 import { toaster } from "@/components/ui/toaster";
 import { useEffect, useMemo, useState } from "react";
 import { SimpleGrid } from "@chakra-ui/react";
+import { useLanguage } from "@/contexts/language-context";
 
 export default function KeymappingFieldset(
     props: {
@@ -25,6 +26,7 @@ export default function KeymappingFieldset(
 ) {
 
     const { inputMode, inputKey, keyMapping, autoSwitch, changeKeyMappingHandler } = props;
+    const { t } = useLanguage();
 
     const [activeButton, setActiveButton] = useState<GameControllerButton>(GameControllerButtonList[0]);
     /**
@@ -38,15 +40,15 @@ export default function KeymappingFieldset(
             const activeKeyMapping = keyMapping[activeButton] ?? [];
             if(activeKeyMapping.indexOf(inputKey) !== -1) { // key already binded
                 toaster.create({
-                    title: "Key already binded.",
-                    description: "Please select another key.",
+                    title: t.KEY_MAPPING_ERROR_ALREADY_BINDED_TITLE,
+                    description: t.KEY_MAPPING_ERROR_ALREADY_BINDED_DESC,
                     type: "error",
                 });
                 return;
             } else if(activeKeyMapping.length >= NUM_BIND_KEY_PER_BUTTON_MAX) { // key not binded, and reach max number of key binding per button
                 toaster.create({
-                    title: "Max number of key binding per button reached.",
-                    description: "Please unbind some keys first.",
+                    title: t.KEY_MAPPING_ERROR_MAX_KEYS_TITLE,
+                    description: t.KEY_MAPPING_ERROR_MAX_KEYS_DESC,
                     type: "error",
                 });
                 return;
@@ -58,8 +60,10 @@ export default function KeymappingFieldset(
                         value.splice(value.indexOf(inputKey), 1);
                         changeKeyMappingHandler(key as GameControllerButton, value);
                         toaster.create({
-                            title: "Key already binded on other button.",
-                            description: `Unbinded from [ ${ buttonLabelMap.get(key as GameControllerButton) ?? "" } ] button and Rebinded to [ ${ buttonLabelMap.get(activeButton) ?? "" } ] button.`,
+                            title: t.KEY_MAPPING_INFO_UNBIND_FROM_OTHER_TITLE,
+                            description: t.KEY_MAPPING_INFO_UNBIND_FROM_OTHER_DESC
+                                .replace("{0}", buttonLabelMap.get(key as GameControllerButton) ?? "")
+                                .replace("{1}", buttonLabelMap.get(activeButton) ?? ""),
                             type: "info",
                         });
                     }

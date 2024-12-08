@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Alert } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
-import { UI_TEXT } from '@/types/gamepad-config';
+import { useLanguage } from "@/contexts/language-context";
 
 interface ConfirmState {
     isOpen: boolean;
@@ -26,6 +26,7 @@ const useConfirmStore = create<ConfirmState>(() => ({
 }));
 
 export function DialogConfirm() {
+    const { t } = useLanguage();
     const { isOpen, title, message, resolve } = useConfirmStore();
 
     const handleClose = (confirmed: boolean) => {
@@ -56,7 +57,7 @@ export function DialogConfirm() {
                         size={"xs"}
                         onClick={() => handleClose(false)}
                     >
-                        {UI_TEXT.BUTTON_CANCEL}
+                        {t.BUTTON_CANCEL}
                     </Button>
                     <Button
                         name="submit"
@@ -65,7 +66,7 @@ export function DialogConfirm() {
                         size={"xs"}
                         onClick={() => handleClose(true)}
                     >
-                        {UI_TEXT.BUTTON_CONFIRM}
+                        {t.BUTTON_CONFIRM}
                     </Button>
                 </DialogFooter>
             </DialogContent>

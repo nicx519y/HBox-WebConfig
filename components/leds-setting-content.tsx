@@ -43,7 +43,6 @@ import {
     LedsEffectStyleLabelMap,
     ledColorsLabel,
     LEDS_COLOR_DEFAULT,
-    UI_TEXT,
 } from "@/types/gamepad-config";
 import { LuSunDim, LuActivity } from "react-icons/lu";
 import Hitbox from "./hitbox";
@@ -51,8 +50,10 @@ import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
 import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
+import { useLanguage } from "@/contexts/language-context";
 
 export function LEDsSettingContent() {
+    const { t } = useLanguage();
 
     const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
     const { defaultProfile, updateProfileDetails, resetProfileDetails, rebootSystem } = useGamepadConfig();
@@ -104,6 +105,27 @@ export function LEDsSettingContent() {
         return (index == 2 && !(LedsEffectStyleLabelMap.get(ledsEffectStyle)?.hasBackColor2 ?? false)) || !ledEnabled;
     }
 
+    const effectStyleLabelMap = new Map<LedsEffectStyle, { label: string, description: string, icon: string, hasBackColor2: boolean }>([
+        [LedsEffectStyle.STATIC, { 
+            label: t.SETTINGS_LEDS_STATIC_LABEL, 
+            description: t.SETTINGS_LEDS_STATIC_DESC, 
+            icon: "sun-dim", 
+            hasBackColor2: false 
+        }],
+        [LedsEffectStyle.BREATHING, { 
+            label: t.SETTINGS_LEDS_BREATHING_LABEL, 
+            description: t.SETTINGS_LEDS_BREATHING_DESC, 
+            icon: "activity", 
+            hasBackColor2: true 
+        }],
+    ]);
+
+    const colorLabels = [
+        t.SETTINGS_LEDS_FRONT_COLOR,
+        t.SETTINGS_LEDS_BACK_COLOR1,
+        t.SETTINGS_LEDS_BACK_COLOR2
+    ];
+
     return (
         <>
             <Flex direction="row" width={"1700px"} padding={"18px"} >
@@ -125,10 +147,10 @@ export function LEDsSettingContent() {
                     <Fieldset.Root>
                         <Stack direction={"column"} gap={4} >
                             <Fieldset.Legend fontSize={"2rem"} color={"green.600"} >
-                                {UI_TEXT.SETTINGS_LEDS_TITLE}
+                                {t.SETTINGS_LEDS_TITLE}
                             </Fieldset.Legend>
                             <Fieldset.HelperText fontSize={"smaller"} color={"gray.400"} >
-                                <Text whiteSpace="pre-wrap" >{UI_TEXT.SETTINGS_LEDS_HELPER_TEXT}</Text>
+                                <Text whiteSpace="pre-wrap" >{t.SETTINGS_LEDS_HELPER_TEXT}</Text>
                             </Fieldset.HelperText>
                             <Fieldset.Content position={"relative"} paddingTop={"30px"}  >
 
@@ -138,7 +160,7 @@ export function LEDsSettingContent() {
                                         onChange={() => {
                                             setLedEnabled(!ledEnabled);
                                             setIsDirty?.(true);
-                                        }} >{UI_TEXT.SETTINGS_LEDS_ENABLE_LABEL}</Switch>
+                                        }} >{t.SETTINGS_LEDS_ENABLE_LABEL}</Switch>
                                     {/* LED Effect Style */}
                                     <RadioCardRoot
                                         colorPalette={ledEnabled ? "green" : "gray"}
@@ -151,21 +173,21 @@ export function LEDsSettingContent() {
                                         }}
                                         disabled={!ledEnabled}
                                     >
-                                        <RadioCardLabel>LED Effect Style Choice</RadioCardLabel>
+                                        <RadioCardLabel>{t.SETTINGS_LEDS_EFFECT_STYLE_CHOICE}</RadioCardLabel>
                                         <SimpleGrid gap={1} columns={5} >
-                                            {LedsEffectStyleList.map((ledsEffectStyle, index) => (
-                                                <Tooltip key={index} content={LedsEffectStyleLabelMap.get(ledsEffectStyle)?.description ?? ""} >
+                                            {LedsEffectStyleList.map((style, index) => (
+                                                <Tooltip key={index} content={effectStyleLabelMap.get(style)?.description ?? ""} >
                                                     <RadioCardItem
                                                         fontSize={"xs"}
                                                         indicator={false}
                                                         key={index}
                                                         icon={
                                                             <Icon fontSize={"2xl"} >
-                                                                {iconMap[LedsEffectStyleLabelMap.get(ledsEffectStyle)?.icon ?? ""]}
+                                                                {iconMap[effectStyleLabelMap.get(style)?.icon ?? ""]}
                                                             </Icon>
                                                         }
-                                                        value={ledsEffectStyle.toString()}
-                                                        label={LedsEffectStyleLabelMap.get(ledsEffectStyle)?.label ?? ""}
+                                                        value={style.toString()}
+                                                        label={effectStyleLabelMap.get(style)?.label ?? ""}
                                                         disabled={!ledEnabled}
                                                     />
                                                 </Tooltip>
@@ -174,7 +196,8 @@ export function LEDsSettingContent() {
                                     </RadioCardRoot>
 
                                     {/* LED Colors */}
-                                    <Field >
+                                    <Field>
+                                        <Text fontSize={"sm"}  >{t.SETTINGS_LEDS_COLORS_LABEL}</Text>
                                         {Array.from({ length: 3 }).map((_, index) => (
                                             <ColorPickerRoot
                                                 key={index}
@@ -194,7 +217,7 @@ export function LEDsSettingContent() {
                                                     if (index === 2) setColor3(hex);
                                                 }}
                                             >
-                                                <ColorPickerLabel color={colorPickerDisabled(index) ? "gray.800" : "gray.400"} >{ledColorsLabel[index]}</ColorPickerLabel>
+                                                <ColorPickerLabel color={colorPickerDisabled(index) ? "gray.800" : "gray.400"} >{colorLabels[index]}</ColorPickerLabel>
                                                 <ColorPickerControl >
                                                     <ColorPickerInput colorPalette={"green"} fontSize={"sm"} color={"gray.400"} />
                                                     <ColorPickerTrigger />
@@ -211,7 +234,7 @@ export function LEDsSettingContent() {
 
                                     {/* LED Brightness */}
                                     <Slider
-                                        label={UI_TEXT.SETTINGS_LEDS_BRIGHTNESS_LABEL}
+                                        label={t.SETTINGS_LEDS_BRIGHTNESS_LABEL}
                                         size={"md"}
                                         colorPalette={"green"}
                                         width={"300px"}
@@ -230,7 +253,7 @@ export function LEDsSettingContent() {
                                         ]}
                                     />
                                     <Text fontSize={"sm"} color={"gray.400"} >
-                                        {UI_TEXT.SETTINGS_LEDS_BRIGHTNESS_LABEL}: {ledBrightness}
+                                        {t.SETTINGS_LEDS_BRIGHTNESS_LABEL}: {ledBrightness}
                                     </Text>
 
                                 </Stack>
@@ -238,10 +261,10 @@ export function LEDsSettingContent() {
                             </Fieldset.Content>
                             <Stack direction={"row"} gap={4} justifyContent={"flex-start"} padding={"32px 0px"} >
                                 <Button colorPalette={"teal"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails} >
-                                    {UI_TEXT.BUTTON_RESET}
+                                    {t.BUTTON_RESET}
                                 </Button>
                                 <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailsHandler} >
-                                    {UI_TEXT.BUTTON_SAVE}
+                                    {t.BUTTON_SAVE}
                                 </Button>
                                 <Button
                                     colorPalette="blue"
@@ -250,21 +273,21 @@ export function LEDsSettingContent() {
                                     width={"180px"}
                                     onClick={async () => {
                                         const confirmed = await openRebootConfirmDialog({
-                                            title: UI_TEXT.DIALOG_REBOOT_CONFIRM_TITLE,
-                                            message: UI_TEXT.DIALOG_REBOOT_CONFIRM_MESSAGE,
+                                            title: t.DIALOG_REBOOT_CONFIRM_TITLE,
+                                            message: t.DIALOG_REBOOT_CONFIRM_MESSAGE,
                                         });
                                         if (confirmed) {
                                             await saveProfileDetailsHandler();
                                             await rebootSystem();
                                             openRebootDialog({
-                                                title: UI_TEXT.DIALOG_REBOOT_SUCCESS_TITLE,
+                                                title: t.DIALOG_REBOOT_SUCCESS_TITLE,
                                                 status: "success",
-                                                message: UI_TEXT.DIALOG_REBOOT_SUCCESS_MESSAGE,
+                                                message: t.DIALOG_REBOOT_SUCCESS_MESSAGE,
                                             });
                                         }
                                     }}
                                 >
-                                    {UI_TEXT.BUTTON_REBOOT_WITH_SAVING}
+                                    {t.BUTTON_REBOOT_WITH_SAVING}
                                 </Button>
                             </Stack>
                         </Stack>

@@ -1,6 +1,6 @@
 "use client"
 
-import { GameProfileList, GameProfile, PROFILE_NAME_MAX_LENGTH, UI_TEXT } from "@/types/gamepad-config";
+import { PROFILE_NAME_MAX_LENGTH } from "@/types/gamepad-config";
 import { useMemo } from "react";
 import {
     IconButton,
@@ -56,19 +56,19 @@ export function ProfileSelect() {
     const validateProfileName = (name: string): [boolean, string] => {
 
         if (/[!@#$%^&*()_+\[\]{}|;:'",.<>?/\\]/.test(name)) {
-            return [false, UI_TEXT.VALIDATION_PROFILE_NAME_SPECIAL_CHARACTERS];
+            return [false, t.PROFILE_SELECT_VALIDATION_SPECIAL_CHARS];
         }
 
         if (name.length > PROFILE_NAME_MAX_LENGTH || name.length < 1) {
-            return [false, UI_TEXT.VALIDATION_PROFILE_NAME_MAX_LENGTH];
+            return [false, t.PROFILE_SELECT_VALIDATION_LENGTH.replace("{0}", name.length.toString())];
         }
 
         if (name === defaultProfile?.name) {
-            return [false, UI_TEXT.VALIDATION_PROFILE_NAME_CANNOT_BE_SAME_AS_CURRENT_PROFILE_NAME];
+            return [false, t.PROFILE_SELECT_VALIDATION_SAME_NAME];
         }
 
         if (profileList.items.find(p => p.name === name)) {
-            return [false, UI_TEXT.VALIDATION_PROFILE_NAME_ALREADY_EXISTS];
+            return [false, t.PROFILE_SELECT_VALIDATION_EXISTS];
         }
 
         return [true, ""];
@@ -90,12 +90,12 @@ export function ProfileSelect() {
      */
     const renameProfileClick = async () => {
         const result = await openForm({
-            title: UI_TEXT.DIALOG_RENAME_PROFILE_TITLE,
+            title: t.DIALOG_RENAME_PROFILE_TITLE,
             fields: [{
                 name: "profileName",
-                label: UI_TEXT.PROFILE_NAME_LABEL,
+                label: t.PROFILE_NAME_LABEL,
                 defaultValue: defaultProfile?.name,
-                placeholder: UI_TEXT.PROFILE_NAME_PLACEHOLDER,
+                placeholder: t.PROFILE_NAME_PLACEHOLDER,
                 validate: (value) => {
                     const [isValid, errorMessage] = validateProfileName(value);
                     if (!isValid) {
@@ -109,7 +109,7 @@ export function ProfileSelect() {
         if (result) {
             await updateProfileDetails(defaultProfile?.id ?? "", { 
                 id: defaultProfile?.id ?? "",
-                name: result.profileName 
+                name: result.profileName
             });
         }
     };
@@ -119,11 +119,11 @@ export function ProfileSelect() {
      */
     const createProfileClick = async () => {
         const result = await openForm({
-            title: UI_TEXT.PROFILE_CREATE_DIALOG_TITLE,
+            title: t.PROFILE_CREATE_DIALOG_TITLE,
             fields: [{
                 name: "profileName",
-                label: UI_TEXT.PROFILE_NAME_LABEL,
-                placeholder: UI_TEXT.PROFILE_NAME_PLACEHOLDER,
+                label: t.PROFILE_NAME_LABEL,
+                placeholder: t.PROFILE_NAME_PLACEHOLDER,
                 validate: (value) => {
                     const [isValid, errorMessage] = validateProfileName(value);
                     if (!isValid) {
@@ -144,8 +144,8 @@ export function ProfileSelect() {
      */
     const deleteProfileClick = async () => {
         const confirmed = await openConfirm({
-            title: UI_TEXT.PROFILE_DELETE_DIALOG_TITLE, 
-            message: UI_TEXT.PROFILE_DELETE_CONFIRM_MESSAGE
+            title: t.PROFILE_DELETE_DIALOG_TITLE, 
+            message: t.PROFILE_DELETE_CONFIRM_MESSAGE
         });
         
         if (confirmed) {

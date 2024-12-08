@@ -172,7 +172,7 @@ export enum HotkeyAction {
     WebConfigMode = "WebConfigMode",
     XInputMode = "XInputMode",
     PS4Mode = "PS4Mode",
-    NSSwitchMode = "NSSwitchMode",
+    NSwitchMode = "NSwitchMode",
     SystemReboot = "SystemReboot",
 }
 
@@ -215,8 +215,8 @@ export const HotkeyActionLabelMap = new Map<HotkeyAction, { label: string, descr
         label: "PS4 Mode", 
         description: "Switch to PS4 mode" 
     }],
-    [HotkeyAction.NSSwitchMode, { 
-        label: "Switch Mode", 
+    [HotkeyAction.NSwitchMode, { 
+        label: "Nintendo Switch Mode", 
         description: "Switch to Nintendo Switch mode" 
     }],
     [HotkeyAction.SystemReboot, { 
@@ -389,6 +389,7 @@ export const UI_TEXT = {
     // Rapid Trigger Settings
     SETTINGS_RAPID_TRIGGER_TITLE: "RAPID TRIGGER SETTINGS",
     SETTINGS_RAPID_TRIGGER_HELPER_TEXT: "The rapid trigger settings can be customized here.\n- Top Deadzone: The distance from the top of the trigger to the deadzone.\n- Bottom Deadzone: The distance from the bottom of the trigger to the deadzone.\n- Press Accuracy: The accuracy of the trigger when pressed.\n- Release Accuracy: The accuracy of the trigger when released.",
+    SETTINGS_RAPID_TRIGGER_CONFIGURE_ALL: "Configure all buttons at once",
 
     // Hotkeys Settings
     SETTINGS_HOTKEYS_TITLE: "HOTKEYS SETTINGS",
@@ -403,6 +404,70 @@ export const UI_TEXT = {
     PROFILE_SELECT_RENAME_FIELD_LABEL: "Profile Name",
     PROFILE_SELECT_RENAME_FIELD_PLACEHOLDER: "Enter new profile name",
     PROFILE_SELECT_DELETE_CONFIRM_MESSAGE: "Deleting this profile can not be undone or reverted. Are you sure you want to delete this profile?",
+    PROFILE_SELECT_VALIDATION_SPECIAL_CHARS: "Profile name cannot contain special characters",
+    PROFILE_SELECT_VALIDATION_LENGTH: `Profile name length must be between 1 and ${PROFILE_NAME_MAX_LENGTH} characters, current length is {0}`,
+    PROFILE_SELECT_VALIDATION_SAME_NAME: "Profile name cannot be the same as the current profile name",
+    PROFILE_SELECT_VALIDATION_EXISTS: "Profile name already exists",
+
+    // Key Mapping Field
+    KEY_MAPPING_KEY_PREFIX: "KEY-",
+
+    // Key Mapping Fieldset
+    KEY_MAPPING_ERROR_ALREADY_BINDED_TITLE: "Key already binded",
+    KEY_MAPPING_ERROR_ALREADY_BINDED_DESC: "Please select another key",
+    KEY_MAPPING_ERROR_MAX_KEYS_TITLE: "Max number of key binding per button reached",
+    KEY_MAPPING_ERROR_MAX_KEYS_DESC: "Please unbind some keys first",
+    KEY_MAPPING_INFO_UNBIND_FROM_OTHER_TITLE: "Key already binded on other button",
+    KEY_MAPPING_INFO_UNBIND_FROM_OTHER_DESC: "Unbinded from [ {0} ] button and Rebinded to [ {1} ] button",
+
+    // Keys Settings
+    SETTINGS_KEYS_INVERT_X_AXIS: "Invert X Axis",
+    SETTINGS_KEYS_INVERT_Y_AXIS: "Invert Y Axis",
+    SETTINGS_KEYS_FOURWAY_MODE: "FourWay Mode",
+    SETTINGS_KEYS_FOURWAY_MODE_TOOLTIP: "FourWay Mode: Enable the four-way mode of the Dpad, which means the Dpad will be treated as a four-way direction pad.\n(Only available when the input mode is Switch)",
+    SETTINGS_KEYS_MAPPING_TITLE: "Key Mapping",
+
+    // Settings Layout
+    SETTINGS_TAB_KEYS: "Keys Setting",
+    SETTINGS_TAB_LEDS: "LEDs Setting",
+    SETTINGS_TAB_RAPID_TRIGGER: "Rapid Trigger",
+    SETTINGS_TAB_HOTKEYS: "Hotkeys Setting",
+    SETTINGS_TAB_FIRMWARE: "Firmware",
+
+    // Keys Settings
+    SETTINGS_KEYS_INPUT_MODE_TITLE: "Input Mode Choice",
+    SETTINGS_KEYS_SOCD_MODE_TITLE: "SOCD Mode Choice",
+    SETTINGS_KEYS_PLATFORM_MODE_TOOLTIP: "Platform Mode: Select the platform for controller input",
+    SETTINGS_KEYS_SOCD_MODE_TOOLTIP: "SOCD Mode: Select the SOCD (Simultaneous Opposing Cardinal Directions) handling mode",
+
+    // LEDs Settings
+    SETTINGS_LEDS_EFFECT_STYLE_CHOICE: "LED Effect Style Choice",
+    SETTINGS_LEDS_STATIC_LABEL: "Static",
+    SETTINGS_LEDS_STATIC_DESC: "Static color",
+    SETTINGS_LEDS_BREATHING_LABEL: "Breathing",
+    SETTINGS_LEDS_BREATHING_DESC: "Breathing color",
+    SETTINGS_LEDS_COLORS_LABEL: "LED Colors",
+    SETTINGS_LEDS_FRONT_COLOR: "Front Color",
+    SETTINGS_LEDS_BACK_COLOR1: "Back Color 1",
+    SETTINGS_LEDS_BACK_COLOR2: "Back Color 2",
+
+    // Unsaved Changes Warning
+    UNSAVED_CHANGES_WARNING_TITLE: "Are you sure?",
+    UNSAVED_CHANGES_WARNING_MESSAGE: "You have unsaved changes. If you leave without saving, your changes will be lost.",
+
+    // Hotkeys Actions
+    HOTKEY_ACTION_NONE: "None",
+    HOTKEY_ACTION_WEB_CONFIG: "Web Config Mode",
+    HOTKEY_ACTION_LEDS_ENABLE: "LEDs Enable/Disable",
+    HOTKEY_ACTION_LEDS_EFFECT_NEXT: "LEDs Effect Next",
+    HOTKEY_ACTION_LEDS_EFFECT_PREV: "LEDs Effect Previous",
+    HOTKEY_ACTION_LEDS_BRIGHTNESS_UP: "LEDs Brightness Up",
+    HOTKEY_ACTION_LEDS_BRIGHTNESS_DOWN: "LEDs Brightness Down",
+    HOTKEY_ACTION_CALIBRATION_MODE: "Calibration Mode",
+    HOTKEY_ACTION_XINPUT_MODE: "XInput Mode",
+    HOTKEY_ACTION_PS4_MODE: "PlayStation 4 Mode",
+    HOTKEY_ACTION_NSWITCH_MODE: "Nintendo Switch Mode",
+    HOTKEY_ACTION_SYSTEM_REBOOT: "System Reboot",
 } as const;
 
 export const UI_TEXT_ZH = {
@@ -450,8 +515,8 @@ export const UI_TEXT_ZH = {
     SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL: "手动切换",
     SETTINGS_RAPID_TRIGGER_ONFIGURING_BUTTON: "正在配置按键: ",
     SETTINGS_RAPID_TRIGGER_SELECT_A_BUTTON_TO_CONFIGURE: "请选择要配置的按键",
-    SETTINGS_RAPID_TRIGGER_TOP_DEADZONE_LABEL: "上死区(毫米)",
-    SETTINGS_RAPID_TRIGGER_BOTTOM_DEADZONE_LABEL: "下死区(毫米)",
+    SETTINGS_RAPID_TRIGGER_TOP_DEADZONE_LABEL: "顶部死区(毫米)",
+    SETTINGS_RAPID_TRIGGER_BOTTOM_DEADZONE_LABEL: "底部死区(毫米)",
     SETTINGS_RAPID_TRIGGER_PRESS_ACCURACY_LABEL: "按下精度(毫米)",
     SETTINGS_RAPID_TRIGGER_RELEASE_ACCURACY_LABEL: "释放精度(毫米)",
     
@@ -482,7 +547,7 @@ export const UI_TEXT_ZH = {
     
     // 按键设置
     SETTINGS_KEYS_TITLE: "按键设置",
-    SETTINGS_KEYS_HELPER_TEXT: `- 输入模式：游戏控制器的输入模式\n- 按键映射：Hitbox按键与游戏控制器按键的映射关系`,
+    SETTINGS_KEYS_HELPER_TEXT: `- 输入模式：游戏控制器的输入模式\n- 按键映射：Hitbox按键与游戏控制器按键��映射关系`,
     
     // LED设置
     SETTINGS_LEDS_TITLE: "LED设置",
@@ -490,7 +555,8 @@ export const UI_TEXT_ZH = {
     
     // 快速触发设置
     SETTINGS_RAPID_TRIGGER_TITLE: "快速触发设置",
-    SETTINGS_RAPID_TRIGGER_HELPER_TEXT: "可以在这里自定义快速触发设置。\n- 上死区：扳机上部到死区的距离\n- 下死区：扳机下部到死区的距离\n- 按下精度：扳机按下时的精度\n- 释放精度：扳机释放时的精度",
+    SETTINGS_RAPID_TRIGGER_HELPER_TEXT: "可以在这里自定义快速触发设置。\n- 顶部死区：扳机顶部到死区的距离\n- 底部死区：扳机底部到死区的距离\n- 按下精度：扳机按下时的精度\n- 释放精度：扳机释放时的精度",
+    SETTINGS_RAPID_TRIGGER_CONFIGURE_ALL: "同时配置所有按键",
     
     // 热键设置
     SETTINGS_HOTKEYS_TITLE: "热键设置",
@@ -505,5 +571,69 @@ export const UI_TEXT_ZH = {
     PROFILE_SELECT_RENAME_FIELD_LABEL: "配置名称",
     PROFILE_SELECT_RENAME_FIELD_PLACEHOLDER: "请输入新的配置名称",
     PROFILE_SELECT_DELETE_CONFIRM_MESSAGE: "删除此配置后将无法恢复。是否确认删除？",
+    PROFILE_SELECT_VALIDATION_SPECIAL_CHARS: "配置名称不能包含特殊字符",
+    PROFILE_SELECT_VALIDATION_LENGTH: `配置名称长度必须在1到${PROFILE_NAME_MAX_LENGTH}个字符之间，当前长度为{0}`,
+    PROFILE_SELECT_VALIDATION_SAME_NAME: "配置名称不能与当前配置名称相同",
+    PROFILE_SELECT_VALIDATION_EXISTS: "配置名称已存在",
+
+    // Key Mapping Field
+    KEY_MAPPING_KEY_PREFIX: "按键-",
+
+    // Key Mapping Fieldset
+    KEY_MAPPING_ERROR_ALREADY_BINDED_TITLE: "按键已被绑定",
+    KEY_MAPPING_ERROR_ALREADY_BINDED_DESC: "请选择其他按键",
+    KEY_MAPPING_ERROR_MAX_KEYS_TITLE: "已达到每个按键的最大绑定数",
+    KEY_MAPPING_ERROR_MAX_KEYS_DESC: "请先解绑一些按键",
+    KEY_MAPPING_INFO_UNBIND_FROM_OTHER_TITLE: "按键已在其他按钮上绑定",
+    KEY_MAPPING_INFO_UNBIND_FROM_OTHER_DESC: "已从 [ {0} ] 按钮解绑并重新绑定到 [ {1} ] 按钮",
+
+    // Keys Settings
+    SETTINGS_KEYS_INVERT_X_AXIS: "反转X轴",
+    SETTINGS_KEYS_INVERT_Y_AXIS: "反转Y轴",
+    SETTINGS_KEYS_FOURWAY_MODE: "四方向模式",
+    SETTINGS_KEYS_FOURWAY_MODE_TOOLTIP: "四方向模式：启用十字键的四方向模式，这意味着十字键将被视为四方向键盘。\n(仅在输入模式为Switch时可用)",
+    SETTINGS_KEYS_MAPPING_TITLE: "按键映射",
+
+    // Settings Layout
+    SETTINGS_TAB_KEYS: "按键设置",
+    SETTINGS_TAB_LEDS: "LED设置",
+    SETTINGS_TAB_RAPID_TRIGGER: "快速触发",
+    SETTINGS_TAB_HOTKEYS: "热键设置",
+    SETTINGS_TAB_FIRMWARE: "固件",
+
+    // Keys Settings
+    SETTINGS_KEYS_INPUT_MODE_TITLE: "输入模式选择",
+    SETTINGS_KEYS_SOCD_MODE_TITLE: "SOCD模式选择",
+    SETTINGS_KEYS_PLATFORM_MODE_TOOLTIP: "平台模式：选择控制器输入平台",
+    SETTINGS_KEYS_SOCD_MODE_TOOLTIP: "SOCD模式：选择SOCD(同时按下相对方向键)处理模式",
+
+    // LEDs Settings
+    SETTINGS_LEDS_EFFECT_STYLE_CHOICE: "LED效果样式选择",
+    SETTINGS_LEDS_STATIC_LABEL: "静态",
+    SETTINGS_LEDS_STATIC_DESC: "固定颜色",
+    SETTINGS_LEDS_BREATHING_LABEL: "呼吸",
+    SETTINGS_LEDS_BREATHING_DESC: "呼吸效果",
+    SETTINGS_LEDS_COLORS_LABEL: "LED颜色",
+    SETTINGS_LEDS_FRONT_COLOR: "前置颜色",
+    SETTINGS_LEDS_BACK_COLOR1: "背景颜色1",
+    SETTINGS_LEDS_BACK_COLOR2: "背景颜色2",
+
+    // Unsaved Changes Warning
+    UNSAVED_CHANGES_WARNING_TITLE: "确认离开?",
+    UNSAVED_CHANGES_WARNING_MESSAGE: "您有未保存的更改。如果离开而不保存，您的更改将会丢失。",
+
+    // Hotkeys Actions
+    HOTKEY_ACTION_NONE: "无",
+    HOTKEY_ACTION_WEB_CONFIG: "网页配置模式",
+    HOTKEY_ACTION_LEDS_ENABLE: "开启/关闭LED",
+    HOTKEY_ACTION_LEDS_EFFECT_NEXT: "下一个LED效果",
+    HOTKEY_ACTION_LEDS_EFFECT_PREV: "上一个LED效果",
+    HOTKEY_ACTION_LEDS_BRIGHTNESS_UP: "LED亮度增加",
+    HOTKEY_ACTION_LEDS_BRIGHTNESS_DOWN: "LED亮度减少",
+    HOTKEY_ACTION_CALIBRATION_MODE: "按键校准模式",
+    HOTKEY_ACTION_XINPUT_MODE: "XInput模式",
+    HOTKEY_ACTION_PS4_MODE: "PlayStation 4模式",
+    HOTKEY_ACTION_NSWITCH_MODE: "Nintendo Switch模式",
+    HOTKEY_ACTION_SYSTEM_REBOOT: "系统重启",
 } as const;
 

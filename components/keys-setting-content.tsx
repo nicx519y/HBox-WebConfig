@@ -28,7 +28,6 @@ import {
     PlatformList,
     PlatformLabelMap,
     GameControllerButton,
-    UI_TEXT,
 } from "@/types/gamepad-config";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import Hitbox from "@/components/hitbox";
@@ -38,11 +37,13 @@ import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
 import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
+import { useLanguage } from "@/contexts/language-context";
 
 export function KeysSettingContent() {
 
     const { defaultProfile, updateProfileDetails, resetProfileDetails, rebootSystem } = useGamepadConfig();
     const [_isDirty, setIsDirty] = useUnsavedChangesWarning();  
+    const { t } = useLanguage();
 
     const [inputMode, setInputMode] = useState<Platform>(Platform.XINPUT);
     const [socdMode, setSocdMode] = useState<GameSocdMode>(GameSocdMode.SOCD_MODE_UP_PRIORITY);
@@ -110,27 +111,24 @@ export function KeysSettingContent() {
                     <Fieldset.Root>
                         <Stack direction={"column"} gap={4} >
                             <Fieldset.Legend fontSize={"2rem"} color={"green.600"} >
-                                {UI_TEXT.SETTINGS_KEYS_TITLE}
+                                {t.SETTINGS_KEYS_TITLE}
                             </Fieldset.Legend>
                             <Fieldset.HelperText fontSize={"smaller"} color={"gray.400"} >
-                                <Text whiteSpace="pre-wrap" >{UI_TEXT.SETTINGS_KEYS_HELPER_TEXT}</Text>
+                                <Text whiteSpace="pre-wrap" >{t.SETTINGS_KEYS_HELPER_TEXT}</Text>
                             </Fieldset.HelperText>
                             <Fieldset.Content position={"relative"} paddingTop={"30px"}  >
 
                                 {/* Key Mapping */}
                                 <Stack direction={"column"} gap={6} >
-                                    <Fieldset.Legend fontSize={"md"} >Key Mapping</Fieldset.Legend>
+                                    <Fieldset.Legend fontSize={"md"} >{t.SETTINGS_KEYS_MAPPING_TITLE}</Fieldset.Legend>
                                     <HStack gap={1} >
                                         <SegmentedControl
-                                            width={"177px"}
                                             size={"xs"}
-                                            defaultValue={autoSwitch ? UI_TEXT.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL : UI_TEXT.SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL}
-                                            items={[UI_TEXT.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL, UI_TEXT.SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL]}
-                                            onValueChange={(detail) => setAutoSwitch(detail.value === UI_TEXT.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL)}
+                                            defaultValue={autoSwitch ? t.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL : t.SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL}
+                                            items={[t.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL, t.SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL]}
+                                            onValueChange={(detail) => setAutoSwitch(detail.value === t.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL)}
                                         />
-                                        <ToggleTip
-                                            content={UI_TEXT.TOOLTIP_AUTO_SWITCH}
-                                        >
+                                        <ToggleTip content={t.TOOLTIP_AUTO_SWITCH}>
                                             <Button size="xs" variant="ghost">
                                                 <LuInfo />
                                             </Button>
@@ -159,17 +157,19 @@ export function KeysSettingContent() {
                                         setIsDirty?.(true);
                                     }}
                                 >
-                                    <RadioCardLabel>Input Mode Choice</RadioCardLabel>
-                                    <SimpleGrid gap={1} columns={3} >
+                                    <RadioCardLabel>{t.SETTINGS_KEYS_INPUT_MODE_TITLE}</RadioCardLabel>
+                                    <SimpleGrid gap={1} columns={5} >
                                         {PlatformList.map((platform, index) => (
-                                            <RadioCardItem
-                                                fontSize={"xs"}
-                                                indicator={false}
-                                                key={index}
-                                                value={platform.toString()}
-                                                label={PlatformLabelMap.get(platform as Platform)?.label ?? ""}
-                                            />
-                                    ))}
+                                            <Tooltip key={index} content={t.SETTINGS_KEYS_PLATFORM_MODE_TOOLTIP} >
+                                                <RadioCardItem
+                                                    fontSize={"xs"}
+                                                    indicator={false}
+                                                    key={index}
+                                                    value={platform.toString()}
+                                                    label={PlatformLabelMap.get(platform as Platform)?.label ?? ""}
+                                                />
+                                            </Tooltip>
+                                        ))}
                                     </SimpleGrid>
                                 </RadioCardRoot>
 
@@ -185,10 +185,10 @@ export function KeysSettingContent() {
                                         setIsDirty?.(true);
                                     }}
                                 >
-                                    <RadioCardLabel>SOCD Mode Choice</RadioCardLabel>
+                                    <RadioCardLabel>{t.SETTINGS_KEYS_SOCD_MODE_TITLE}</RadioCardLabel>
                                     <SimpleGrid gap={1} columns={5} >
                                         {GameSocdModeList.map((socdMode, index) => (
-                                            <Tooltip key={index} content={GameSocdModeLabelMap.get(socdMode as GameSocdMode)?.description ?? ""} >
+                                            <Tooltip key={index} content={t.SETTINGS_KEYS_SOCD_MODE_TOOLTIP} >
                                                 <RadioCardItem
                                                     fontSize={"xs"}
                                                     indicator={false}
@@ -203,29 +203,43 @@ export function KeysSettingContent() {
 
                                 {/* Invert Axis Choice & Invert Y Axis Choice & FourWay Mode Choice */}
                                 <HStack gap={5} >
-                                    <Switch colorPalette={"green"} checked={invertXAxis} onChange={() => {
-                                        setInvertXAxis(!invertXAxis);
-                                        setIsDirty?.(true);
-                                    }} >Invert X Axis</Switch>
-                                    <Switch colorPalette={"green"} checked={invertYAxis} onChange={() => {
-                                        setInvertYAxis(!invertYAxis);
-                                        setIsDirty?.(true);
-                                    }} >Invert Y Axis</Switch>
-                                    {/* <Switch colorPalette={"green"} checked={fourWayMode} onChange={() => setFourWayMode(!fourWayMode)} >FourWay Mode</Switch>  
-                                                <ToggleTip content="FourWay Mode: Enable the four-way mode of the Dpad, which means the Dpad will be treated as a four-way direction pad.\n(Only available when the input mode is Switch)" >
-                                                    <Button size="xs" variant="ghost">
-                                                        <LuInfo />
-                                                    </Button>
-                                                </ToggleTip> */}
+                                    <Switch 
+                                        colorPalette={"green"} 
+                                        checked={invertXAxis} 
+                                        onChange={() => {
+                                            setInvertXAxis(!invertXAxis);
+                                            setIsDirty?.(true);
+                                        }}
+                                    >
+                                        {t.SETTINGS_KEYS_INVERT_X_AXIS}
+                                    </Switch>
+                                    <Switch 
+                                        colorPalette={"green"} 
+                                        checked={invertYAxis} 
+                                        onChange={() => {
+                                            setInvertYAxis(!invertYAxis);
+                                            setIsDirty?.(true);
+                                        }}
+                                    >
+                                        {t.SETTINGS_KEYS_INVERT_Y_AXIS}
+                                    </Switch>
+                                    {/* <Switch colorPalette={"green"} checked={fourWayMode} onChange={() => setFourWayMode(!fourWayMode)} >
+                                        {t.SETTINGS_KEYS_FOURWAY_MODE}
+                                    </Switch>  
+                                    <ToggleTip content={t.SETTINGS_KEYS_FOURWAY_MODE_TOOLTIP} >
+                                        <Button size="xs" variant="ghost">
+                                            <LuInfo />
+                                        </Button>
+                                    </ToggleTip> */}
                                 </HStack>
 
                             </Fieldset.Content>
                             <Stack direction={"row"} gap={4} justifyContent={"flex-start"} padding={"32px 0px"} >
                                 <Button colorPalette={"teal"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails}>
-                                    {UI_TEXT.BUTTON_RESET}
+                                    {t.BUTTON_RESET}
                                 </Button>
                                 <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailHandler}>
-                                    {UI_TEXT.BUTTON_SAVE}
+                                    {t.BUTTON_SAVE}
                                 </Button>
                                 <Button 
                                     colorPalette="blue" 
@@ -234,21 +248,21 @@ export function KeysSettingContent() {
                                     width={"180px"} 
                                     onClick={async () => {
                                         const confirmed = await openRebootConfirmDialog({
-                                            title: UI_TEXT.DIALOG_REBOOT_CONFIRM_TITLE,
-                                            message: UI_TEXT.DIALOG_REBOOT_CONFIRM_MESSAGE,
+                                            title: t.DIALOG_REBOOT_CONFIRM_TITLE,
+                                            message: t.DIALOG_REBOOT_CONFIRM_MESSAGE,
                                         });
                                         if (confirmed) {
                                             await saveProfileDetailHandler();
                                             await rebootSystem();
                                             openRebootDialog({
-                                                title: UI_TEXT.DIALOG_REBOOT_SUCCESS_TITLE,
+                                                title: t.DIALOG_REBOOT_SUCCESS_TITLE,
                                                 status: "success",
-                                                message: UI_TEXT.DIALOG_REBOOT_SUCCESS_MESSAGE,
+                                                message: t.DIALOG_REBOOT_SUCCESS_MESSAGE,
                                             });
                                         }
                                     }} 
                                 >
-                                    {UI_TEXT.BUTTON_REBOOT_WITH_SAVING}
+                                    {t.BUTTON_REBOOT_WITH_SAVING}
                                 </Button>
                             </Stack>
                         </Stack>

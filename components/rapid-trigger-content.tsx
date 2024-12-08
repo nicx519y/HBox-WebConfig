@@ -17,7 +17,7 @@ import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
 import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
-import { UI_TEXT } from "@/types/gamepad-config";
+import { useLanguage } from "@/contexts/language-context";
 
 interface TriggerConfig {
     topDeadzone: number;
@@ -36,6 +36,7 @@ const defaultTriggerConfig: TriggerConfig = {
 export function RapidTriggerContent() {
     const { defaultProfile, updateProfileDetails, resetProfileDetails, rebootSystem } = useGamepadConfig();
     const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
+    const { t } = useLanguage();
 
     const [selectedButton, setSelectedButton] = useState<number | null>(0); // 当前选中的按钮
     const [triggerConfigs, setTriggerConfigs] = useState<RapidTriggerConfig[]>([]); // 按钮配置
@@ -153,10 +154,10 @@ export function RapidTriggerContent() {
                 <Fieldset.Root width="100%">
                     <Stack direction="column" gap={4}>
                         <Fieldset.Legend fontSize="2rem" color="green.600">
-                            {UI_TEXT.SETTINGS_RAPID_TRIGGER_TITLE}
+                            {t.SETTINGS_RAPID_TRIGGER_TITLE}
                         </Fieldset.Legend>
                         <Fieldset.HelperText fontSize="smaller" color="gray.400">
-                            <Text whiteSpace="pre-wrap" >{UI_TEXT.SETTINGS_RAPID_TRIGGER_HELPER_TEXT}</Text>
+                            <Text whiteSpace="pre-wrap" >{t.SETTINGS_RAPID_TRIGGER_HELPER_TEXT}</Text>
                         </Fieldset.HelperText>
                         <Fieldset.Content pt="30px" >
                             <Stack gap={6}>
@@ -168,12 +169,14 @@ export function RapidTriggerContent() {
                                         switchAllBtnsConfiging(!isAllBtnsConfiguring);
                                         setIsDirty?.(true);
                                     }}
-                                >Configure all buttons at once</Switch>
+                                >
+                                    {t.SETTINGS_RAPID_TRIGGER_CONFIGURE_ALL}
+                                </Switch>
 
                                 <Text color={!isAllBtnsConfiguring ? "green.400" : "gray.700"} >
                                     {(selectedButton !== null && !isAllBtnsConfiguring) ?
-                                        UI_TEXT.SETTINGS_RAPID_TRIGGER_ONFIGURING_BUTTON
-                                        : UI_TEXT.SETTINGS_RAPID_TRIGGER_SELECT_A_BUTTON_TO_CONFIGURE
+                                        t.SETTINGS_RAPID_TRIGGER_ONFIGURING_BUTTON
+                                        : t.SETTINGS_RAPID_TRIGGER_SELECT_A_BUTTON_TO_CONFIGURE
                                     }
                                     {(selectedButton !== null && !isAllBtnsConfiguring) && (
                                         <Text as="span" fontWeight="bold">
@@ -184,10 +187,10 @@ export function RapidTriggerContent() {
 
                                 {/* Sliders */}
                                 {[
-                                    { key: 'topDeadzone', label: UI_TEXT.SETTINGS_RAPID_TRIGGER_TOP_DEADZONE_LABEL },
-                                    { key: 'bottomDeadzone', label: UI_TEXT.SETTINGS_RAPID_TRIGGER_BOTTOM_DEADZONE_LABEL },
-                                    { key: 'pressAccuracy', label: UI_TEXT.SETTINGS_RAPID_TRIGGER_PRESS_ACCURACY_LABEL },
-                                    { key: 'releaseAccuracy', label: UI_TEXT.SETTINGS_RAPID_TRIGGER_RELEASE_ACCURACY_LABEL },
+                                    { key: 'topDeadzone', label: t.SETTINGS_RAPID_TRIGGER_TOP_DEADZONE_LABEL },
+                                    { key: 'bottomDeadzone', label: t.SETTINGS_RAPID_TRIGGER_BOTTOM_DEADZONE_LABEL },
+                                    { key: 'pressAccuracy', label: t.SETTINGS_RAPID_TRIGGER_PRESS_ACCURACY_LABEL },
+                                    { key: 'releaseAccuracy', label: t.SETTINGS_RAPID_TRIGGER_RELEASE_ACCURACY_LABEL },
                                 ].map(({ key, label }) => (
                                     <Stack key={key} gap={6} >
                                         <Slider
@@ -231,7 +234,7 @@ export function RapidTriggerContent() {
                                         width="140px"
                                         onClick={resetProfileDetails}
                                     >
-                                        {UI_TEXT.BUTTON_RESET}
+                                        {t.BUTTON_RESET}
                                     </Button>
                                     <Button
                                         colorPalette="green"
@@ -239,7 +242,7 @@ export function RapidTriggerContent() {
                                         width="140px"
                                         onClick={saveProfileDetailHandler}
                                     >
-                                        {UI_TEXT.BUTTON_SAVE}
+                                        {t.BUTTON_SAVE}
                                     </Button>
                                     <Button
                                         colorPalette="blue"
@@ -248,21 +251,21 @@ export function RapidTriggerContent() {
                                         width={"180px"}
                                         onClick={async () => {
                                             const confirmed = await openRebootConfirmDialog({
-                                                title: UI_TEXT.DIALOG_REBOOT_CONFIRM_TITLE,
-                                                message: UI_TEXT.DIALOG_REBOOT_CONFIRM_MESSAGE,
+                                                title: t.DIALOG_REBOOT_CONFIRM_TITLE,
+                                                message: t.DIALOG_REBOOT_CONFIRM_MESSAGE,
                                             });
                                             if (confirmed) {
                                                 await saveProfileDetailHandler();
                                                 await rebootSystem();
                                                 openRebootDialog({
-                                                    title: UI_TEXT.DIALOG_REBOOT_SUCCESS_TITLE,
+                                                    title: t.DIALOG_REBOOT_SUCCESS_TITLE,
                                                     status: "success",
-                                                    message: UI_TEXT.DIALOG_REBOOT_SUCCESS_MESSAGE,
+                                                    message: t.DIALOG_REBOOT_SUCCESS_MESSAGE,
                                                 });
                                             }
                                         }}
                                     >
-                                        {UI_TEXT.BUTTON_REBOOT_WITH_SAVING}
+                                        {t.BUTTON_REBOOT_WITH_SAVING}
                                     </Button>
                                 </Stack>
                             </Stack>

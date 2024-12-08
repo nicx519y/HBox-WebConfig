@@ -12,6 +12,7 @@ import { DialogConfirm } from '@/components/dialog-confirm'
 import { DialogForm } from "@/components/dialog-form";
 import { DialogCannotClose } from '@/components/dialog-cannot-close'
 import { LanguageProvider } from '@/contexts/language-context';
+import { LanguageSwitcher } from '@/components/language-switcher'
 
 // 创建一个内部组件来使用 context
 function AppContent({ children }: { children: React.ReactNode }) {
@@ -61,6 +62,16 @@ function AppContent({ children }: { children: React.ReactNode }) {
             position="relative"
             overflow="auto"
         >
+            {/* 添加语言切换按钮 */}
+            <Box
+                position="fixed"
+                top={4}
+                right={4}
+                zIndex={2}
+            >
+                <LanguageSwitcher />
+            </Box>
+
             {/* 网格光效层 */}
             <Box
                 position="absolute"

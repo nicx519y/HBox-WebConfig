@@ -11,17 +11,19 @@ import {
     LuCpu
 } from 'react-icons/lu';
 import { navigationEvents } from '@/lib/event-manager';
+import { useLanguage } from "@/contexts/language-context";
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const pathname = usePathname();
+    const { t } = useLanguage();
 
     const tabs = [
-        { label: 'Keys Setting', path: '/keys-setting', icon: LuKeyboard },
-        { label: 'LEDs Setting', path: '/leds-setting', icon: LuLightbulb },
-        { label: 'Rapid Trigger', path: '/rapid-trigger', icon: LuRocket },
-        { label: 'Hotkeys Setting', path: '/hotkeys-setting', icon: LuKeyRound },
-        { label: 'Firmware', path: '/firmware', icon: LuCpu }
+        { label: t.SETTINGS_TAB_KEYS, path: '/keys-setting', icon: LuKeyboard },
+        { label: t.SETTINGS_TAB_LEDS, path: '/leds-setting', icon: LuLightbulb },
+        { label: t.SETTINGS_TAB_RAPID_TRIGGER, path: '/rapid-trigger', icon: LuRocket },
+        { label: t.SETTINGS_TAB_HOTKEYS, path: '/hotkeys-setting', icon: LuKeyRound },
+        { label: t.SETTINGS_TAB_FIRMWARE, path: '/firmware', icon: LuCpu }
     ];
 
 

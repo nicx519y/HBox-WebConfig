@@ -3,6 +3,7 @@
 import { Field } from "@/components/ui/field"
 import { Tag } from "@/components/ui/tag"
 import { Box, HStack, Text } from "@chakra-ui/react"
+import { useLanguage } from "@/contexts/language-context";
 
 export default function KeymappingField(
     props: {
@@ -13,7 +14,7 @@ export default function KeymappingField(
         onClick: () => void,
     }
 ) {
-
+    const { t } = useLanguage();
     const { value, changeValue, label, isActive, onClick } = props;  
 
     const tagClick = (hitboxButton: number) => {
@@ -21,10 +22,6 @@ export default function KeymappingField(
             changeValue(value.filter(v => v !== hitboxButton));
         }
     }
-
-    // useEffect(() => {
-    //     console.log("value: ", value);
-    // }, [value]);
 
     return (
         <>
@@ -45,7 +42,7 @@ export default function KeymappingField(
                                 closable={isActive}
                                 colorPalette={isActive ? "green" : "gray"}
                                 onClick={() => tagClick(hitboxButton)}
-                            >{`KEY-${hitboxButton + 1}`}</Tag>
+                            >{`${t.KEY_MAPPING_KEY_PREFIX}${hitboxButton + 1}`}</Tag>
                         ))}
                     </HStack>
                 </Box>

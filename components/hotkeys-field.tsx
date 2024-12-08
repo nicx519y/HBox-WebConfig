@@ -7,6 +7,7 @@ import {
     HStack, 
     Text, 
 } from "@chakra-ui/react";
+import { useLanguage } from "@/contexts/language-context";
 
 import {
     SelectContent,
@@ -31,7 +32,40 @@ export default function HotkeysField(
         onFieldClick?: (index: number) => void,
     }
 ) {
+    const { t } = useLanguage();
     const { index, value, onValueChange, isActive, disabled, onFieldClick } = props;
+
+    const getHotkeyActionLabel = (action: HotkeyAction): string => {
+        switch (action) {
+            case HotkeyAction.None:
+                return t.HOTKEY_ACTION_NONE;
+            case HotkeyAction.WebConfigMode:
+                return t.HOTKEY_ACTION_WEB_CONFIG;
+            case HotkeyAction.LedsEnableSwitch:
+                return t.HOTKEY_ACTION_LEDS_ENABLE;
+            case HotkeyAction.LedsEffectStyleNext:
+                return t.HOTKEY_ACTION_LEDS_EFFECT_NEXT;
+            case HotkeyAction.LedsEffectStylePrev:
+                return t.HOTKEY_ACTION_LEDS_EFFECT_PREV;
+            case HotkeyAction.LedsBrightnessUp:
+                return t.HOTKEY_ACTION_LEDS_BRIGHTNESS_UP;
+            case HotkeyAction.LedsBrightnessDown:
+                return t.HOTKEY_ACTION_LEDS_BRIGHTNESS_DOWN;
+            case HotkeyAction.CalibrationMode:
+                return t.HOTKEY_ACTION_CALIBRATION_MODE;
+            case HotkeyAction.XInputMode:
+                return t.HOTKEY_ACTION_XINPUT_MODE;
+            case HotkeyAction.PS4Mode:
+                return t.HOTKEY_ACTION_PS4_MODE;
+            case HotkeyAction.NSwitchMode:
+                return t.HOTKEY_ACTION_NSWITCH_MODE;
+            case HotkeyAction.SystemReboot:
+                return t.HOTKEY_ACTION_SYSTEM_REBOOT;
+            default:
+                return action;
+        }
+    };
+
     /**
      * 创建热键选择列表
      */
@@ -39,10 +73,10 @@ export default function HotkeysField(
         return createListCollection({
             items: HotkeyActionList.map(action => ({
                 value: action,
-                label: HotkeyActionLabelMap.get(action)?.label ?? action
+                label: getHotkeyActionLabel(action)
             }))
         });
-    }, []);
+    }, [t]);
 
     /**
      * 点击关闭键 将键值设置为-1 表示没有绑定按键

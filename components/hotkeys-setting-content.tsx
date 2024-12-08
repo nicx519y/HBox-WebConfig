@@ -13,7 +13,6 @@ import {
     HotkeyAction,
     DEFAULT_NUM_HOTKEYS_MAX,
     Hotkey,
-    UI_TEXT,
 } from "@/types/gamepad-config";
 import Hitbox from "@/components/hitbox";
 import HotkeysField from "./hotkeys-field";
@@ -22,8 +21,10 @@ import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
 import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
+import { useLanguage } from "@/contexts/language-context";
 
 export function HotkeysSettingContent() {
+    const { t } = useLanguage();
     const { hotkeysConfig, updateHotkeysConfig, fetchHotkeysConfig, rebootSystem } = useGamepadConfig();
     const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
 
@@ -60,8 +61,8 @@ export function HotkeysSettingContent() {
         // 如果 hotkey 的 key 已经在 hotkeys 中，并且不是当前正在编辑的 hotkey，则不更新
         if (keyIndex >= 0 && keyIndex !== index && hotkey.key >= 0) {
             toaster.create({
-                title: UI_TEXT.ERROR_KEY_ALREADY_BINDED_TITLE,
-                description: UI_TEXT.ERROR_KEY_ALREADY_BINDED_DESC,
+                title: t.ERROR_KEY_ALREADY_BINDED_TITLE,
+                description: t.ERROR_KEY_ALREADY_BINDED_DESC,
                 type: "error",
             });
             return;
@@ -91,10 +92,10 @@ export function HotkeysSettingContent() {
                 <Fieldset.Root>
                     <Stack direction="column" gap={4}>
                         <Fieldset.Legend fontSize="2rem" color="green.600">
-                            HOTKEYS SETTINGS
+                            {t.SETTINGS_HOTKEYS_TITLE}
                         </Fieldset.Legend>
                         <Fieldset.HelperText fontSize="smaller" color="gray.400">
-                            <Text whiteSpace="pre-wrap" >{UI_TEXT.SETTINGS_HOTKEYS_HELPER_TEXT}</Text>
+                            <Text whiteSpace="pre-wrap" >{t.SETTINGS_HOTKEYS_HELPER_TEXT}</Text>
                         </Fieldset.HelperText>
                         <Fieldset.Content pt="30px" >
                             <Stack gap={4}>
@@ -120,7 +121,7 @@ export function HotkeysSettingContent() {
                                         width="140px"
                                         onClick={fetchHotkeysConfig}
                                     >
-                                        {UI_TEXT.BUTTON_RESET}
+                                        {t.BUTTON_RESET}
                                     </Button>
                                     <Button
                                         colorPalette="green"
@@ -128,7 +129,7 @@ export function HotkeysSettingContent() {
                                         width="140px"
                                         onClick={saveHotkeysConfigHandler}
                                     >
-                                        {UI_TEXT.BUTTON_SAVE}
+                                        {t.BUTTON_SAVE}
                                     </Button>
                                     <Button
                                         colorPalette="blue"
@@ -137,21 +138,21 @@ export function HotkeysSettingContent() {
                                         width={"180px"}
                                         onClick={async () => {
                                             const confirmed = await openRebootConfirmDialog({
-                                                title: UI_TEXT.DIALOG_REBOOT_CONFIRM_TITLE,
-                                                message: UI_TEXT.DIALOG_REBOOT_CONFIRM_MESSAGE,
+                                                title: t.DIALOG_REBOOT_CONFIRM_TITLE,
+                                                message: t.DIALOG_REBOOT_CONFIRM_MESSAGE,
                                         });
                                             if (confirmed) {
                                                 await saveHotkeysConfigHandler();
                                                 await rebootSystem();
                                                 openRebootDialog({
-                                                    title: UI_TEXT.DIALOG_REBOOT_SUCCESS_TITLE,
+                                                    title: t.DIALOG_REBOOT_SUCCESS_TITLE,
                                                     status: "success",
-                                                    message: UI_TEXT.DIALOG_REBOOT_SUCCESS_MESSAGE,
+                                                    message: t.DIALOG_REBOOT_SUCCESS_MESSAGE,
                                                 });
                                             }
                                         }}
                                     >
-                                        {UI_TEXT.BUTTON_REBOOT_WITH_SAVING}
+                                        {t.BUTTON_REBOOT_WITH_SAVING}
                                     </Button>
                                 </Stack>
                             </Stack>
