@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "cross-env NEXT_PUBLIC_IS_STATIC_EXPORT=true next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.2.0",
