@@ -662,8 +662,64 @@
         "invertYAxis": false,
         "fourWayMode": false,
         "socdMode": "SOCD_MODE_NEUTRAL",
-        "inputMode": "XINPUT",
-        "keyMapping": {}
+        "inputMode": "PS4",
+        "keyMapping": {
+          "DPAD_UP": [
+            0,
+            6
+          ],
+          "DPAD_DOWN": [
+            3
+          ],
+          "DPAD_LEFT": [
+            4
+          ],
+          "DPAD_RIGHT": [
+            5
+          ],
+          "L1": [
+            13
+          ],
+          "R1": [
+            15
+          ],
+          "L2": [
+            12
+          ],
+          "R2": [
+            14
+          ],
+          "L3": [
+            1
+          ],
+          "R3": [
+            2
+          ],
+          "B1": [
+            7
+          ],
+          "B2": [
+            10
+          ],
+          "B3": [
+            8
+          ],
+          "B4": [
+            11
+          ],
+          "S1": [
+            18
+          ],
+          "S2": [
+            17
+          ],
+          "A1": [
+            16
+          ],
+          "A2": [
+            9
+          ]
+        }
       },
       "ledsConfigs": {
         "ledEnabled": true,

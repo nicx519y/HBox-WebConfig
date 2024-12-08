@@ -25,41 +25,43 @@ const StyledCircle = styled.circle<{
   $interactive?: boolean;
   $highlight?: boolean;
 }>`
-  stroke: #fff;
+  stroke: 'gray';
   stroke-width: 1px;
-//   stroke-dasharray: ${props => props.$highlight ? '8,6' : 'none'};
   cursor: ${props => props.$interactive ? 'pointer' : 'default'};
   pointer-events: ${props => props.$interactive ? 'auto' : 'none'};
   opacity: ${props => props.$opacity};
   fill: ${props => props.$color};
-  stroke: ${props => props.$highlight ? 'yellowgreen' : '#fff'};
-  stroke-width: ${props => props.$highlight ? '4px' : '1px'};
+  stroke: ${props => props.$highlight ? 'yellowgreen' : 'gray'};
+  stroke-width: ${props => props.$highlight ? '2px' : '1px'};
+  filter: ${props => props.$highlight ? 'drop-shadow(0 0 2px rgba(154, 205, 50, 0.8))' : 'none'};
 
   &:hover {
-    stroke-width: ${props => props.$interactive ? '4px' : '1px'};
-    stroke: ${props => props.$interactive ? 'green' : '#fff'};
-    // stroke-dasharray: ${props => props.$interactive ? '8,6' : 'none'};
+    stroke-width: ${props => props.$interactive ? '2px' : '1px'};
+    stroke: ${props => props.$interactive ? '#ccc' : 'gray'};
+    filter: ${props => props.$interactive ? 'drop-shadow(0 0 10px rgba(204, 204, 204, 0.8))' : 'none'};
   }
 
   &:active {
-    stroke-width: ${props => props.$interactive ? '4px' : '1px'};
-    stroke: ${props => props.$interactive ? 'yellowgreen' : '#fff'};
-    // stroke-dasharray: ${props => props.$interactive ? '8,6' : 'none'};
+    stroke-width: ${props => props.$interactive ? '2px' : '1px'};
+    stroke: ${props => props.$interactive ? 'yellowgreen' : 'gray'};
+    filter: ${props => props.$interactive ? 'drop-shadow(0 0 15px rgba(154, 205, 50, 0.9))' : 'none'};
   }
 `;
 
 const StyledPath = styled.path`
   fill: none;
-  stroke: #fff;
+  stroke: gray;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1px;
+  filter: drop-shadow(0 0 1px rgba(128, 128, 128, 0.5));
 `;
 
 const StyledFrame = styled.rect`
   fill: none;
-  stroke: #ccc;
-  stroke-width: 2px;
+  stroke: gray;
+  stroke-width: 1px;
+  filter: drop-shadow(0 0 5px rgba(204, 204, 204, 0.8));
 `;
 
 /**
@@ -108,6 +110,8 @@ const btnPosList = [
     { x: 51.99, y: 46.03, r: 11.37 },
 ];
 
+const btnFrameRadiusDistance = 3;
+
 const btnLen = btnPosList.length;
 
 const lerpColor = (color1: Color, color2: Color, t: number) => {
@@ -119,6 +123,8 @@ const lerpColor = (color1: Color, color2: Color, t: number) => {
     return parseColor(`rgb(${r}, ${g}, ${b})`);
 
 };
+
+
 
 /**
  * Hitbox
@@ -271,38 +277,47 @@ export default function Hitbox(props: {
             <title>hitbox</title>
             <StyledFrame x="0.36" y="0.36" width="787.82" height="507.1" rx="10" />
             
-            <StyledPath d="M328.23,220.98a10,10,0,0,0-4.27-8" />
-            <StyledPath d="M323.97,212.95a10,10,0,0,0-9-1.26" />
-            <StyledPath d="M276.83,195.89a31.22,31.22,0,0,0,38.31,15.87" />
-            <StyledPath d="M276.83,195.89a10,10,0,0,0-7.25-5.48" />
-            <StyledPath d="M269.59,190.24a9.94,9.94,0,0,0-8.7,2.66" />
-            <StyledPath d="M267.32,157.1a31.23,31.23,0,1,0-6.36,36.06" />
-            <StyledPath d="M267.31,157.09a10,10,0,0,0,7.26,5.48" />
-            <StyledPath d="M274.55,162.57a10,10,0,0,0,8.7-2.66" />
-            <StyledPath d="M297.69,151.87a31.28,31.28,0,0,0-14.51,8" />
-            <StyledPath d="M297.7,152.01a10,10,0,0,0,6.91-5.9" />
-            <StyledPath d="M304.61,146.13a10,10,0,0,0-.72-9.07" />
-            <StyledPath d="M337.53,151.07a31.22,31.22,0,1,0-33.83-14" />
-            <StyledPath d="M337.53,150.93a10,10,0,0,0-6.92,5.9" />
-            <StyledPath d="M330.62,156.81a10,10,0,0,0,.71,9.08" />
-            <StyledPath d="M336.15,181.77a31.32,31.32,0,0,0-4.63-15.89" />
-            <StyledPath d="M335.97,181.67a10,10,0,0,0,4.26,8" />
-            <StyledPath d="M340.22,189.67a10,10,0,0,0,9,1.26" />
-            <StyledPath d="M328.24,220.89a31.23,31.23,0,1,0,21-30" />
+            {/* 渲染按钮边框路径 */}
+            <StyledPath d="
+              M328.23,220.98 a10,10,0,0,0-4.27-8
+              M323.97,212.95 a10,10,0,0,0-9-1.26
+              M276.83,195.89 a31.22,31.22,0,0,0,38.31,15.87
+              M276.83,195.89 a10,10,0,0,0-7.25-5.48
+              M269.59,190.24 a9.94,9.94,0,0,0-8.7,2.66
+              M267.32,157.1 a31.23,31.23,0,1,0-6.36,36.06
+              M267.31,157.09 a10,10,0,0,0,7.26,5.48
+              M274.55,162.57 a10,10,0,0,0,8.7-2.66
+              M297.69,151.87 a31.28,31.28,0,0,0-14.51,8
+              M297.7,152.01 a10,10,0,0,0,6.91-5.9
+              M304.61,146.13 a10,10,0,0,0-.72-9.07
+              M337.53,151.07 a31.22,31.22,0,1,0-33.83-14
+              M337.53,150.93 a10,10,0,0,0-6.92,5.9
+              M330.62,156.81 a10,10,0,0,0,.71,9.08
+              M336.15,181.77 a31.32,31.32,0,0,0-4.63-15.89
+              M335.97,181.67 a10,10,0,0,0,4.26,8
+              M340.22,189.67 a10,10,0,0,0,9,1.26
+              M328.24,220.89 a31.23,31.23,0,1,0,21-30"
+            />
 
-            <StyledCircle cx="452.88" cy="352.04" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="376.2" cy="379.58" r="38.25"  $opacity={1} $interactive={false} />
-            <StyledCircle cx="630.36" cy="155.67" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="559.8" cy="161.96" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="493.2" cy="186.08" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="599.94" cy="92.12" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="404.82" cy="163.22" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="462.78" cy="122.54" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="398.52" cy="92.67" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="435.24" cy="226.76" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="529.43" cy="98.24" r="31.23" $opacity={1} $interactive={false} />
-            <StyledCircle cx="299.52" cy="352.04" r="31.23" $opacity={1} $interactive={false} />
+            {/* 渲染按钮外框 */}
+            {btnPosList.map((item, index) => {
+                const radius = item.r + btnFrameRadiusDistance;
+                if(![3, 4, 5, 6].includes(index)) {
+                    return (
+                        <StyledCircle 
+                            id={`btn-${index}`}
+                            key={index} 
+                            cx={item.x} 
+                            cy={item.y} 
+                            r={radius} 
+                            $interactive={false}
+                            $highlight={false}
+                        />
+                    )
+                }
+            })}
 
+            {/* 渲染按钮 */}
             {btnPosList.map((item, index) => (
                 <StyledCircle 
                     id={`btn-${index}`}
@@ -318,27 +333,18 @@ export default function Hitbox(props: {
                 />
             ))}
 
-            <StyledText x="373" y="385">1</StyledText>
-            <StyledText x="296" y="358">2</StyledText>
-            <StyledText x="450" y="358">3</StyledText>
-            <StyledText x="302" y="188">4</StyledText>
-            <StyledText x="236" y="177">5</StyledText>
-            <StyledText x="357" y="226">6</StyledText>
-            <StyledText x="328" y="127">7</StyledText>
-            <StyledText x="432" y="232">8</StyledText>
-
-            <StyledText x="401" y="168">9</StyledText>
-            <StyledText x="390" y="98">10</StyledText>
-            <StyledText x="485" y="191">11</StyledText>
-            <StyledText x="454" y="127">12</StyledText>
-            <StyledText x="552" y="167">13</StyledText>
-            <StyledText x="521" y="103">14</StyledText>
-            <StyledText x="622" y="160">15</StyledText>
-            <StyledText x="591" y="97">16</StyledText>
-            <StyledText x="174" y="78">17</StyledText>
-            <StyledText x="130" y="78">18</StyledText>
-            <StyledText x="88" y="78">19</StyledText>
-            <StyledText x="42" y="78">Fn</StyledText>
+            {/* 渲染按钮文字 */}
+            {btnPosList.map((item, index) => (
+                <StyledText 
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    key={index} 
+                    x={item.x} 
+                    y={ index < btnLen - 4 ? item.y : item.y + 30 }
+                >
+                    { index !== btnLen - 1 ? index + 1 : "Fn" }
+                </StyledText>
+            ))}
         </StyledSvg>
     );
 }
