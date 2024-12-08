@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[974],{81831:(e,s,u)=>{Promise.resolve().then(u.bind(u,38152))},38152:(e,s,u)=>{"use strict";u.r(s),u.d(s,{default:()=>r});var t=u(12115),n=u(76046);function r(){let e=(0,n.useRouter)();return(0,t.useEffect)(()=>{e.push("/keys-setting")},[e]),null}}},e=>{var s=s=>e(e.s=s);e.O(0,[96,358],()=>s(81831)),_N_E=e.O()}]);
