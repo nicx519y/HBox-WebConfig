@@ -10,6 +10,7 @@ import { LoadingModal } from "@/components/ui/loading-modal"
 import { useState, useEffect } from 'react'
 import { DialogConfirm } from '@/components/dialog-confirm'
 import { DialogForm } from "@/components/dialog-form";
+import { DialogCannotClose } from '@/components/dialog-cannot-close'
 
 // 创建一个内部组件来使用 context
 function AppContent({ children }: { children: React.ReactNode }) {
@@ -133,10 +134,9 @@ export default function RootLayout({
                                 {children}
                             </AppContent>
                         </GamepadConfigProvider>
-                        {/* 确认对话框组件 */}
                         <DialogConfirm />
-                        {/* 表单对话框组件 */}
                         <DialogForm />
+                        <DialogCannotClose />
                     </Provider>
                 </StyledComponentsRegistry>
             </body>

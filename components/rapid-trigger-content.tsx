@@ -15,6 +15,8 @@ import { RapidTriggerConfig } from "@/types/gamepad-config";
 import Hitbox from "@/components/hitbox";
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
+import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
+import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
 
 interface TriggerConfig {
     topDeadzone: number;
@@ -37,10 +39,10 @@ export function RapidTriggerContent() {
     const [selectedButton, setSelectedButton] = useState<number | null>(0); // 当前选中的按钮
     const [triggerConfigs, setTriggerConfigs] = useState<RapidTriggerConfig[]>([]); // 按钮配置
     const [isAllBtnsConfiguring, setIsAllBtnsConfiguring] = useState(false); // 是否同时配置所有按钮
-    const [allBtnsConfig, setAllBtnsConfig] = useState<RapidTriggerConfig>({...defaultTriggerConfig});
-    
+    const [allBtnsConfig, setAllBtnsConfig] = useState<RapidTriggerConfig>({ ...defaultTriggerConfig });
+
     // 所有按钮的键值
-    const allKeys = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
+    const allKeys = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
     /**
      * 加载触发配置
@@ -59,7 +61,7 @@ export function RapidTriggerContent() {
      */
     const getCurrentConfig = () => {
         if (selectedButton === null) return defaultTriggerConfig;
-        return triggerConfigs[selectedButton] ?? defaultTriggerConfig;  
+        return triggerConfigs[selectedButton] ?? defaultTriggerConfig;
     };
 
     /**
@@ -89,7 +91,7 @@ export function RapidTriggerContent() {
      * 切换所有按钮配置
      */
     const switchAllBtnsConfiging = (n: boolean) => {
-        if(n === true) {
+        if (n === true) {
             setAllBtnsConfig({
                 ...allBtnsConfig,
                 ...getCurrentConfig()
@@ -100,7 +102,7 @@ export function RapidTriggerContent() {
 
     /**
      * 保存配置
-     */ 
+     */
     const saveProfileDetailHandler = async () => {
         const profileId = defaultProfile.id;
         if (isAllBtnsConfiguring) {
@@ -140,10 +142,10 @@ export function RapidTriggerContent() {
     return (
         <Flex direction="row" width="1700px" padding={"18px"} >
             <Center width="100%" flex={1} >
-                <Hitbox 
+                <Hitbox
                     onClick={(id) => handleButtonClick(id)}
                     highlightIds={!isAllBtnsConfiguring ? [selectedButton ?? -1] : allKeys}
-                    interactiveIds={allKeys} 
+                    interactiveIds={allKeys}
                 />
             </Center>
             <Center width="700px" >
@@ -174,7 +176,7 @@ export function RapidTriggerContent() {
                                 >Configure all buttons at once</Switch>
 
                                 <Text color={!isAllBtnsConfiguring ? "green.400" : "gray.700"} >
-                                    {(selectedButton !== null && !isAllBtnsConfiguring) ? 
+                                    {(selectedButton !== null && !isAllBtnsConfiguring) ?
                                         `Configuring button: `
                                         : 'Select a button to configure'
                                     }
@@ -195,13 +197,13 @@ export function RapidTriggerContent() {
                                     <Stack key={key} gap={6} >
                                         <Slider
                                             label={label}
-                                            value={[ isAllBtnsConfiguring ? allBtnsConfig[key as keyof RapidTriggerConfig] : getCurrentConfig()[key as keyof TriggerConfig]]}
+                                            value={[isAllBtnsConfiguring ? allBtnsConfig[key as keyof RapidTriggerConfig] : getCurrentConfig()[key as keyof TriggerConfig]]}
                                             colorPalette={"green"}
                                             min={0}
                                             max={1}
                                             step={0.1}
                                             onValueChange={(details) => {
-                                                if(isAllBtnsConfiguring) {
+                                                if (isAllBtnsConfiguring) {
                                                     updateAllBtnsConfig(key as keyof RapidTriggerConfig, details.value[0]);
                                                 } else {
                                                     updateConfig(key as keyof TriggerConfig, details.value[0]);
@@ -220,7 +222,7 @@ export function RapidTriggerContent() {
                                             ]}
                                         />
                                         <Text fontSize="sm" color="gray.400">
-                                            Value: { isAllBtnsConfiguring ? allBtnsConfig[key as keyof RapidTriggerConfig] : getCurrentConfig()[key as keyof TriggerConfig]}
+                                            Value: {isAllBtnsConfiguring ? allBtnsConfig[key as keyof RapidTriggerConfig] : getCurrentConfig()[key as keyof TriggerConfig]}
                                         </Text>
                                     </Stack>
                                 ))}
@@ -244,14 +246,25 @@ export function RapidTriggerContent() {
                                     >
                                         Save
                                     </Button>
-                                    <Button 
-                                        colorPalette={"blue"} 
-                                        size={"lg"} 
-                                        width={"180px"} 
+                                    <Button
+                                        colorPalette={"blue"}
+                                        size={"lg"}
+                                        width={"180px"}
                                         onClick={async () => {
-                                            await saveProfileDetailHandler();   
-                                            await rebootSystem();
-                                        }} 
+                                            const confirmed = await openRebootConfirmDialog({
+                                                title: "Are you sure?",
+                                                message: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
+                                            });
+                                            if (confirmed) {
+                                                await saveProfileDetailHandler();
+                                                await rebootSystem();
+                                                openRebootDialog({
+                                                    title: "Reboot successful",
+                                                    status: "success",
+                                                    message: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+                                                });
+                                            }
+                                        }}
                                     >
                                         Reboot With Saving
                                     </Button>

@@ -18,6 +18,8 @@ import HotkeysField from "./hotkeys-field";
 import { toaster } from "@/components/ui/toaster";
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
+import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
+import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
 
 export function HotkeysSettingContent() {
     const { hotkeysConfig, updateHotkeysConfig, fetchHotkeysConfig, rebootSystem } = useGamepadConfig();
@@ -25,7 +27,7 @@ export function HotkeysSettingContent() {
 
     const [hotkeys, setHotkeys] = useState<Hotkey[]>([]);
     const [activeHotkeyIndex, setActiveHotkeyIndex] = useState<number>(0);
-    
+
     useEffect(() => {
         // 从 gamepadConfig 加载 hotkeys 配置
         setHotkeys(Array.from({ length: DEFAULT_NUM_HOTKEYS_MAX }, (_, i) => {
@@ -35,13 +37,13 @@ export function HotkeysSettingContent() {
     }, [hotkeysConfig]);
 
     useMemo(() => {
-        if(activeHotkeyIndex >= 0 && hotkeys[activeHotkeyIndex]?.isLocked === true) {
+        if (activeHotkeyIndex >= 0 && hotkeys[activeHotkeyIndex]?.isLocked === true) {
             const index = hotkeys.findIndex(h => h.isLocked === undefined || h.isLocked === false);
-            if(index >= 0) {
+            if (index >= 0) {
                 setActiveHotkeyIndex(index);
             }
         }
-    }, [hotkeys]);  
+    }, [hotkeys]);
 
     const saveHotkeysConfigHandler = async () => {
         if (!hotkeysConfig) return;
@@ -54,7 +56,7 @@ export function HotkeysSettingContent() {
         const keys = hotkeys.map(h => h.key);
         const keyIndex = keys.indexOf(hotkey.key);
         // 如果 hotkey 的 key 已经在 hotkeys 中，并且不是当前正在编辑的 hotkey，则不更新
-        if(keyIndex >= 0 && keyIndex !== index && hotkey.key >= 0) {
+        if (keyIndex >= 0 && keyIndex !== index && hotkey.key >= 0) {
             toaster.create({
                 title: "Key already binded.",
                 description: "Please select another key, or unbind the key first.",
@@ -108,7 +110,7 @@ export function HotkeysSettingContent() {
                                         onValueChange={(changeDetail) => {
                                             updateHotkey(i, changeDetail);
                                         }}
-                                        isActive={ i === activeHotkeyIndex }
+                                        isActive={i === activeHotkeyIndex}
                                         onFieldClick={(index) => setActiveHotkeyIndex(index)}
                                         disabled={hotkeys[i]?.isLocked ?? false}
                                     />
@@ -132,14 +134,25 @@ export function HotkeysSettingContent() {
                                     >
                                         Save
                                     </Button>
-                                    <Button 
-                                        colorPalette={"blue"} 
-                                        size={"lg"} 
-                                        width={"180px"} 
+                                    <Button
+                                        colorPalette={"blue"}
+                                        size={"lg"}
+                                        width={"180px"}
                                         onClick={async () => {
-                                            await saveHotkeysConfigHandler();
-                                            await rebootSystem();
-                                        }} 
+                                            const confirmed = await openRebootConfirmDialog({
+                                                title: "Are you sure?",
+                                                message: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
+                                            });
+                                            if (confirmed) {
+                                                await saveHotkeysConfigHandler();
+                                                await rebootSystem();
+                                                openRebootDialog({
+                                                    title: "Reboot successful",
+                                                    status: "success",
+                                                    message: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+                                                });
+                                            }
+                                        }}
                                     >
                                         Reboot With Saving
                                     </Button>

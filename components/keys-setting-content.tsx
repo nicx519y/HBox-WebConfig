@@ -34,6 +34,8 @@ import { LuInfo } from "react-icons/lu";
 import { ToggleTip } from "@/components/ui/toggle-tip"
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
+import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
+import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
 
 export function KeysSettingContent() {
 
@@ -48,7 +50,7 @@ export function KeysSettingContent() {
     const [keyMapping, setKeyMapping] = useState<{ [key in GameControllerButton]?: number[] }>({});
     const [autoSwitch, setAutoSwitch] = useState<boolean>(true);
     const [inputKey, setInputKey] = useState<number>(-1);
-    
+
     useEffect(() => {
         setInputMode(defaultProfile.keysConfig?.inputMode ?? Platform.XINPUT);
         setSocdMode(defaultProfile.keysConfig?.socdMode ?? GameSocdMode.SOCD_MODE_UP_PRIORITY);
@@ -230,8 +232,19 @@ export function KeysSettingContent() {
                                     size={"lg"} 
                                     width={"180px"} 
                                     onClick={async () => {
-                                        await saveProfileDetailHandler();
-                                        await rebootSystem();
+                                        const confirmed = await openRebootConfirmDialog({
+                                            title: "Are you sure?",
+                                            message: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
+                                        });
+                                        if (confirmed) {
+                                            await saveProfileDetailHandler();
+                                            await rebootSystem();
+                                            openRebootDialog({
+                                                title: "Reboot successful",
+                                                status: "success",
+                                                message: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+                                            });
+                                        }
                                     }} 
                                 >
                                     Reboot With Saving

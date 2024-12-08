@@ -48,6 +48,8 @@ import { LuSunDim, LuActivity } from "react-icons/lu";
 import Hitbox from "./hitbox";
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
+import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
+import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
 
 export function LEDsSettingContent() {
 
@@ -71,7 +73,7 @@ export function LEDsSettingContent() {
     useEffect(() => {
         const ledsConfigs = defaultProfile.ledsConfigs;
         if (ledsConfigs) {
-            setLedsEffectStyle(ledsConfigs.ledsEffectStyle  ?? LedsEffectStyle.STATIC);
+            setLedsEffectStyle(ledsConfigs.ledsEffectStyle ?? LedsEffectStyle.STATIC);
             setColor1(parseColor(ledsConfigs.ledColors?.[0] ?? LEDS_COLOR_DEFAULT));
             setColor2(parseColor(ledsConfigs.ledColors?.[1] ?? LEDS_COLOR_DEFAULT));
             setColor3(parseColor(ledsConfigs.ledColors?.[2] ?? LEDS_COLOR_DEFAULT));
@@ -115,7 +117,7 @@ export function LEDsSettingContent() {
                         brightness={ledBrightness}
                         interactiveIds={[
                             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-                        ]} 
+                        ]}
                     />
                 </Center>
                 <Center width={"700px"}  >
@@ -137,7 +139,7 @@ export function LEDsSettingContent() {
 
                                 {/* LED Effect Style */}
                                 <Stack direction={"column"} gap={6} >
-                                    <Switch colorPalette={"green"} checked={ledEnabled} 
+                                    <Switch colorPalette={"green"} checked={ledEnabled}
                                         onChange={() => {
                                             setLedEnabled(!ledEnabled);
                                             setIsDirty?.(true);
@@ -183,9 +185,9 @@ export function LEDsSettingContent() {
                                                 key={index}
                                                 value={
                                                     index === 0 ? color1 :
-                                                    index === 1 ? color2 :
-                                                    index === 2 ? color3 :
-                                                    parseColor(LEDS_COLOR_DEFAULT)  
+                                                        index === 1 ? color2 :
+                                                            index === 2 ? color3 :
+                                                                parseColor(LEDS_COLOR_DEFAULT)
                                                 }
                                                 maxW="200px"
                                                 disabled={colorPickerDisabled(index)}
@@ -246,14 +248,25 @@ export function LEDsSettingContent() {
                                 <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailsHandler} >
                                     Save
                                 </Button>
-                                <Button 
-                                    colorPalette={"blue"} 
-                                    size={"lg"} 
-                                    width={"180px"} 
+                                <Button
+                                    colorPalette={"blue"}
+                                    size={"lg"}
+                                    width={"180px"}
                                     onClick={async () => {
-                                        await saveProfileDetailsHandler();
-                                        await rebootSystem();
-                                    }} 
+                                        const confirmed = await openRebootConfirmDialog({
+                                            title: "Are you sure?",
+                                            message: "Rebooting the system with saving will save the current profile and ending the current session. Are you sure to continue?",
+                                        });
+                                        if (confirmed) {
+                                            await saveProfileDetailsHandler();
+                                            await rebootSystem();
+                                            openRebootDialog({
+                                                title: "Reboot successful",
+                                                status: "success",
+                                                message: "Rebooting the system with saving is successful. You can now close this window and start enjoying the gaming experience.",
+                                            });
+                                        }
+                                    }}
                                 >
                                     Reboot With Saving
                                 </Button>
