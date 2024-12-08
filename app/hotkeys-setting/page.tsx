@@ -1,13 +1,8 @@
 'use client';
 
 import { HotkeysSettingContent } from "@/components/hotkeys-setting-content";
-import { useGamepadConfig } from "@/contexts/gamepad-config-context";
-import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 
 export default function HotkeysSettingPage() {
-    const { hotkeysConfig, updateHotkeysConfig, fetchHotkeysConfig } = useGamepadConfig();
-    const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
-
     return (
         <HotkeysSettingContent />
     );

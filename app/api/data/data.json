@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultProfileId": "profile-1733497033916",
+  "defaultProfileId": "profile-1733505030944",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
@@ -658,22 +658,78 @@
       "id": "profile-1733505030944",
       "name": "12",
       "keysConfig": {
-        "invertXAxis": false,
+        "invertXAxis": true,
         "invertYAxis": false,
         "fourWayMode": false,
-        "socdMode": "SOCD_MODE_NEUTRAL",
-        "inputMode": "XINPUT",
-        "keyMapping": {}
+        "socdMode": "SOCD_MODE_UP_PRIORITY",
+        "inputMode": "PS4",
+        "keyMapping": {
+          "DPAD_UP": [
+            0,
+            6
+          ],
+          "DPAD_DOWN": [
+            3
+          ],
+          "DPAD_LEFT": [
+            4
+          ],
+          "DPAD_RIGHT": [
+            5
+          ],
+          "L1": [
+            13
+          ],
+          "R1": [
+            15
+          ],
+          "L2": [
+            12
+          ],
+          "R2": [
+            14
+          ],
+          "L3": [
+            1
+          ],
+          "R3": [
+            2
+          ],
+          "B1": [
+            8
+          ],
+          "B2": [
+            11
+          ],
+          "B3": [
+            7
+          ],
+          "B4": [
+            10
+          ],
+          "S1": [
+            18
+          ],
+          "S2": [
+            17
+          ],
+          "A1": [
+            16
+          ],
+          "A2": [
+            9
+          ]
+        }
       },
       "ledsConfigs": {
-        "ledEnabled": false,
+        "ledEnabled": true,
         "ledsEffectStyle": "STATIC",
         "ledColors": [
           "#000000",
           "#000000",
           "#000000"
         ],
-        "ledBrightness": 0
+        "ledBrightness": 64
       },
       "triggerConfigs": {
         "isAllBtnsConfiguring": true,
