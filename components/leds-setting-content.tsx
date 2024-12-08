@@ -237,14 +237,15 @@ export function LEDsSettingContent() {
 
                             </Fieldset.Content>
                             <Stack direction={"row"} gap={4} justifyContent={"flex-start"} padding={"32px 0px"} >
-                                <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails} >
+                                <Button colorPalette={"teal"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails} >
                                     {UI_TEXT.BUTTON_RESET}
                                 </Button>
                                 <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailsHandler} >
                                     {UI_TEXT.BUTTON_SAVE}
                                 </Button>
                                 <Button
-                                    colorPalette={"blue"}
+                                    colorPalette="blue"
+                                    variant="surface"
                                     size={"lg"}
                                     width={"180px"}
                                     onClick={async () => {

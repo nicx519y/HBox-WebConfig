@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import { LEDS_ANIMATION_CYCLE, LEDS_COLOR_DEFAULT, LedsEffectStyle } from "@/types/gamepad-config";
-import { Color, parseColor } from '@chakra-ui/react';
+import { Color, parseColor, Box } from '@chakra-ui/react';
 import styled from "styled-components";
+import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 
 const StyledSvg = styled.svg`
   width: 800px;
@@ -159,6 +160,7 @@ export default function Hitbox(props: {
     const effectStyleRef = useRef(props.effectStyle ?? LedsEffectStyle.STATIC);
     const pressedButtonListRef = useRef(Array(btnLen).fill(-1)); 
 
+    const { contextJsReady, setContextJsReady } = useGamepadConfig();
 
     const handleClick = (event: React.MouseEvent<SVGElement>) => {
         const target = event.target as SVGElement;
@@ -205,6 +207,12 @@ export default function Hitbox(props: {
         return invertColor(parseColor(getBtnFontColor(index))).toString('css');
     }
 
+    /**
+     * 初始化显示状态
+     */
+    useEffect(() => {
+        setContextJsReady(true);
+    }, []);
     
     /**
      * 更新按钮颜色
@@ -250,6 +258,8 @@ export default function Hitbox(props: {
             cancelAnimationFrame(animationFrameId);
             timer = 0;
         };
+
+        
     }, []); 
 
     useEffect(() => {
@@ -291,9 +301,11 @@ export default function Hitbox(props: {
     }, [props.colorEnabled]);
 
     return (
-        <StyledSvg xmlns="http://www.w3.org/2000/svg" 
-            onMouseDown={handleClick} 
+        <Box display={contextJsReady ? "block" : "none"} >
+            <StyledSvg xmlns="http://www.w3.org/2000/svg" 
+                onMouseDown={handleClick} 
             onMouseUp={handleClick}
+            
         >
             <title>hitbox</title>
             <StyledFrame x="0.36" y="0.36" width="787.82" height="507.1" rx="10" />
@@ -366,7 +378,8 @@ export default function Hitbox(props: {
                 >
                     { index !== btnLen - 1 ? index + 1 : "Fn" }
                 </StyledText>
-            ))}
-        </StyledSvg>
+                ))}
+            </StyledSvg>
+        </Box>
     );
 }

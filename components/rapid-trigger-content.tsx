@@ -225,7 +225,7 @@ export function RapidTriggerContent() {
                                 {/* Buttons */}
                                 <Stack direction="row" gap={4} justifyContent="flex-start" padding="32px 0px">
                                     <Button
-                                        colorPalette="gray"
+                                        colorPalette="teal"
                                         variant="surface"
                                         size="lg"
                                         width="140px"
@@ -242,7 +242,8 @@ export function RapidTriggerContent() {
                                         {UI_TEXT.BUTTON_SAVE}
                                     </Button>
                                     <Button
-                                        colorPalette={"blue"}
+                                        colorPalette="blue"
+                                        variant="surface"
                                         size={"lg"}
                                         width={"180px"}
                                         onClick={async () => {

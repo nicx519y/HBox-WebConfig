@@ -1,0 +1,39 @@
+'use client';
+
+import { createContext, useContext, useState } from 'react';
+import { UI_TEXT, UI_TEXT_ZH } from '@/types/gamepad-config';
+
+// 使用 Record 和联合类型来定义文本类型
+type TextValue = string;
+type TextKey = keyof typeof UI_TEXT;
+type TextType = Record<TextKey, TextValue>;
+
+type LanguageContextType = {
+    currentLanguage: 'en' | 'zh';
+    setLanguage: (lang: 'en' | 'zh') => void;
+    t: TextType;
+};
+
+const LanguageContext = createContext<LanguageContextType>({
+    currentLanguage: 'en',
+    setLanguage: () => {},
+    t: UI_TEXT,
+});
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+    const [currentLanguage, setCurrentLanguage] = useState<'en' | 'zh'>('en');
+
+    const value = {
+        currentLanguage,
+        setLanguage: (lang: 'en' | 'zh') => setCurrentLanguage(lang),
+        t: currentLanguage === 'en' ? UI_TEXT : UI_TEXT_ZH,
+    };
+
+    return (
+        <LanguageContext.Provider value={value}>
+            {children}
+        </LanguageContext.Provider>
+    );
+}
+
+export const useLanguage = () => useContext(LanguageContext); 

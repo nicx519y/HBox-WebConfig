@@ -1,9 +1,11 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { GamepadConfig, GameProfile, LedsEffectStyle, Platform, NUM_PROFILES_MAX, GameSocdMode, GameControllerButton, Hotkey, RapidTriggerConfig, GameProfileList } from '@/types/gamepad-config';
 
 interface GamepadConfigContextType {
+    contextJsReady: boolean;
+    setContextJsReady: (ready: boolean) => void;
     profileList: GameProfileList;
     defaultProfile: GameProfile;
     hotkeysConfig: Hotkey[];
@@ -80,6 +82,11 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [hotkeysConfig, setHotkeysConfig] = useState<Hotkey[]>([]);
+    const [jsReady, setJsReady] = useState(false);
+
+    const contextJsReady = useMemo(() => {
+        return jsReady;
+    }, [jsReady]);
 
     useEffect(() => {
         fetchProfileList();
@@ -91,6 +98,10 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             fetchDefaultProfile();
         }
     }, [profileList]);
+
+    const setContextJsReady = (ready: boolean) => {
+        setJsReady(ready);
+    }
 
     const fetchDefaultProfile = async (): Promise<void> => {
         try {
@@ -309,6 +320,8 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
 
     return (
         <GamepadConfigContext.Provider value={{
+            contextJsReady,
+            setContextJsReady,
             profileList,
             defaultProfile,
             hotkeysConfig,

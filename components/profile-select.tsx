@@ -27,10 +27,12 @@ import { LuTrash, LuPlus, LuPencil, LuMenu } from "react-icons/lu"
 import { openConfirm } from '@/components/dialog-confirm';
 import { openForm } from '@/components/dialog-form';
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
+import { useLanguage } from '@/contexts/language-context';
 
 export function ProfileSelect() {
 
     const { profileList, switchProfile, createProfile, deleteProfile, updateProfileDetails } = useGamepadConfig();
+    const { t } = useLanguage();
 
     const defaultProfile = useMemo(() => {
         const profile = profileList.items.find(p => p.id === profileList.defaultId);
@@ -164,12 +166,12 @@ export function ProfileSelect() {
             <Stack direction="row" gap={2} alignItems="center">
                 <SelectRoot
                     size="sm"
-                    width="218px"
+                    width="200px"
                     collection={profilesCollection}
                     value={[defaultProfile?.id ?? ""]}
                     onValueChange={e => onDefaultProfileChange(e.value[0])}
                 >
-                    <SelectTrigger width="200px" >
+                    <SelectTrigger >
                         <SelectValueText color="gray.300" />
                     </SelectTrigger>
                     <SelectContent fontSize="xs" >
@@ -183,7 +185,7 @@ export function ProfileSelect() {
                 <MenuRoot>
                     <MenuTrigger asChild>
                         <IconButton
-                            aria-label={UI_TEXT.PROFILE_SELECT_MENU_BUTTON}
+                            aria-label={t.PROFILE_SELECT_MENU_BUTTON}
                             variant="ghost"
                             size="sm"
                         >
@@ -196,21 +198,21 @@ export function ProfileSelect() {
                             onClick={createProfileClick}
                         >
                             <LuPlus />
-                            {UI_TEXT.PROFILE_SELECT_CREATE_BUTTON}
+                            {t.PROFILE_SELECT_CREATE_BUTTON}
                         </MenuItem>
                         <MenuItem
                             value="rename"
                             onClick={renameProfileClick}
                         >
                             <LuPencil />
-                            {UI_TEXT.PROFILE_SELECT_RENAME_BUTTON}
+                            {t.PROFILE_SELECT_RENAME_BUTTON}
                         </MenuItem>
                         <MenuItem
                             value="delete"
                             onClick={deleteProfileClick}
                         >
                             <LuTrash />
-                            {UI_TEXT.PROFILE_SELECT_DELETE_BUTTON}
+                            {t.PROFILE_SELECT_DELETE_BUTTON}
                         </MenuItem>
                     </MenuContent>
                 </MenuRoot>

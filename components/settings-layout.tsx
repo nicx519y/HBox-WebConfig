@@ -3,7 +3,6 @@
 import { useRouter, usePathname } from 'next/navigation';
 import { Flex, Center, Tabs, HStack } from '@chakra-ui/react';
 import { ProfileSelect } from '@/components/profile-select';
-import { useGamepadConfig } from '@/contexts/gamepad-config-context';
 import {
     LuKeyboard,
     LuRocket,
@@ -65,7 +64,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
                     <Tabs.Indicator rounded="l2" />
                 </Tabs.List>
             </Tabs.Root>
-
+            
             <Flex direction="column" flex={1} height="100%">
                 <Center pt={4} height="50px"  >
                     {showProfileSelect && (

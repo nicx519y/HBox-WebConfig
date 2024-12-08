@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react'
 import { DialogConfirm } from '@/components/dialog-confirm'
 import { DialogForm } from "@/components/dialog-form";
 import { DialogCannotClose } from '@/components/dialog-cannot-close'
+import { LanguageProvider } from '@/contexts/language-context';
 
 // 创建一个内部组件来使用 context
 function AppContent({ children }: { children: React.ReactNode }) {
@@ -130,9 +131,11 @@ export default function RootLayout({
                 <StyledComponentsRegistry>
                     <Provider>
                         <GamepadConfigProvider>
-                            <AppContent>
-                                {children}
-                            </AppContent>
+                            <LanguageProvider>
+                                <AppContent>
+                                    {children}
+                                </AppContent>
+                            </LanguageProvider>
                         </GamepadConfigProvider>
                         <DialogConfirm />
                         <DialogForm />
