@@ -66,25 +66,14 @@ const StyledFrame = styled.rect`
 
 /**
  * StyledText
- *  text-align: center;
- *  font-family: "Helvetica", cursive;
- *  fill: #ccc;
- *  font-size: .9rem;
- *  cursor: default;
- *  pointer-events: none;
- *  stroke: #000;
  * @returns 
  */
 const StyledText = styled.text`
   text-align: center;
   font-family: "Helvetica", cursive;
-  fill: #ccc;
   font-size: .9rem;
   cursor: default;
   pointer-events: none;
-  stroke: #000;
-  stroke-width: 1.8px;
-  paint-order: stroke fill;
 `;
 
 const btnPosList = [
@@ -123,6 +112,17 @@ const lerpColor = (color1: Color, color2: Color, t: number) => {
     return parseColor(`rgb(${r}, ${g}, ${b})`);
 
 };
+
+// 反转颜色
+function invertColor(color: Color) {
+    const r = color.getChannelValue('red');
+    const g = color.getChannelValue('green');
+    const b = color.getChannelValue('blue');
+    const invertedR = 255 - r;
+    const invertedG = 255 - g;
+    const invertedB = 255 - b;
+    return parseColor(`rgb(${invertedR}, ${invertedG}, ${invertedB})`);
+  }
 
 
 
@@ -182,6 +182,27 @@ export default function Hitbox(props: {
        if (event.type === "mouseleave") {
             pressedButtonListRef.current[id] = -1;
        }
+    }
+
+    /**
+     * 获取按钮表面颜色
+     * @param index 
+     * @returns 
+     */
+    const getBtnFontColor = (index: number): string => {
+        if([16, 17, 18, 19].includes(index)) {
+            return LEDS_COLOR_DEFAULT;
+        }
+        return colorList[index]?.toString('css') ?? LEDS_COLOR_DEFAULT;
+    }
+
+    /**
+     * 获取按钮字体颜色 是按钮表面颜色的反色
+     * @param index 
+     * @returns 
+     */
+    const getTextColor = (index: number) => {
+        return invertColor(parseColor(getBtnFontColor(index))).toString('css');
     }
 
     
@@ -341,6 +362,7 @@ export default function Hitbox(props: {
                     key={index} 
                     x={item.x} 
                     y={ index < btnLen - 4 ? item.y : item.y + 30 }
+                    fill={getTextColor(index)}
                 >
                     { index !== btnLen - 1 ? index + 1 : "Fn" }
                 </StyledText>
