@@ -16,21 +16,12 @@ import {
 import Hitbox from "@/components/hitbox";
 import HotkeysField from "./hotkeys-field";
 import { toaster } from "@/components/ui/toaster";
+import { useGamepadConfig } from "@/contexts/gamepad-config-context";
+import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 
-export function HotkeysSettingContent(
-    props: {
-        hotkeysConfig: Hotkey[],
-        resetHotkeysConfigHandler: () => void,
-        setHotkeysConfigHandler: (hotkeysConfig: Hotkey[]) => void,
-        setIsDirty?: (value: boolean) => void,  
-    }
-) {
-    const {
-        hotkeysConfig,
-        resetHotkeysConfigHandler,
-        setHotkeysConfigHandler,
-        setIsDirty,
-    } = props;
+export function HotkeysSettingContent() {
+    const { hotkeysConfig, updateHotkeysConfig, fetchHotkeysConfig, rebootSystem } = useGamepadConfig();
+    const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
 
     const [hotkeys, setHotkeys] = useState<Hotkey[]>([]);
     const [activeHotkeyIndex, setActiveHotkeyIndex] = useState<number>(0);
@@ -54,7 +45,7 @@ export function HotkeysSettingContent(
 
     const saveHotkeysConfigHandler = async () => {
         if (!hotkeysConfig) return;
-        await setHotkeysConfigHandler(hotkeys);
+        await updateHotkeysConfig(hotkeys);
     };
 
     const updateHotkey = (index: number, hotkey: Hotkey) => {
@@ -129,7 +120,7 @@ export function HotkeysSettingContent(
                                         variant="surface"
                                         size="lg"
                                         width="140px"
-                                        onClick={resetHotkeysConfigHandler}
+                                        onClick={fetchHotkeysConfig}
                                     >
                                         Reset
                                     </Button>
@@ -140,6 +131,17 @@ export function HotkeysSettingContent(
                                         onClick={saveHotkeysConfigHandler}
                                     >
                                         Save
+                                    </Button>
+                                    <Button 
+                                        colorPalette={"blue"} 
+                                        size={"lg"} 
+                                        width={"180px"} 
+                                        onClick={async () => {
+                                            await saveHotkeysConfigHandler();
+                                            await rebootSystem();
+                                        }} 
+                                    >
+                                        Reboot With Saving
                                     </Button>
                                 </Stack>
                             </Stack>

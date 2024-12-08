@@ -46,23 +46,13 @@ import {
 } from "@/types/gamepad-config";
 import { LuSunDim, LuActivity } from "react-icons/lu";
 import Hitbox from "./hitbox";
+import { useGamepadConfig } from "@/contexts/gamepad-config-context";
+import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 
-export function LEDsSettingContent(
+export function LEDsSettingContent() {
 
-    props: {
-        defaultProfile: GameProfile,
-        setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => void,
-        resetProfileDetailsHandler: () => void,
-        setIsDirty?: (value: boolean) => void,   
-    }
-) {
-
-    const {
-        defaultProfile,
-        setProfileDetailsHandler,
-        resetProfileDetailsHandler,
-        setIsDirty,
-    } = props;
+    const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
+    const { defaultProfile, updateProfileDetails, resetProfileDetails, rebootSystem } = useGamepadConfig();
 
 
     const [ledsEffectStyle, setLedsEffectStyle] = useState<LedsEffectStyle>(LedsEffectStyle.STATIC);
@@ -104,7 +94,7 @@ export function LEDsSettingContent(
         }
 
         console.log("saveProfileDetailHandler: ", newProfileDetails);
-        setProfileDetailsHandler(defaultProfile.id, newProfileDetails as GameProfile);
+        updateProfileDetails(defaultProfile.id, newProfileDetails as GameProfile);
     }
 
     const colorPickerDisabled = (index: number) => {
@@ -250,11 +240,22 @@ export function LEDsSettingContent(
 
                             </Fieldset.Content>
                             <Stack direction={"row"} gap={4} justifyContent={"flex-start"} padding={"32px 0px"} >
-                                <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetailsHandler} >
+                                <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails} >
                                     Reset
                                 </Button>
                                 <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailsHandler} >
                                     Save
+                                </Button>
+                                <Button 
+                                    colorPalette={"blue"} 
+                                    size={"lg"} 
+                                    width={"180px"} 
+                                    onClick={async () => {
+                                        await saveProfileDetailsHandler();
+                                        await rebootSystem();
+                                    }} 
+                                >
+                                    Reboot With Saving
                                 </Button>
                             </Stack>
                         </Stack>

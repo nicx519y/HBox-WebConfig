@@ -32,24 +32,13 @@ import { SegmentedControl } from "@/components/ui/segmented-control";
 import Hitbox from "@/components/hitbox";
 import { LuInfo } from "react-icons/lu";
 import { ToggleTip } from "@/components/ui/toggle-tip"
+import { useGamepadConfig } from "@/contexts/gamepad-config-context";
+import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 
-export function KeysSettingContent(
+export function KeysSettingContent() {
 
-    props: {
-        defaultProfile: GameProfile,
-        setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => void,
-        resetProfileDetailsHandler: () => void,
-        setIsDirty?: (value: boolean) => void,
-    }
-) {
-
-    const {
-        defaultProfile,
-        setProfileDetailsHandler,
-        resetProfileDetailsHandler,
-        setIsDirty,
-    } = props;
-
+    const { defaultProfile, updateProfileDetails, resetProfileDetails, rebootSystem } = useGamepadConfig();
+    const [_isDirty, setIsDirty] = useUnsavedChangesWarning();  
 
     const [inputMode, setInputMode] = useState<Platform>(Platform.XINPUT);
     const [socdMode, setSocdMode] = useState<GameSocdMode>(GameSocdMode.SOCD_MODE_UP_PRIORITY);
@@ -59,7 +48,7 @@ export function KeysSettingContent(
     const [keyMapping, setKeyMapping] = useState<{ [key in GameControllerButton]?: number[] }>({});
     const [autoSwitch, setAutoSwitch] = useState<boolean>(true);
     const [inputKey, setInputKey] = useState<number>(-1);
-
+    
     useEffect(() => {
         setInputMode(defaultProfile.keysConfig?.inputMode ?? Platform.XINPUT);
         setSocdMode(defaultProfile.keysConfig?.socdMode ?? GameSocdMode.SOCD_MODE_UP_PRIORITY);
@@ -101,7 +90,7 @@ export function KeysSettingContent(
             },
         }
 
-        setProfileDetailsHandler(defaultProfile.id, newProfile);
+        updateProfileDetails(defaultProfile.id, newProfile);
     }
 
     return (
@@ -230,11 +219,22 @@ export function KeysSettingContent(
 
                             </Fieldset.Content>
                             <Stack direction={"row"} gap={4} justifyContent={"flex-start"} padding={"32px 0px"} >
-                                <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetailsHandler} >
+                                <Button colorPalette={"gray"} variant={"surface"} size={"lg"} width={"140px"} onClick={resetProfileDetails} >
                                     Reset
                                 </Button>
                                 <Button colorPalette={"green"} size={"lg"} width={"140px"} onClick={saveProfileDetailHandler} >
                                     Save
+                                </Button>
+                                <Button 
+                                    colorPalette={"blue"} 
+                                    size={"lg"} 
+                                    width={"180px"} 
+                                    onClick={async () => {
+                                        await saveProfileDetailHandler();
+                                        await rebootSystem();
+                                    }} 
+                                >
+                                    Reboot With Saving
                                 </Button>
                             </Stack>
                         </Stack>

@@ -11,11 +11,10 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
-import {
-    GameProfile,
-    RapidTriggerConfig
-} from "@/types/gamepad-config";
+import { RapidTriggerConfig } from "@/types/gamepad-config";
 import Hitbox from "@/components/hitbox";
+import { useGamepadConfig } from "@/contexts/gamepad-config-context";
+import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 
 interface TriggerConfig {
     topDeadzone: number;
@@ -31,20 +30,9 @@ const defaultTriggerConfig: TriggerConfig = {
     releaseAccuracy: 0
 };
 
-export function RapidTriggerContent(
-    props: {
-        defaultProfile: GameProfile,
-        setProfileDetailsHandler: (profileId: string, profileDetails: GameProfile) => void,
-        resetProfileDetailsHandler: () => void,
-        setIsDirty?: (value: boolean) => void,
-    }
-) {
-    const {
-        defaultProfile,
-        setProfileDetailsHandler,
-        resetProfileDetailsHandler,
-        setIsDirty,
-    } = props;
+export function RapidTriggerContent() {
+    const { defaultProfile, updateProfileDetails, resetProfileDetails, rebootSystem } = useGamepadConfig();
+    const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
 
     const [selectedButton, setSelectedButton] = useState<number | null>(0); // 当前选中的按钮
     const [triggerConfigs, setTriggerConfigs] = useState<RapidTriggerConfig[]>([]); // 按钮配置
@@ -121,7 +109,7 @@ export function RapidTriggerContent(
                 newTriggerConfigs[index] = allBtnsConfig;
             });
 
-            await setProfileDetailsHandler(profileId, {
+            await updateProfileDetails(profileId, {
                 id: profileId,
                 triggerConfigs: {
                     isAllBtnsConfiguring: isAllBtnsConfiguring,
@@ -129,7 +117,7 @@ export function RapidTriggerContent(
                 }
             });
         } else {
-            await setProfileDetailsHandler(profileId, {
+            await updateProfileDetails(profileId, {
                 id: profileId,
                 triggerConfigs: {
                     isAllBtnsConfiguring: isAllBtnsConfiguring,
@@ -244,7 +232,7 @@ export function RapidTriggerContent(
                                         variant="surface"
                                         size="lg"
                                         width="140px"
-                                        onClick={resetProfileDetailsHandler}
+                                        onClick={resetProfileDetails}
                                     >
                                         Reset
                                     </Button>
@@ -255,6 +243,17 @@ export function RapidTriggerContent(
                                         onClick={saveProfileDetailHandler}
                                     >
                                         Save
+                                    </Button>
+                                    <Button 
+                                        colorPalette={"blue"} 
+                                        size={"lg"} 
+                                        width={"180px"} 
+                                        onClick={async () => {
+                                            await saveProfileDetailHandler();   
+                                            await rebootSystem();
+                                        }} 
+                                    >
+                                        Reboot With Saving
                                     </Button>
                                 </Stack>
                             </Stack>

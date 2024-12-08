@@ -25,7 +25,6 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
         { label: 'Firmware', path: '/firmware', icon: LuCpu }
     ];
 
-    const { deleteProfile, createProfile, switchProfile, setProfileDetails, profileList } = useGamepadConfig();
 
     const showProfileSelect = !['/hotkeys-setting', '/firmware'].includes(pathname);
 
@@ -70,13 +69,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
             <Flex direction="column" flex={1} height="100%">
                 <Center pt={4} height="50px"  >
                     {showProfileSelect && (
-                        <ProfileSelect
-                            profileList={profileList}
-                            switchDefaultProfile={switchProfile}
-                            createProfile={createProfile}
-                            deleteProfile={deleteProfile}
-                            setProfileDetails={setProfileDetails}
-                        />
+                        <ProfileSelect />
                     )}
                 </Center>
                 <Center pt={4} flex={1}>

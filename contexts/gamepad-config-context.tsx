@@ -7,17 +7,18 @@ interface GamepadConfigContextType {
     profileList: GameProfileList;
     defaultProfile: GameProfile;
     hotkeysConfig: Hotkey[];
-    fetchDefaultProfile: () => void;
-    fetchProfileList: () => void;
-    fetchHotkeysConfig: () => void;
-    setProfileDetails: (profileId: string, profileDetails: GameProfile) => void;
-    resetProfileDetails: () => void;
-    createProfile: (profileName: string) => void;
-    deleteProfile: (profileId: string) => void;
-    switchProfile: (profileId: string) => void;
-    updateHotkeysConfig: (hotkeysConfig: Hotkey[]) => void;
+    fetchDefaultProfile: () => Promise<void>;
+    fetchProfileList: () => Promise<void>;
+    fetchHotkeysConfig: () => Promise<void>;
+    updateProfileDetails: (profileId: string, profileDetails: GameProfile) => Promise<void>;
+    resetProfileDetails: () => Promise<void>;
+    createProfile: (profileName: string) => Promise<void>;
+    deleteProfile: (profileId: string) => Promise<void>;
+    switchProfile: (profileId: string) => Promise<void>;
+    updateHotkeysConfig: (hotkeysConfig: Hotkey[]) => Promise<void>;
     isLoading: boolean;
     error: string | null;
+    rebootSystem: () => Promise<void>;
 }
 
 const GamepadConfigContext = createContext<GamepadConfigContextType | undefined>(undefined);
@@ -56,7 +57,10 @@ const converProfileDetails = (profile: any) => {
  * @returns 
  */
 const processResponse = async (response: Response, setError: (error: string | null) => void) => {
-    if (!response.ok) throw new Error('Failed to fetch config');
+    if (!response.ok) {
+        setError(response.statusText);
+        return;
+    }
     const data = await response.json();
     if(data.errNo) {
         setError(data.errorMessage);
@@ -88,7 +92,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
         }
     }, [profileList]);
 
-    const fetchDefaultProfile = async () => {
+    const fetchDefaultProfile = async (): Promise<void> => {
         try {
             setIsLoading(true);
             const response = await fetch('/api/default-profile', {
@@ -99,7 +103,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             });
             const data = await processResponse(response, setError);
             if (!data) {
-                throw new Error('Failed to fetch default profile');
+                return;
             };
             setDefaultProfile(converProfileDetails(data.profileDetails) ?? {});
             setError(null);
@@ -110,7 +114,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
         }
     };
 
-    const fetchProfileList = async () => {
+    const fetchProfileList = async (): Promise<void> => {
         try {
             setIsLoading(true);
             const response = await fetch('/api/profile-list', {
@@ -121,7 +125,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             }); 
             const data = await processResponse(response, setError);
             if (!data) {
-                throw new Error('Failed to fetch profile list');
+                return;
             };
             setProfileList(data.profileList);
             setError(null);
@@ -132,7 +136,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
         }
     };
 
-    const fetchHotkeysConfig = async () => {
+    const fetchHotkeysConfig = async (): Promise<void> => {
         try {
             setIsLoading(true);
             const response = await fetch('/api/hotkeys-config', {
@@ -143,7 +147,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             });
             const data = await processResponse(response, setError);
             if (!data) {
-                throw new Error('Failed to fetch hotkeys config');
+                return;
             };
             setHotkeysConfig(data.hotkeysConfig);
             setError(null);
@@ -154,7 +158,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
         }
     }
 
-    const setProfileDetails = async (profileId: string, profileDetails: GameProfile) => {
+    const updateProfileDetails = async (profileId: string, profileDetails: GameProfile): Promise<void> => {
         try {
             setIsLoading(true);
             const response = await fetch('/api/update-profile', {
@@ -167,7 +171,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
 
             const data = await processResponse(response, setError);
             if (!data) {
-                throw new Error('Failed to update profile');
+                return;
             };
 
             // 如果更新的是 profile 的 name，则需要重新获取 profile list
@@ -179,17 +183,16 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             setError(null);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
-            throw err;
         } finally {
             setIsLoading(false);
         }
     };
 
-    const resetProfileDetails = async () => {
+    const resetProfileDetails = async (): Promise<void> => {
         await fetchDefaultProfile();
     };
 
-    const createProfile = async (profileName: string) => {
+    const createProfile = async (profileName: string): Promise<void> => {
         try {
             setIsLoading(true);
             const response = await fetch('/api/create-profile', {
@@ -208,13 +211,12 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             setError(null);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
-            throw err;
         } finally {
             setIsLoading(false);
         }
     };
 
-    const deleteProfile = async (profileId: string) => {
+    const deleteProfile = async (profileId: string): Promise<void> => {
         try {
             setIsLoading(true);
             const response = await fetch('/api/delete-profile', {
@@ -233,13 +235,12 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             setError(null);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
-            throw err;
         } finally {
             setIsLoading(false);
         }
     };
 
-    const switchProfile = async (profileId: string) => {
+    const switchProfile = async (profileId: string): Promise<void> => {
         try {
             console.log("switchProfile: ", profileId);
             setIsLoading(true);
@@ -258,13 +259,12 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             setError(null);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
-            throw err;
         } finally {
             setIsLoading(false);
         }
     };
 
-    const updateHotkeysConfig = async (hotkeysConfig: Hotkey[]) => {
+    const updateHotkeysConfig = async (hotkeysConfig: Hotkey[]): Promise<void> => {
         try {
             setIsLoading(true);
             const response = await fetch('/api/update-hotkeys-config', {
@@ -282,7 +282,26 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             setError(null);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
-            throw err;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const rebootSystem = async (): Promise<void> => {
+        try {
+            setIsLoading(true);
+            const response = await fetch('/api/reboot', {
+                method: 'POST',
+            });
+
+            const data = await processResponse(response, setError);
+            if (!data) {
+                return;
+            }
+            
+            setError(null);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'An error occurred');
         } finally {
             setIsLoading(false);
         }
@@ -296,14 +315,15 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
             fetchDefaultProfile,
             fetchProfileList,
             fetchHotkeysConfig,
-            setProfileDetails,
+            updateProfileDetails,
             resetProfileDetails,
             createProfile,
             deleteProfile,
             switchProfile,
             updateHotkeysConfig,
             isLoading,
-            error
+            error,
+            rebootSystem,
         }}>
             {children}
         </GamepadConfigContext.Provider>

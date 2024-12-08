@@ -26,24 +26,11 @@ import {
 import { LuTrash, LuPlus, LuPencil, LuMenu } from "react-icons/lu"
 import { openConfirm } from '@/components/dialog-confirm';
 import { openForm } from '@/components/dialog-form';
+import { useGamepadConfig } from "@/contexts/gamepad-config-context";
 
-export function ProfileSelect(
-    props: {
-        profileList: GameProfileList,
-        switchDefaultProfile: (profileId: string) => void,
-        createProfile: (profileName: string) => void,
-        deleteProfile: (profileId: string) => void,
-        setProfileDetails: (profileId: string, profileDetails: GameProfile) => void,
-    }
-) {
-    const {
-        profileList,
-        switchDefaultProfile,
-        createProfile,
-        deleteProfile,
-        setProfileDetails
-    } = props;
+export function ProfileSelect() {
 
+    const { profileList, switchProfile, createProfile, deleteProfile, updateProfileDetails } = useGamepadConfig();
 
     const defaultProfile = useMemo(() => {
         const profile = profileList.items.find(p => p.id === profileList.defaultId);
@@ -93,7 +80,7 @@ export function ProfileSelect(
         if(value === defaultProfile?.id) {
             return;
         }
-        return await switchDefaultProfile(value);
+        return await switchProfile(value);
     }
 
     /**
@@ -118,7 +105,7 @@ export function ProfileSelect(
         });
 
         if (result) {
-            await setProfileDetails(defaultProfile?.id ?? "", { 
+            await updateProfileDetails(defaultProfile?.id ?? "", { 
                 id: defaultProfile?.id ?? "",
                 name: result.profileName 
             });
