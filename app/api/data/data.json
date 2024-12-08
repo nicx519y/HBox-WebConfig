@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultProfileId": "default",
+  "defaultProfileId": "profile-1733497033916",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
@@ -211,7 +211,7 @@
         "ledsEffectStyle": "BREATHING",
         "ledColors": [
           "#5AC700",
-          "#2C0AA3",
+          "#9B8CDE",
           "#380000"
         ],
         "ledBrightness": 75

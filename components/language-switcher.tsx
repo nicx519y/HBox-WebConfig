@@ -1,7 +1,7 @@
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
-import { Button, Text, HStack } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { useEffect } from 'react';
 const LANGUAGE_STORAGE_KEY = 'preferred_language';
 

@@ -82,13 +82,13 @@ export function DialogForm() {
             <DialogContent>
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
-                        <DialogTitle>{title}</DialogTitle>
+                        <DialogTitle fontSize="sm" color="gray.300">{title}</DialogTitle>
                     </DialogHeader>
                     <DialogBody>
                         {fields.map((field, index) => (
                             <Field 
                                 key={index}
-                                label={field.label}
+                                // label={field.label}
                                 errorText={errors[field.name]}
                                 invalid={!!errors[field.name]}
                             >
@@ -104,7 +104,9 @@ export function DialogForm() {
                     </DialogBody>
                     <DialogFooter>
                         <Button 
-                            colorPalette="gray" 
+                            width="100px"
+                            size="sm"
+                            colorPalette="teal" 
                             variant="surface" 
                             onClick={handleClose}
                         >
@@ -112,6 +114,8 @@ export function DialogForm() {
                         </Button>
                         <Button 
                             type="submit" 
+                            width="100px"
+                            size="sm"
                             colorPalette="green"
                         >
                             {t.BUTTON_SUBMIT}

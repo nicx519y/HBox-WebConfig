@@ -9,11 +9,6 @@ export default function HotkeysSettingPage() {
     const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
 
     return (
-        <HotkeysSettingContent
-            hotkeysConfig={hotkeysConfig}
-            setHotkeysConfigHandler={updateHotkeysConfig}
-            resetHotkeysConfigHandler={fetchHotkeysConfig}
-            setIsDirty={setIsDirty}
-        />
+        <HotkeysSettingContent />
     );
 } 

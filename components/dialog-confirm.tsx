@@ -47,20 +47,24 @@ export function DialogConfirm() {
         <DialogRoot open={isOpen} onOpenChange={handleClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>{title}</DialogTitle>
+                    <DialogTitle fontSize="sm" color="gray.300">{title}</DialogTitle>
                 </DialogHeader>
                 <DialogBody>
-                    <Alert>{message}</Alert>
+                    <Alert fontSize="sm" colorPalette={"yellow"}>{message}</Alert>
                 </DialogBody>
                 <DialogFooter>
                     <Button 
-                        colorPalette="gray" 
+                        width="100px"
+                        size="sm"
+                        colorPalette="teal" 
                         variant="surface" 
                         onClick={handleCancel}
                     >
                         {t.BUTTON_CANCEL}
                     </Button>
                     <Button 
+                        width="100px"
+                        size="sm"
                         colorPalette="green" 
                         onClick={handleConfirm}
                     >

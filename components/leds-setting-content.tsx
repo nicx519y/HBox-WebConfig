@@ -41,7 +41,6 @@ import {
     LedsEffectStyle,
     LedsEffectStyleList,
     LedsEffectStyleLabelMap,
-    ledColorsLabel,
     LEDS_COLOR_DEFAULT,
 } from "@/types/gamepad-config";
 import { LuSunDim, LuActivity } from "react-icons/lu";

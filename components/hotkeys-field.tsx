@@ -1,6 +1,6 @@
 'use client';
     
-import { Hotkey, HotkeyAction, HotkeyActionLabelMap, HotkeyActionList, UI_TEXT } from "@/types/gamepad-config";
+import { Hotkey, HotkeyAction, HotkeyActionList, UI_TEXT } from "@/types/gamepad-config";
 import { 
     createListCollection, 
     Flex, 

@@ -547,7 +547,7 @@ export const UI_TEXT_ZH = {
     
     // 按键设置
     SETTINGS_KEYS_TITLE: "按键设置",
-    SETTINGS_KEYS_HELPER_TEXT: `- 输入模式：游戏控制器的输入模式\n- 按键映射：Hitbox按键与游戏控制器按键��映射关系`,
+    SETTINGS_KEYS_HELPER_TEXT: `- 输入模式：游戏控制器的输入模式\n- 按键映射：Hitbox按键与游戏控制器按键的映射关系`,
     
     // LED设置
     SETTINGS_LEDS_TITLE: "LED设置",
