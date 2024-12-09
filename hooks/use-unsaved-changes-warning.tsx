@@ -5,6 +5,10 @@ import { navigationEvents } from '@/lib/event-manager';
 import { openConfirm } from '@/components/dialog-confirm';
 import { useLanguage } from '@/contexts/language-context';
 
+/**
+ * Hook to show a warning when the user tries to navigate away from a page with unsaved changes.
+ * @returns [boolean, (value: boolean) => void] - A tuple containing the current dirty state and a function to set it.
+ */
 export default function useUnsavedChangesWarning(): [boolean, (value: boolean) => void] {
   const [isDirty, setIsDirty] = useState(false);
   const { t } = useLanguage();

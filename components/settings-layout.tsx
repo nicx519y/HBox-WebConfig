@@ -48,7 +48,7 @@ export function SettingsLayout({ children }: { children: React.ReactNode }) {
                             width="180px"
                             justifyContent="center"
                         >
-                            <Box as={tab.icon} mr={2} />
+                            <Box as={tab.icon} mr={0} />
                             <span>{tab.label}</span>
                         </Tabs.Trigger>
                     ))}

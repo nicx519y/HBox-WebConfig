@@ -6,9 +6,9 @@ import { HotkeysSettingContent } from "@/components/hotkeys-setting-content";
 import { KeysSettingContent } from "@/components/keys-setting-content";
 import { LEDsSettingContent } from "@/components/leds-setting-content";
 import { RapidTriggerContent } from "@/components/rapid-trigger-content";
-import { FirmwareContent } from './firmware-content';
+import { FirmwareContent } from '@/components/firmware-content';
 
-export type Route = 'keys' | 'hotkeys' | 'leds' | 'rapid-trigger' | 'firmware';
+export type Route = '' | 'keys' | 'hotkeys' | 'leds' | 'rapid-trigger' | 'firmware';
 
 interface RouterState {
     currentRoute: Route;
@@ -16,7 +16,7 @@ interface RouterState {
 }
 
 export const useRouterStore = create<RouterState>((set) => ({
-    currentRoute: 'keys',
+    currentRoute: '',
     setRoute: (route) => {
         set({ currentRoute: route });
         window.history.pushState(null, '', `/${route}`);
@@ -52,6 +52,6 @@ export function Router() {
         case 'firmware':
             return <FirmwareContent />;
         default:
-            return <KeysSettingContent />;
+            return <></>;
     }
 } 

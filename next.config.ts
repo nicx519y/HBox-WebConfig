@@ -11,14 +11,12 @@ const nextConfig: NextConfig = {
             net: false,
             tls: false,
         };
-
         if (!isServer) {
             config.output = {
                 ...config.output,
                 globalObject: 'globalThis',
             };
         }
-
         config.optimization = {
             ...config.optimization,
             splitChunks: {

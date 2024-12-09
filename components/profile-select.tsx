@@ -38,7 +38,7 @@ export function ProfileSelect() {
         const profile = profileList.items.find(p => p.id === profileList.defaultId);
         return profile;
     }, [profileList]);
-    
+
     const profilesCollection = useMemo(() => {
         try {
             return createListCollection({
@@ -85,7 +85,7 @@ export function ProfileSelect() {
      * @param value - The id of the profile to set as default.
      */
     const onDefaultProfileChange = async (value: string) => {
-        if(value === defaultProfile?.id) {
+        if (value === defaultProfile?.id) {
             return;
         }
         return await switchProfile(value);
@@ -113,7 +113,7 @@ export function ProfileSelect() {
         });
 
         if (result) {
-            await updateProfileDetails(defaultProfile?.id ?? "", { 
+            await updateProfileDetails(defaultProfile?.id ?? "", {
                 id: defaultProfile?.id ?? "",
                 name: result.profileName
             });
@@ -150,10 +150,10 @@ export function ProfileSelect() {
      */
     const deleteProfileClick = async () => {
         const confirmed = await openConfirm({
-            title: t.PROFILE_DELETE_DIALOG_TITLE, 
+            title: t.PROFILE_DELETE_DIALOG_TITLE,
             message: t.PROFILE_DELETE_CONFIRM_MESSAGE
         });
-        
+
         if (confirmed) {
             await onDeleteConfirm();
         }
@@ -169,60 +169,64 @@ export function ProfileSelect() {
 
     return (
         <>
-            <Stack direction="row" gap={2} alignItems="center">
-                <SelectRoot
-                    size="sm"
-                    width="200px"
-                    collection={profilesCollection}
-                    value={[defaultProfile?.id ?? ""]}
-                    onValueChange={e => onDefaultProfileChange(e.value[0])}
-                >
-                    <SelectTrigger >
-                        <SelectValueText color="gray.300" />
-                    </SelectTrigger>
-                    <SelectContent fontSize="xs" >
-                        {profilesCollection.items.map((item) => (
-                            <SelectItem key={item.value} item={item} color="gray.300" >
-                                {item.label}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </SelectRoot>
-                <MenuRoot>
-                    <MenuTrigger asChild>
-                        <IconButton
-                            aria-label={t.PROFILE_SELECT_MENU_BUTTON}
-                            variant="ghost"
+            { // 如果 profileList 存在且 profileList.items 的长度大于 1，则显示选择器
+                profileList && profileList.items.length > 1 && (
+                    <Stack direction="row" gap={2} alignItems="center">
+                        <SelectRoot
                             size="sm"
+                            width="200px"
+                            collection={profilesCollection}
+                            value={[defaultProfile?.id ?? ""]}
+                            onValueChange={e => onDefaultProfileChange(e.value[0])}
                         >
-                            <LuMenu />
-                        </IconButton>
-                    </MenuTrigger>
-                    <MenuContent>
-                        <MenuItem
-                            value="create"
-                            onClick={createProfileClick}
-                        >
-                            <LuPlus />
-                            {t.PROFILE_SELECT_CREATE_BUTTON}
-                        </MenuItem>
-                        <MenuItem
-                            value="rename"
-                            onClick={renameProfileClick}
-                        >
-                            <LuPencil />
-                            {t.PROFILE_SELECT_RENAME_BUTTON}
-                        </MenuItem>
-                        <MenuItem
-                            value="delete"
-                            onClick={deleteProfileClick}
-                        >
-                            <LuTrash />
-                            {t.PROFILE_SELECT_DELETE_BUTTON}
-                        </MenuItem>
-                    </MenuContent>
-                </MenuRoot>
-            </Stack>
+                            <SelectTrigger >
+                                <SelectValueText color="gray.300" />
+                            </SelectTrigger>
+                            <SelectContent fontSize="xs" >
+                                {profilesCollection.items.map((item) => (
+                                    <SelectItem key={item.value} item={item} color="gray.300" >
+                                        {item.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </SelectRoot>
+                        <MenuRoot>
+                            <MenuTrigger asChild>
+                                <IconButton
+                                    aria-label={t.PROFILE_SELECT_MENU_BUTTON}
+                                    variant="ghost"
+                                    size="sm"
+                                >
+                                    <LuMenu />
+                                </IconButton>
+                            </MenuTrigger>
+                            <MenuContent>
+                                <MenuItem
+                                    value="create"
+                                    onClick={createProfileClick}
+                                >
+                                    <LuPlus />
+                                    {t.PROFILE_SELECT_CREATE_BUTTON}
+                                </MenuItem>
+                                <MenuItem
+                                    value="rename"
+                                    onClick={renameProfileClick}
+                                >
+                                    <LuPencil />
+                                    {t.PROFILE_SELECT_RENAME_BUTTON}
+                                </MenuItem>
+                                <MenuItem
+                                    value="delete"
+                                    onClick={deleteProfileClick}
+                                >
+                                    <LuTrash />
+                                    {t.PROFILE_SELECT_DELETE_BUTTON}
+                                </MenuItem>
+                            </MenuContent>
+                        </MenuRoot>
+                    </Stack>
+                )
+            }
         </>
     )
 }
