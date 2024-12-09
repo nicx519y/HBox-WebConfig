@@ -1,1 +1,0 @@
-"use strict";(()=>{var e={};e.id="pages/_app",e.ids=["pages/_app"],e.modules={react:e=>{e.exports=require("react")},"react/jsx-runtime":e=>{e.exports=require("react/jsx-runtime")}};var r=require("../webpack-runtime.js");r.C(e);var s=e=>r(r.s=e),a=r.X(0,["vendors","commons"],()=>s("./node_modules/next/dist/pages/_app.js"));module.exports=a})();

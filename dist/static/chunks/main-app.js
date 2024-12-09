@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([["main-app"],{},e=>{var s=s=>e(e.s=s);e.O(0,["vendors"],()=>(s("(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/runtime.js"),s("(app-pages-browser)/./node_modules/next/dist/client/app-next-dev.js"))),_N_E=e.O()}]);

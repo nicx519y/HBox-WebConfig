@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([["app/api/profile-list/route"],{},e=>{var s=s=>e(e.s=s);e.O(0,["commons","vendors","main-app"],()=>s("(app-pages-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!")),_N_E=e.O()}]);

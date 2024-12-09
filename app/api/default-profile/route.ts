@@ -13,7 +13,7 @@ export async function GET() {
                 profileDetails: config.profiles.find(p => p.id === config.defaultProfileId),
             },
         });
-    } catch (error) {
+    } catch {
         return NextResponse.json(
             { errNo: 1, errorMessage: 'Failed to fetch default profile' },
             { status: 500 }

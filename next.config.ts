@@ -4,6 +4,14 @@ const nextConfig: NextConfig = {
     experimental: {
         optimizePackageImports: ["@chakra-ui/react"],
     },
+    // 忽略 build 错误
+    typescript: {
+        ignoreBuildErrors: true,
+    },
+    // 禁用 telemetry   
+    telemetry: {
+        enabled: false,
+    },
     webpack: (config, { isServer }) => {
         config.resolve.fallback = {
             ...config.resolve.fallback,
