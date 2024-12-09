@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultProfileId": "profile-1733498883450",
+  "defaultProfileId": "profile-1733715985965",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
@@ -15,14 +15,18 @@
         "inputMode": "PS4",
         "keyMapping": {
           "DPAD_UP": [
-            12
+            13
           ],
           "DPAD_DOWN": [
-            8
+            8,
+            12
           ],
-          "DPAD_LEFT": [],
+          "DPAD_LEFT": [
+            10
+          ],
           "DPAD_RIGHT": [
-            3
+            3,
+            7
           ],
           "L1": [
             6
@@ -42,9 +46,7 @@
           "R3": [
             0
           ],
-          "B1": [
-            7
-          ]
+          "B1": []
         }
       },
       "ledsConfigs": {
@@ -314,161 +316,6 @@
             "bottomDeadzone": 0,
             "pressAccuracy": 0,
             "releaseAccuracy": 0
-          }
-        ]
-      }
-    },
-    {
-      "id": "profile-1733498883450",
-      "name": "MyNewProfile444",
-      "keysConfig": {
-        "invertXAxis": true,
-        "invertYAxis": false,
-        "fourWayMode": false,
-        "socdMode": "SOCD_MODE_SECOND_INPUT_PRIORITY",
-        "inputMode": "XINPUT",
-        "keyMapping": {
-          "DPAD_UP": [
-            12
-          ],
-          "DPAD_DOWN": [
-            8
-          ],
-          "DPAD_LEFT": [],
-          "DPAD_RIGHT": [
-            3
-          ],
-          "L1": [
-            6
-          ],
-          "R1": [
-            4
-          ],
-          "L2": [
-            5
-          ],
-          "R2": [
-            1
-          ],
-          "L3": [
-            2
-          ],
-          "R3": [
-            0
-          ],
-          "B1": [
-            7
-          ]
-        }
-      },
-      "ledsConfigs": {
-        "ledEnabled": true,
-        "ledsEffectStyle": "BREATHING",
-        "ledColors": [
-          "#5AC700",
-          "#E32417",
-          "#380000"
-        ],
-        "ledBrightness": 75
-      },
-      "triggerConfigs": {
-        "isAllBtnsConfiguring": true,
-        "triggerConfigs": [
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
-          },
-          {
-            "topDeadzone": 0.2,
-            "bottomDeadzone": 0.5,
-            "pressAccuracy": 0.2,
-            "releaseAccuracy": 0.2
           }
         ]
       }
@@ -1101,6 +948,142 @@
             "bottomDeadzone": 0,
             "pressAccuracy": 0,
             "releaseAccuracy": 0.3
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile-1733715985965",
+      "name": "NewProfile111",
+      "keysConfig": {
+        "invertXAxis": false,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_NEUTRAL",
+        "inputMode": "XINPUT",
+        "keyMapping": {
+          "L1": [
+            14
+          ],
+          "R1": [
+            12
+          ],
+          "L2": [
+            15
+          ],
+          "R2": [
+            13
+          ]
+        }
+      },
+      "ledsConfigs": {
+        "ledEnabled": false,
+        "ledsEffectStyle": "STATIC",
+        "ledColors": [
+          "#000000",
+          "#000000",
+          "#000000"
+        ],
+        "ledBrightness": 0
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": [
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
+          },
+          {
+            "topDeadzone": 0.3,
+            "bottomDeadzone": 0.6,
+            "pressAccuracy": 0.5,
+            "releaseAccuracy": 0
           }
         ]
       }

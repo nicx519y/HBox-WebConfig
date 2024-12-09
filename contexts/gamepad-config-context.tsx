@@ -104,6 +104,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     }
 
     const fetchDefaultProfile = async (): Promise<void> => {
+        console.log("fetchDefaultProfile");
         try {
             setIsLoading(true);
             const response = await fetch('/api/default-profile', {
@@ -126,6 +127,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     };
 
     const fetchProfileList = async (): Promise<void> => {
+        console.log("fetchProfileList");
         try {
             setIsLoading(true);
             const response = await fetch('/api/profile-list', {
@@ -148,6 +150,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     };
 
     const fetchHotkeysConfig = async (): Promise<void> => {
+        console.log("fetchHotkeysConfig");
         try {
             setIsLoading(true);
             const response = await fetch('/api/hotkeys-config', {
@@ -170,6 +173,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     }
 
     const updateProfileDetails = async (profileId: string, profileDetails: GameProfile): Promise<void> => {
+        console.log("updateProfileDetails");
         try {
             setIsLoading(true);
             const response = await fetch('/api/update-profile', {
@@ -200,10 +204,12 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     };
 
     const resetProfileDetails = async (): Promise<void> => {
+        console.log("resetProfileDetails");
         await fetchDefaultProfile();
     };
 
     const createProfile = async (profileName: string): Promise<void> => {
+        console.log("createProfile");
         try {
             setIsLoading(true);
             const response = await fetch('/api/create-profile', {
@@ -228,6 +234,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     };
 
     const deleteProfile = async (profileId: string): Promise<void> => {
+        console.log("deleteProfile");
         try {
             setIsLoading(true);
             const response = await fetch('/api/delete-profile', {
@@ -252,8 +259,8 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     };
 
     const switchProfile = async (profileId: string): Promise<void> => {
+        console.log("switchProfile");
         try {
-            console.log("switchProfile: ", profileId);
             setIsLoading(true);
             const response = await fetch('/api/switch-default-profile', {
                 method: 'POST',
@@ -276,6 +283,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     };
 
     const updateHotkeysConfig = async (hotkeysConfig: Hotkey[]): Promise<void> => {
+        console.log("updateHotkeysConfig");
         try {
             setIsLoading(true);
             const response = await fetch('/api/update-hotkeys-config', {
@@ -299,6 +307,7 @@ export function GamepadConfigProvider({ children }: { children: React.ReactNode 
     };
 
     const rebootSystem = async (): Promise<void> => {
+        console.log("rebootSystem");
         try {
             setIsLoading(true);
             const response = await fetch('/api/reboot', {

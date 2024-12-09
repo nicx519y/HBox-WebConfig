@@ -39,12 +39,18 @@ export function ProfileSelect() {
         return profile;
     }, [profileList]);
     
-    const profilesCollection = useMemo(() => createListCollection({
-        items: profileList.items.map(p => ({
-            value: p.id,
-            label: p.name,
-        })),
-    }), [profileList]);
+    const profilesCollection = useMemo(() => {
+        try {
+            return createListCollection({
+                items: profileList.items.map(p => ({
+                    value: p.id,
+                    label: p.name,
+                })),
+            });
+        } catch {
+            return createListCollection({ items: [] });
+        }
+    }, [profileList]);
 
     /**
      * Validate the profile name.

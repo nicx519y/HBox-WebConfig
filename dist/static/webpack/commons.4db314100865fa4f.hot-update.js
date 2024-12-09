@@ -1,0 +1,1 @@
+self.webpackHotUpdate_N_E("commons",{"(app-pages-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":(e,s,a)=>{}});

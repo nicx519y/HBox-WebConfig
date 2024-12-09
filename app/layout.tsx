@@ -2,7 +2,7 @@
 
 import { Provider } from "@/components/ui/provider"
 import StyledComponentsRegistry from '@/lib/registry'
-import SettingsLayout from '@/components/settings-layout'
+import { SettingsLayout } from '@/components/settings-layout'
 import { GamepadConfigProvider, useGamepadConfig } from '@/contexts/gamepad-config-context'
 import { Box, Flex, Center, Text } from '@chakra-ui/react'
 import { toaster, Toaster } from "@/components/ui/toaster"

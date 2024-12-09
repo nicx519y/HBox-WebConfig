@@ -4,43 +4,76 @@ const nextConfig: NextConfig = {
     experimental: {
         optimizePackageImports: ["@chakra-ui/react"],
     },
-    // distDir: ".dist",
-    // output: "export",
-    webpack: (config) => {
-        config.optimization.splitChunks = {
-            cacheGroups: {
-                vendors: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all',
-                    priority: 10,
-                },
-                chakra: {
-                    test: /[\\/]node_modules[\\/]@chakra-ui[\\/]/,
-                    name: 'chakra-ui',
-                    chunks: 'all',
-                    priority: 20,
-                },
-                commons: {
-                    name: 'commons',
-                    minChunks: 2,
-                    chunks: 'all',
-                    priority: -10,
-                    reuseExistingChunk: true,
-                },
-            },
-            maxInitialRequests: 25,
-            minSize: 20000,
-            maxSize: 20000000,
+    webpack: (config, { isServer }) => {
+        config.resolve.fallback = {
+            ...config.resolve.fallback,
+            fs: false,
+            net: false,
+            tls: false,
         };
 
-        config.optimization.minimize = true;
+        if (!isServer) {
+            config.output = {
+                ...config.output,
+                globalObject: 'globalThis',
+            };
+        }
+
+        config.optimization = {
+            ...config.optimization,
+            splitChunks: {
+                chunks: 'all',
+                cacheGroups: {
+                    default: false,
+                    vendors: false,
+                    lib: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'lib',
+                        priority: 10,
+                        enforce: true,
+                        chunks: 'all'
+                    },
+                    commons: {
+                        name: 'commons',
+                        minChunks: 2,
+                        priority: -10,
+                        reuseExistingChunk: true,
+                        chunks: 'all'
+                    }
+                },
+            },
+            minimize: true,
+        };
 
         return config;
     },
     compress: true,
     poweredByHeader: false,
     generateEtags: false,
+    async rewrites() {
+        return [
+            {
+                source: '/keys',
+                destination: '/',
+            },
+            {
+                source: '/hotkeys',
+                destination: '/',
+            },
+            {
+                source: '/leds',
+                destination: '/',
+            },
+            {
+                source: '/rapid-trigger',
+                destination: '/',
+            },
+            {
+                source: '/firmware',
+                destination: '/',
+            },
+        ];
+    },
 };
 
 export default nextConfig;
