@@ -33,14 +33,13 @@ export function SettingsLayout({ children }: { children: React.ReactNode }) {
                 defaultValue={currentRoute}
                 value={currentRoute}
                 size="md"
-                variant="subtle"
+                variant="plain"
                 colorPalette="green"
-                backgroundColor="rgba(0, 0, 0, 0.3)"
-                borderBottom="1px solid rgba(0, 255, 0, 0.1)"
-                boxShadow="0 1px 10px rgba(0, 0, 0, 0.7)"
+                boxShadow="0 1px 3px rgba(0, 0, 0, 0.4)"    
+                
                 onValueChange={handleValueChange}
             >
-                <Tabs.List justifyContent="center" width="100%">
+                <Tabs.List justifyContent="center" bg="bg.muted" width="100%">
                     {tabs.map((tab) => (
                         <Tabs.Trigger
                             key={tab.id}

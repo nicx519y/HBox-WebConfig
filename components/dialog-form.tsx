@@ -82,7 +82,7 @@ export function DialogForm() {
             <DialogContent>
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
-                        <DialogTitle fontSize="sm" color="gray.300">{title}</DialogTitle>
+                        <DialogTitle fontSize="sm" opacity={0.75}>{title}</DialogTitle>
                     </DialogHeader>
                     <DialogBody>
                         {fields.map((field, index) => (
@@ -98,6 +98,7 @@ export function DialogForm() {
                                     placeholder={field.placeholder}
                                     type={field.type || "text"}
                                     autoComplete="off"
+                                    bg="bg.muted"
                                 />
                             </Field>
                         ))}

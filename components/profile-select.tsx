@@ -179,12 +179,12 @@ export function ProfileSelect() {
                             value={[defaultProfile?.id ?? ""]}
                             onValueChange={e => onDefaultProfileChange(e.value[0])}
                         >
-                            <SelectTrigger >
-                                <SelectValueText color="gray.300" />
+                            <SelectTrigger bg="bg.muted"  >
+                                <SelectValueText opacity={0.75}  />
                             </SelectTrigger>
                             <SelectContent fontSize="xs" >
                                 {profilesCollection.items.map((item) => (
-                                    <SelectItem key={item.value} item={item} color="gray.300" >
+                                    <SelectItem key={item.value} item={item} >
                                         {item.label}
                                     </SelectItem>
                                 ))}
@@ -200,7 +200,7 @@ export function ProfileSelect() {
                                     <LuMenu />
                                 </IconButton>
                             </MenuTrigger>
-                            <MenuContent>
+                            <MenuContent  >
                                 <MenuItem
                                     value="create"
                                     onClick={createProfileClick}
@@ -212,13 +212,14 @@ export function ProfileSelect() {
                                     value="rename"
                                     onClick={renameProfileClick}
                                 >
+                                
                                     <LuPencil />
                                     {t.PROFILE_SELECT_RENAME_BUTTON}
                                 </MenuItem>
                                 <MenuItem
                                     value="delete"
                                     onClick={deleteProfileClick}
-                                >
+                                    >
                                     <LuTrash />
                                     {t.PROFILE_SELECT_DELETE_BUTTON}
                                 </MenuItem>

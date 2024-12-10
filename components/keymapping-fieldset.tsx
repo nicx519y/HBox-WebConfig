@@ -42,14 +42,14 @@ export default function KeymappingFieldset(
                 toaster.create({
                     title: t.KEY_MAPPING_ERROR_ALREADY_BINDED_TITLE,
                     description: t.KEY_MAPPING_ERROR_ALREADY_BINDED_DESC,
-                    type: "error",
+                    type: "warning",
                 });
                 return;
             } else if(activeKeyMapping.length >= NUM_BIND_KEY_PER_BUTTON_MAX) { // key not binded, and reach max number of key binding per button
                 toaster.create({
                     title: t.KEY_MAPPING_ERROR_MAX_KEYS_TITLE,
                     description: t.KEY_MAPPING_ERROR_MAX_KEYS_DESC,
-                    type: "error",
+                    type: "warning",
                 });
                 return;
             } else { // key not binded, and not reach max number of key binding per button
@@ -64,7 +64,7 @@ export default function KeymappingFieldset(
                             description: t.KEY_MAPPING_INFO_UNBIND_FROM_OTHER_DESC
                                 .replace("{0}", buttonLabelMap.get(key as GameControllerButton) ?? "")
                                 .replace("{1}", buttonLabelMap.get(activeButton) ?? ""),
-                            type: "info",
+                            type: "warning",
                         });
                     }
                 });

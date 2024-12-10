@@ -19,6 +19,7 @@ import {
 
 import { Tag } from "@/components/ui/tag"
 import { useMemo } from "react";
+import { useColorMode } from "./ui/color-mode";
 
 
 
@@ -34,6 +35,7 @@ export default function HotkeysField(
 ) {
     const { t } = useLanguage();
     const { index, value, onValueChange, isActive, disabled, onFieldClick } = props;
+    const { colorMode } = useColorMode();
 
     const getHotkeyActionLabel = (action: HotkeyAction): string => {
         switch (action) {
@@ -92,13 +94,15 @@ export default function HotkeysField(
                 pl="2" 
                 pr="2" 
                 flex={1}  
-                border="1px solid" 
-                borderColor={isActive ? "green.400" : "gray.800"} 
+                border={".5px solid"}
+                borderColor={isActive ? "green.500" : colorMode === "dark" ? "gray.800" : "gray.400"} 
                 borderRadius="sm" 
                 mr="1" 
                 cursor={disabled ? "not-allowed" : "pointer"}
                 onClick={() => (!disabled) && onFieldClick?.(index)}
-                opacity={disabled ? 0.7 : 1}
+                opacity={!isActive ? (disabled ? 0.55 : 1) : 1}
+                bg={!isActive ? "bg.muted" : ""} 
+                boxShadow={isActive ? "0 0 8px rgba(154, 205, 50, 0.8)" : "none"}
             >
                 <Tag colorPalette={isActive ? "green" : "gray"} >{`Fn`}</Tag>
                 <Text>{` + `}</Text>
@@ -111,7 +115,7 @@ export default function HotkeysField(
                 }
             </HStack>
             <SelectRoot
-                variant="subtle"
+                variant="outline"
                 size="sm"
                 collection={hotkeyCollection}
                 value={[value.action ?? HotkeyAction.None]}
@@ -120,12 +124,12 @@ export default function HotkeysField(
                 disabled={disabled}
             >
 
-                <SelectTrigger >
-                    < SelectValueText placeholder={UI_TEXT.SELECT_VALUE_TEXT_PLACEHOLDER} color="gray.300" />
+                <SelectTrigger bg="bg.muted" opacity={0.75} >
+                    < SelectValueText placeholder={UI_TEXT.SELECT_VALUE_TEXT_PLACEHOLDER} />
                 </SelectTrigger>
                 <SelectContent fontSize="xs"  >
                     {hotkeyCollection.items.map((item) => (
-                        <SelectItem key={item.value} item={item} color="gray.300" >
+                        <SelectItem key={item.value} item={item}  >
                             {item.label}
                         </SelectItem>
                     ))}

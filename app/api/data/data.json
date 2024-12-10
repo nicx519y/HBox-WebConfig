@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultProfileId": "profile-1733498969937",
+  "defaultProfileId": "profile-1733499833211",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
@@ -533,14 +533,14 @@
         "keyMapping": {}
       },
       "ledsConfigs": {
-        "ledEnabled": false,
+        "ledEnabled": true,
         "ledsEffectStyle": "STATIC",
         "ledColors": [
           "#000000",
-          "#000000",
+          "#E67070",
           "#000000"
         ],
-        "ledBrightness": 0
+        "ledBrightness": 84
       },
       "triggerConfigs": {
         "isAllBtnsConfiguring": true,

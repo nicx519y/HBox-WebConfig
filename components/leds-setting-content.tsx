@@ -17,7 +17,6 @@ import {
 
 import { Field } from "@/components/ui/field"
 import { Slider } from "@/components/ui/slider"
-import { Tooltip } from "@/components/ui/tooltip"
 import { Switch } from "@/components/ui/switch"
 import {
     RadioCardItem,
@@ -35,7 +34,7 @@ import {
     ColorPickerTrigger,
 } from "@/components/ui/color-picker"
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
     GameProfile,
     LedsEffectStyle,
@@ -50,18 +49,26 @@ import useUnsavedChangesWarning from "@/hooks/use-unsaved-changes-warning";
 import { openDialog as openRebootDialog } from "@/components/dialog-cannot-close";
 import { openConfirm as openRebootConfirmDialog } from "@/components/dialog-confirm";
 import { useLanguage } from "@/contexts/language-context";
+import { useColorMode } from "./ui/color-mode";
 
 export function LEDsSettingContent() {
     const { t } = useLanguage();
 
     const [_isDirty, setIsDirty] = useUnsavedChangesWarning();
     const { defaultProfile, updateProfileDetails, resetProfileDetails, rebootSystem } = useGamepadConfig();
-
+    const { colorMode } = useColorMode();
+    const defaultFrontColor = useMemo(() => {
+        if(colorMode === "dark") {
+            return parseColor("#000000");
+        } else {
+            return parseColor("#ffffff");
+        }
+    }, [colorMode]);
 
     const [ledsEffectStyle, setLedsEffectStyle] = useState<LedsEffectStyle>(LedsEffectStyle.STATIC);
-    const [color1, setColor1] = useState<Color>(parseColor(LEDS_COLOR_DEFAULT));
-    const [color2, setColor2] = useState<Color>(parseColor(LEDS_COLOR_DEFAULT));
-    const [color3, setColor3] = useState<Color>(parseColor(LEDS_COLOR_DEFAULT));
+    const [color1, setColor1] = useState<Color>(defaultFrontColor);
+    const [color2, setColor2] = useState<Color>(defaultFrontColor);
+    const [color3, setColor3] = useState<Color>(defaultFrontColor);
     const [ledBrightness, setLedBrightness] = useState<number>(75);
     const [ledEnabled, setLedEnabled] = useState<boolean>(true);
 
@@ -75,9 +82,9 @@ export function LEDsSettingContent() {
         const ledsConfigs = defaultProfile.ledsConfigs;
         if (ledsConfigs) {
             setLedsEffectStyle(ledsConfigs.ledsEffectStyle ?? LedsEffectStyle.STATIC);
-            setColor1(parseColor(ledsConfigs.ledColors?.[0] ?? LEDS_COLOR_DEFAULT));
-            setColor2(parseColor(ledsConfigs.ledColors?.[1] ?? LEDS_COLOR_DEFAULT));
-            setColor3(parseColor(ledsConfigs.ledColors?.[2] ?? LEDS_COLOR_DEFAULT));
+            setColor1(parseColor(ledsConfigs.ledColors?.[0] ?? defaultFrontColor.toString('css')));
+            setColor2(parseColor(ledsConfigs.ledColors?.[1] ?? defaultFrontColor.toString('css')));
+            setColor3(parseColor(ledsConfigs.ledColors?.[2] ?? defaultFrontColor.toString('css')));
             setLedBrightness(ledsConfigs.ledBrightness ?? 75);
             setLedEnabled(ledsConfigs.ledEnabled ?? true);
             setIsDirty?.(false);
@@ -148,7 +155,7 @@ export function LEDsSettingContent() {
                             <Fieldset.Legend fontSize={"2rem"} color={"green.600"} >
                                 {t.SETTINGS_LEDS_TITLE}
                             </Fieldset.Legend>
-                            <Fieldset.HelperText fontSize={"smaller"} color={"gray.400"} >
+                            <Fieldset.HelperText fontSize={"smaller"} opacity={0.75} >
                                 <Text whiteSpace="pre-wrap" >{t.SETTINGS_LEDS_HELPER_TEXT}</Text>
                             </Fieldset.HelperText>
                             <Fieldset.Content position={"relative"} paddingTop={"30px"}  >
@@ -164,7 +171,7 @@ export function LEDsSettingContent() {
                                     <RadioCardRoot
                                         colorPalette={ledEnabled ? "green" : "gray"}
                                         size={"sm"}
-                                        variant={"subtle"}
+                                        variant={"surface"}
                                         value={ledsEffectStyle?.toString() ?? LedsEffectStyle.STATIC.toString()}
                                         onValueChange={(detail) => {
                                             setLedsEffectStyle(detail.value as LedsEffectStyle);
@@ -175,7 +182,7 @@ export function LEDsSettingContent() {
                                         <RadioCardLabel>{t.SETTINGS_LEDS_EFFECT_STYLE_CHOICE}</RadioCardLabel>
                                         <SimpleGrid gap={1} columns={5} >
                                             {LedsEffectStyleList.map((style, index) => (
-                                                <Tooltip key={index} content={effectStyleLabelMap.get(style)?.description ?? ""} >
+                                                // <Tooltip key={index} content={effectStyleLabelMap.get(style)?.description ?? ""} >
                                                     <RadioCardItem
                                                         fontSize={"xs"}
                                                         indicator={false}
@@ -189,14 +196,14 @@ export function LEDsSettingContent() {
                                                         label={effectStyleLabelMap.get(style)?.label ?? ""}
                                                         disabled={!ledEnabled}
                                                     />
-                                                </Tooltip>
+                                                // </Tooltip>
                                             ))}
                                         </SimpleGrid>
                                     </RadioCardRoot>
 
                                     {/* LED Colors */}
                                     <Field>
-                                        <Text fontSize={"sm"}  >{t.SETTINGS_LEDS_COLORS_LABEL}</Text>
+                                        <Text fontSize={"sm"} opacity={!ledEnabled ? "0.25" : "0.85"} >{t.SETTINGS_LEDS_COLORS_LABEL}</Text>
                                         {Array.from({ length: 3 }).map((_, index) => (
                                             <ColorPickerRoot
                                                 key={index}
@@ -216,9 +223,9 @@ export function LEDsSettingContent() {
                                                     if (index === 2) setColor3(hex);
                                                 }}
                                             >
-                                                <ColorPickerLabel color={colorPickerDisabled(index) ? "gray.800" : "gray.400"} >{colorLabels[index]}</ColorPickerLabel>
+                                                <ColorPickerLabel opacity={colorPickerDisabled(index) ? "0.35" : "0.85"} >{colorLabels[index]}</ColorPickerLabel>
                                                 <ColorPickerControl >
-                                                    <ColorPickerInput colorPalette={"green"} fontSize={"sm"} color={"gray.400"} />
+                                                    <ColorPickerInput colorPalette={"green"} fontSize={"sm"}  />
                                                     <ColorPickerTrigger />
                                                 </ColorPickerControl>
                                                 <ColorPickerContent>
@@ -232,8 +239,10 @@ export function LEDsSettingContent() {
                                     </Field>
 
                                     {/* LED Brightness */}
+                                    <Text fontSize={"sm"} opacity={!ledEnabled ? "0.35" : "0.85"} >
+                                        {t.SETTINGS_LEDS_BRIGHTNESS_LABEL}: {ledBrightness}
+                                    </Text>
                                     <Slider
-                                        label={t.SETTINGS_LEDS_BRIGHTNESS_LABEL}
                                         size={"md"}
                                         colorPalette={"green"}
                                         width={"300px"}
@@ -251,9 +260,7 @@ export function LEDsSettingContent() {
                                             { value: 100, label: "100" },
                                         ]}
                                     />
-                                    <Text fontSize={"sm"} color={"gray.400"} >
-                                        {t.SETTINGS_LEDS_BRIGHTNESS_LABEL}: {ledBrightness}
-                                    </Text>
+                                    
 
                                 </Stack>
 

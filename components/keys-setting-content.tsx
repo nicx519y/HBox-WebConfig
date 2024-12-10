@@ -103,7 +103,7 @@ export function KeysSettingContent() {
             <Flex direction="row" width={"1700px"} padding={"18px"} >
                 <Center flex={1}  >
                     <Hitbox 
-                        onClick={hitboxButtonClick} 
+                        onClick={hitboxButtonClick}
                         interactiveIds={[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ]} 
                     />
                 </Center>
@@ -113,14 +113,41 @@ export function KeysSettingContent() {
                             <Fieldset.Legend fontSize={"2rem"} color={"green.600"} >
                                 {t.SETTINGS_KEYS_TITLE}
                             </Fieldset.Legend>
-                            <Fieldset.HelperText fontSize={"smaller"} color={"gray.400"} >
+                            <Fieldset.HelperText fontSize={"smaller"} opacity={0.75}   >
                                 <Text whiteSpace="pre-wrap" >{t.SETTINGS_KEYS_HELPER_TEXT}</Text>
                             </Fieldset.HelperText>
                             <Fieldset.Content position={"relative"} paddingTop={"30px"}  >
 
+                                {/* Input Mode Choice */}
+                                <RadioCardRoot
+                                    colorPalette={"green"}
+                                    size={"sm"}
+                                    variant={"surface"}
+                                    value={inputMode?.toString() ?? Platform.XINPUT.toString()}
+                                    onValueChange={(detail) => {
+                                        setInputMode(detail.value as Platform);
+                                        setIsDirty?.(true);
+                                    }}
+                                >
+                                    <RadioCardLabel>{t.SETTINGS_KEYS_INPUT_MODE_TITLE}</RadioCardLabel>
+                                    <SimpleGrid gap={1} columns={5} >
+                                        {PlatformList.map((platform, index) => (
+                                            // <Tooltip key={index} content={t.SETTINGS_KEYS_PLATFORM_MODE_TOOLTIP} >
+                                                <RadioCardItem
+                                                    fontSize={"xs"}
+                                                    indicator={false}
+                                                    key={index}
+                                                    value={platform.toString()}
+                                                    label={PlatformLabelMap.get(platform as Platform)?.label ?? ""}
+                                                />
+                                            // </Tooltip>
+                                        ))}
+                                    </SimpleGrid>
+                                </RadioCardRoot>
+
                                 {/* Key Mapping */}
-                                <Stack direction={"column"} gap={6} >
-                                    <Fieldset.Legend fontSize={"md"} >{t.SETTINGS_KEYS_MAPPING_TITLE}</Fieldset.Legend>
+                                <Stack direction={"column"} gap={4} >
+                                    <Fieldset.Legend fontSize={"sm"} >{t.SETTINGS_KEYS_MAPPING_TITLE}</Fieldset.Legend>
                                     <HStack gap={1} >
                                         <SegmentedControl
                                             size={"xs"}
@@ -128,7 +155,7 @@ export function KeysSettingContent() {
                                             items={[t.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL, t.SETTINGS_KEY_MAPPING_MANUAL_SWITCH_LABEL]}
                                             onValueChange={(detail) => setAutoSwitch(detail.value === t.SETTINGS_KEY_MAPPING_AUTO_SWITCH_LABEL)}
                                         />
-                                        <ToggleTip content={t.TOOLTIP_AUTO_SWITCH}>
+                                        <ToggleTip content={t.TOOLTIP_AUTO_SWITCH}  >
                                             <Button size="xs" variant="ghost">
                                                 <LuInfo />
                                             </Button>
@@ -146,39 +173,14 @@ export function KeysSettingContent() {
                                     />
                                 </Stack>
 
-                                {/* Input Mode Choice */}
-                                <RadioCardRoot
-                                    colorPalette={"green"}
-                                    size={"sm"}
-                                    variant={"subtle"}
-                                    value={inputMode?.toString() ?? Platform.XINPUT.toString()}
-                                    onValueChange={(detail) => {
-                                        setInputMode(detail.value as Platform);
-                                        setIsDirty?.(true);
-                                    }}
-                                >
-                                    <RadioCardLabel>{t.SETTINGS_KEYS_INPUT_MODE_TITLE}</RadioCardLabel>
-                                    <SimpleGrid gap={1} columns={5} >
-                                        {PlatformList.map((platform, index) => (
-                                            <Tooltip key={index} content={t.SETTINGS_KEYS_PLATFORM_MODE_TOOLTIP} >
-                                                <RadioCardItem
-                                                    fontSize={"xs"}
-                                                    indicator={false}
-                                                    key={index}
-                                                    value={platform.toString()}
-                                                    label={PlatformLabelMap.get(platform as Platform)?.label ?? ""}
-                                                />
-                                            </Tooltip>
-                                        ))}
-                                    </SimpleGrid>
-                                </RadioCardRoot>
+                                
 
 
                                 {/* SOCD Mode Choice */}
                                 <RadioCardRoot
                                     colorPalette={"green"}
                                     size={"sm"}
-                                    variant={"subtle"}
+                                    variant={"surface"}
                                     value={socdMode?.toString() ?? GameSocdMode.SOCD_MODE_UP_PRIORITY.toString()}
                                     onValueChange={(detail) => {
                                         setSocdMode(detail.value as GameSocdMode);
@@ -188,7 +190,7 @@ export function KeysSettingContent() {
                                     <RadioCardLabel>{t.SETTINGS_KEYS_SOCD_MODE_TITLE}</RadioCardLabel>
                                     <SimpleGrid gap={1} columns={5} >
                                         {GameSocdModeList.map((socdMode, index) => (
-                                            <Tooltip key={index} content={t.SETTINGS_KEYS_SOCD_MODE_TOOLTIP} >
+                                            // <Tooltip key={index} content={t.SETTINGS_KEYS_SOCD_MODE_TOOLTIP} >
                                                 <RadioCardItem
                                                     fontSize={"xs"}
                                                     indicator={false}
@@ -196,13 +198,13 @@ export function KeysSettingContent() {
                                                     value={socdMode.toString()}
                                                     label={GameSocdModeLabelMap.get(socdMode as GameSocdMode)?.label ?? ""}
                                                 />
-                                            </Tooltip>
+                                            // </Tooltip>
                                         ))}
                                     </SimpleGrid>
                                 </RadioCardRoot>
 
                                 {/* Invert Axis Choice & Invert Y Axis Choice & FourWay Mode Choice */}
-                                <HStack gap={5} >
+                                <HStack gap={5} mt={4} >
                                     <Switch 
                                         colorPalette={"green"} 
                                         checked={invertXAxis} 

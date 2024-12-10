@@ -53,12 +53,6 @@ function AppContent({ children }: { children: React.ReactNode }) {
             direction="column"
             height="100vh"
             width="100vw"
-            background="linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%),
-        radial-gradient(circle at 0% 0%, rgba(0, 210, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 100% 0%, rgba(0, 255, 150, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(0, 180, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 0% 100%, rgba(0, 210, 255, 0.1) 0%, transparent 50%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%)"
             position="relative"
             overflow="auto"
         >
@@ -72,47 +66,7 @@ function AppContent({ children }: { children: React.ReactNode }) {
                 <LanguageSwitcher />
             </Box>
 
-            {/* 网格光效层 */}
-            <Box
-                position="absolute"
-                top={0}
-                left={0}
-                right={0}
-                bottom={0}
-                pointerEvents="none"
-                background="repeating-linear-gradient(90deg, 
-          rgba(0, 210, 255, 0.03) 0px, 
-          transparent 1px, 
-          transparent 60px
-        ),
-        repeating-linear-gradient(180deg, 
-          rgba(0, 210, 255, 0.03) 0px, 
-          transparent 1px, 
-          transparent 60px
-        )"
-                zIndex={0}
-                opacity={0.35}
-            />
-
-            {/* 渐变光晕层 */}
-            <Box
-                position="absolute"
-                top={0}
-                left={0}
-                right={0}
-                bottom={0}
-                pointerEvents="none"
-                background="radial-gradient(
-          circle at 50% 50%,
-          rgba(0, 210, 255, 0.1) 0%,
-          rgba(0, 180, 255, 0.06) 25%,
-          rgba(0, 150, 255, 0.03) 50%,
-          transparent 70%
-        )"
-                zIndex={0}
-                backdropFilter="blur(90px)"
-            />
-
+           
             {/* 内容区域 */}
             <Flex direction="column" height="100%" zIndex={1}>
                 <SettingsLayout>

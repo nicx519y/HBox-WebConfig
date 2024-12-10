@@ -153,10 +153,10 @@ export function RapidTriggerContent() {
             <Center width="700px" >
                 <Fieldset.Root width="100%">
                     <Stack direction="column" gap={4}>
-                        <Fieldset.Legend fontSize="2rem" color="green.600">
+                        <Fieldset.Legend fontSize="2rem" color="green.600" >
                             {t.SETTINGS_RAPID_TRIGGER_TITLE}
                         </Fieldset.Legend>
-                        <Fieldset.HelperText fontSize="smaller" color="gray.400">
+                        <Fieldset.HelperText fontSize="smaller" opacity={0.75} >
                             <Text whiteSpace="pre-wrap" >{t.SETTINGS_RAPID_TRIGGER_HELPER_TEXT}</Text>
                         </Fieldset.HelperText>
                         <Fieldset.Content pt="30px" >
@@ -170,10 +170,10 @@ export function RapidTriggerContent() {
                                         setIsDirty?.(true);
                                     }}
                                 >
-                                    {t.SETTINGS_RAPID_TRIGGER_CONFIGURE_ALL}
+                                    <Text fontSize={"sm"} opacity={0.75} >{t.SETTINGS_RAPID_TRIGGER_CONFIGURE_ALL}</Text>
                                 </Switch>
 
-                                <Text color={!isAllBtnsConfiguring ? "green.400" : "gray.700"} >
+                                <Text opacity={!isAllBtnsConfiguring ? "0.75" : "0.25"} fontSize={"sm"} >
                                     {(selectedButton !== null && !isAllBtnsConfiguring) ?
                                         t.SETTINGS_RAPID_TRIGGER_ONFIGURING_BUTTON
                                         : t.SETTINGS_RAPID_TRIGGER_SELECT_A_BUTTON_TO_CONFIGURE
@@ -219,7 +219,7 @@ export function RapidTriggerContent() {
                                                 { value: 1, label: '1' },
                                             ]}
                                         />
-                                        <Text fontSize="sm" color="gray.400">
+                                        <Text fontSize="sm" opacity={0.75} >
                                             Value: {isAllBtnsConfiguring ? allBtnsConfig[key as keyof RapidTriggerConfig] : getCurrentConfig()[key as keyof TriggerConfig]}
                                         </Text>
                                     </Stack>

@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { LEDS_ANIMATION_CYCLE, LEDS_COLOR_DEFAULT, LedsEffectStyle } from "@/types/gamepad-config";
 import { Color, parseColor, Box } from '@chakra-ui/react';
 import styled from "styled-components";
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
+import { useColorMode } from "./ui/color-mode";
 
 const StyledSvg = styled.svg`
   width: 800px;
@@ -21,17 +22,17 @@ const StyledSvg = styled.svg`
  * @returns 
  */
 const StyledCircle = styled.circle<{
-  $color?: string;
-  $opacity?: number;
-  $interactive?: boolean;
-  $highlight?: boolean;
+    $color?: string;
+    $opacity?: number;
+    $interactive?: boolean;
+    $highlight?: boolean;
 }>`
   stroke: 'gray';
   stroke-width: 1px;
   cursor: ${props => props.$interactive ? 'pointer' : 'default'};
   pointer-events: ${props => props.$interactive ? 'auto' : 'none'};
   opacity: ${props => props.$opacity};
-  fill: ${props => props.$color};
+  fill: ${props => props.$color ?? 'transparent'};
   stroke: ${props => props.$highlight ? 'yellowgreen' : 'gray'};
   stroke-width: ${props => props.$highlight ? '2px' : '1px'};
   filter: ${props => props.$highlight ? 'drop-shadow(0 0 2px rgba(154, 205, 50, 0.8))' : 'none'};
@@ -109,7 +110,7 @@ const lerpColor = (color1: Color, color2: Color, t: number) => {
     const r = Math.round(color1.getChannelValue('red') + (color2.getChannelValue('red') - color1.getChannelValue('red')) * t);
     const g = Math.round(color1.getChannelValue('green') + (color2.getChannelValue('green') - color1.getChannelValue('green')) * t);
     const b = Math.round(color1.getChannelValue('blue') + (color2.getChannelValue('blue') - color1.getChannelValue('blue')) * t);
-    
+
     return parseColor(`rgb(${r}, ${g}, ${b})`);
 
 };
@@ -123,7 +124,7 @@ function invertColor(color: Color) {
     const invertedG = 255 - g;
     const invertedB = 255 - b;
     return parseColor(`rgb(${invertedR}, ${invertedG}, ${invertedB})`);
-  }
+}
 
 
 
@@ -138,8 +139,8 @@ function invertColor(color: Color) {
  * interactiveIds: number[] - 可交互按钮id列表  
  * @returns 
  */
-export default function Hitbox(props: { 
-    onClick?: (id: number) => void, 
+export default function Hitbox(props: {
+    onClick?: (id: number) => void,
     hasLeds?: boolean,
     colorEnabled?: boolean,
     frontColor?: Color,
@@ -151,39 +152,53 @@ export default function Hitbox(props: {
     highlightIds?: number[],
 }) {
 
-    const [colorList, setColorList] = useState<Color[]>(Array(btnLen).fill(LEDS_COLOR_DEFAULT));
-
-    const frontColorRef = useRef(props.frontColor ?? LEDS_COLOR_DEFAULT);
-    const backColor1Ref = useRef(props.backColor1 ?? LEDS_COLOR_DEFAULT);
-    const backColor2Ref = useRef(props.backColor2 ?? LEDS_COLOR_DEFAULT);
+    const { colorMode } = useColorMode()
+    const [defaultFrontColor, setDefaultFrontColor] = useState(parseColor("#ffffff"));
+    const [colorList, setColorList] = useState<Color[]>(Array(btnLen).fill(defaultFrontColor));
+    const frontColorRef = useRef(props.frontColor ?? defaultFrontColor);
+    const backColor1Ref = useRef(props.backColor1 ?? defaultFrontColor);
+    const backColor2Ref = useRef(props.backColor2 ?? defaultFrontColor);
     const colorEnabledRef = useRef(props.colorEnabled ?? false);
     const effectStyleRef = useRef(props.effectStyle ?? LedsEffectStyle.STATIC);
-    const pressedButtonListRef = useRef(Array(btnLen).fill(-1)); 
+    const pressedButtonListRef = useRef(Array(btnLen).fill(-1));
 
     const { contextJsReady, setContextJsReady } = useGamepadConfig();
 
+    /**
+     * 根据颜色模式设置默认颜色
+     */
+    useEffect(() => {
+        if(colorMode === "dark") {
+            setDefaultFrontColor(parseColor("#000000"));
+            setColorList(Array(btnLen).fill(parseColor("#000000")));
+        } else {
+            setDefaultFrontColor(parseColor("#ffffff"));
+            setColorList(Array(btnLen).fill(parseColor("#ffffff")));
+        }
+    }, [colorMode]);
+
     const handleClick = (event: React.MouseEvent<SVGElement>) => {
         const target = event.target as SVGElement;
-        if(!target.id || !target.id.startsWith("btn-")) return;
+        if (!target.id || !target.id.startsWith("btn-")) return;
         const id = Number(target.id.replace("btn-", ""));
-        if(id === Number.NaN || !(props.interactiveIds?.includes(id) ?? false)) return;
-        if(event.type === "mousedown") {
+        if (id === Number.NaN || !(props.interactiveIds?.includes(id) ?? false)) return;
+        if (event.type === "mousedown") {
             props.onClick?.(id);
             pressedButtonListRef.current[id] = 1;
-        } else if(event.type === "mouseup") {
+        } else if (event.type === "mouseup") {
             props.onClick?.(-1);
             pressedButtonListRef.current[id] = -1;
         }
     };
 
     const handleLeave = (event: React.MouseEvent<SVGElement>) => {
-       const target = event.target as SVGElement;
-       if(!target.id || !target.id.startsWith("btn-")) return;
-       const id = Number(target.id.replace("btn-", ""));
-       if(id === Number.NaN || !(props.interactiveIds?.includes(id) ?? false)) return;
-       if (event.type === "mouseleave") {
+        const target = event.target as SVGElement;
+        if (!target.id || !target.id.startsWith("btn-")) return;
+        const id = Number(target.id.replace("btn-", ""));
+        if (id === Number.NaN || !(props.interactiveIds?.includes(id) ?? false)) return;
+        if (event.type === "mouseleave") {
             pressedButtonListRef.current[id] = -1;
-       }
+        }
     }
 
     /**
@@ -192,10 +207,10 @@ export default function Hitbox(props: {
      * @returns 
      */
     const getBtnFontColor = (index: number): string => {
-        if([16, 17, 18, 19].includes(index)) {
-            return LEDS_COLOR_DEFAULT;
+        if ([16, 17, 18, 19].includes(index)) {
+            return defaultFrontColor.toString('css');
         }
-        return colorList[index]?.toString('css') ?? LEDS_COLOR_DEFAULT;
+        return colorList[index]?.toString('css') ?? defaultFrontColor.toString('css');
     }
 
     /**
@@ -213,19 +228,19 @@ export default function Hitbox(props: {
     useEffect(() => {
         setContextJsReady(true);
     }, []);
-    
+
     /**
      * 更新按钮颜色
      */
     useEffect(() => {
 
-        if(!props.hasLeds) {
+        if (!props.hasLeds) {
             return;
         }
 
         let animationFrameId: number;
         let timer: number;
-        
+
         // 更新按钮颜色 
         const updateColors = () => {
 
@@ -236,16 +251,16 @@ export default function Hitbox(props: {
                 if (1 === pressedButtonListRef.current[index] && colorEnabledRef.current) {
                     return frontColorRef.current;
                 } else if (colorEnabledRef.current) {
-                    if(effectStyleRef.current === LedsEffectStyle.BREATHING) {
+                    if (effectStyleRef.current === LedsEffectStyle.BREATHING) {
                         const t = Math.sin(progress * Math.PI);
                         return lerpColor(backColor1Ref.current as Color, backColor2Ref.current as Color, t);
-                    } else if(effectStyleRef.current === LedsEffectStyle.STATIC) {
+                    } else if (effectStyleRef.current === LedsEffectStyle.STATIC) {
                         return backColor1Ref.current;
                     }
                 }
-                return LEDS_COLOR_DEFAULT;
+                return defaultFrontColor;
             });
-            
+
             setColorList(newColors as Color[]);
             animationFrameId = requestAnimationFrame(updateColors);
         };
@@ -259,36 +274,36 @@ export default function Hitbox(props: {
             timer = 0;
         };
 
-        
-    }, []); 
+
+    }, []);
 
     useEffect(() => {
         const brightness = props.brightness ?? 100;
-        if(props.frontColor) {
-            const r = props.frontColor.getChannelValue('red') * (brightness / 100);
-            const g = props.frontColor.getChannelValue('green') * (brightness / 100);
-            const b = props.frontColor.getChannelValue('blue') * (brightness / 100);
-            frontColorRef.current = parseColor(`rgb(${r}, ${g}, ${b})`);
+        if (props.frontColor) {
+            const r = props.frontColor.getChannelValue('red');
+            const g = props.frontColor.getChannelValue('green');
+            const b = props.frontColor.getChannelValue('blue');
+            frontColorRef.current = parseColor(`rgba(${r}, ${g}, ${b}, ${brightness / 100})`);
         }
     }, [props.frontColor, props.brightness]);
 
     useEffect(() => {
         const brightness = props.brightness ?? 100;
-        if(props.backColor1) {
-            const r = props.backColor1.getChannelValue('red') * (brightness / 100);
-            const g = props.backColor1.getChannelValue('green') * (brightness / 100);
-            const b = props.backColor1.getChannelValue('blue') * (brightness / 100);
-            backColor1Ref.current = parseColor(`rgb(${r}, ${g}, ${b})`);
+        if (props.backColor1) {
+            const r = props.backColor1.getChannelValue('red');
+            const g = props.backColor1.getChannelValue('green');
+            const b = props.backColor1.getChannelValue('blue');
+            backColor1Ref.current = parseColor(`rgba(${r}, ${g}, ${b}, ${brightness / 100})`);
         }
     }, [props.backColor1, props.brightness]);
 
     useEffect(() => {
         const brightness = props.brightness ?? 100;
-        if(props.backColor2) {
-            const r = props.backColor2.getChannelValue('red') * (brightness / 100);
-            const g = props.backColor2.getChannelValue('green') * (brightness / 100);
-            const b = props.backColor2.getChannelValue('blue') * (brightness / 100);
-            backColor2Ref.current = parseColor(`rgb(${r}, ${g}, ${b})`);
+        if (props.backColor2) {
+            const r = props.backColor2.getChannelValue('red');
+            const g = props.backColor2.getChannelValue('green');
+            const b = props.backColor2.getChannelValue('blue');
+            backColor2Ref.current = parseColor(`rgba(${r}, ${g}, ${b}, ${brightness / 100})`);
         }
     }, [props.backColor2, props.brightness]);
 
@@ -296,22 +311,21 @@ export default function Hitbox(props: {
         effectStyleRef.current = props.effectStyle ?? LedsEffectStyle.STATIC;
     }, [props.effectStyle]);
 
-    useEffect(() => {   
+    useEffect(() => {
         colorEnabledRef.current = props.colorEnabled ?? true;
     }, [props.colorEnabled]);
 
     return (
         <Box display={contextJsReady ? "block" : "none"} >
-            <StyledSvg xmlns="http://www.w3.org/2000/svg" 
-                onMouseDown={handleClick} 
-            onMouseUp={handleClick}
-            
-        >
-            <title>hitbox</title>
-            <StyledFrame x="0.36" y="0.36" width="787.82" height="507.1" rx="10" />
-            
-            {/* 渲染按钮边框路径 */}
-            <StyledPath d="
+            <StyledSvg xmlns="http://www.w3.org/2000/svg"
+                onMouseDown={handleClick}
+                onMouseUp={handleClick}
+            >
+                <title>hitbox</title>
+                <StyledFrame x="0.36" y="0.36" width="787.82" height="507.1" rx="10" />
+
+                {/* 渲染按钮边框路径 */}
+                <StyledPath d="
               M328.23,220.98 a10,10,0,0,0-4.27-8
               M323.97,212.95 a10,10,0,0,0-9-1.26
               M276.83,195.89 a31.22,31.22,0,0,0,38.31,15.87
@@ -330,54 +344,54 @@ export default function Hitbox(props: {
               M335.97,181.67 a10,10,0,0,0,4.26,8
               M340.22,189.67 a10,10,0,0,0,9,1.26
               M328.24,220.89 a31.23,31.23,0,1,0,21-30"
-            />
-
-            {/* 渲染按钮外框 */}
-            {btnPosList.map((item, index) => {
-                const radius = item.r + btnFrameRadiusDistance;
-                if(![3, 4, 5, 6].includes(index)) {
-                    return (
-                        <StyledCircle 
-                            id={`btn-${index}`}
-                            key={index} 
-                            cx={item.x} 
-                            cy={item.y} 
-                            r={radius} 
-                            $interactive={false}
-                            $highlight={false}
-                        />
-                    )
-                }
-            })}
-
-            {/* 渲染按钮 */}
-            {btnPosList.map((item, index) => (
-                <StyledCircle 
-                    id={`btn-${index}`}
-                    key={index} 
-                    cx={item.x} 
-                    cy={item.y} 
-                    r={item.r} 
-                    onMouseLeave={handleLeave}
-                    $color={ [16, 17, 18, 19].includes(index) ? LEDS_COLOR_DEFAULT : colorList[index]?.toString('css') ?? LEDS_COLOR_DEFAULT} 
-                    $opacity={1} 
-                    $interactive={ props.interactiveIds?.includes(index) ?? false } 
-                    $highlight={props.highlightIds?.includes(index) ?? false}
                 />
-            ))}
 
-            {/* 渲染按钮文字 */}
-            {btnPosList.map((item, index) => (
-                <StyledText 
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    key={index} 
-                    x={item.x} 
-                    y={ index < btnLen - 4 ? item.y : item.y + 30 }
-                    fill={getTextColor(index)}
-                >
-                    { index !== btnLen - 1 ? index + 1 : "Fn" }
-                </StyledText>
+                {/* 渲染按钮外框 */}
+                {btnPosList.map((item, index) => {
+                    const radius = item.r + btnFrameRadiusDistance;
+                    if (![3, 4, 5, 6].includes(index)) {
+                        return (
+                            <StyledCircle
+                                id={`btn-${index}`}
+                                key={index}
+                                cx={item.x}
+                                cy={item.y}
+                                r={radius}
+                                $interactive={false}
+                                $highlight={false}
+                            />
+                        )
+                    }
+                })}
+
+                {/* 渲染按钮 */}
+                {btnPosList.map((item, index) => (
+                    <StyledCircle
+                        id={`btn-${index}`}
+                        key={index}
+                        cx={item.x}
+                        cy={item.y}
+                        r={item.r}
+                        onMouseLeave={handleLeave}
+                        $color={[16, 17, 18, 19].includes(index) ? defaultFrontColor.toString('css') : colorList[index]?.toString('css') ?? defaultFrontColor.toString('css')}
+                        $opacity={1}
+                        $interactive={props.interactiveIds?.includes(index) ?? false}
+                        $highlight={props.highlightIds?.includes(index) ?? false}
+                    />
+                ))}
+
+                {/* 渲染按钮文字 */}
+                {btnPosList.map((item, index) => (
+                    <StyledText
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        key={index}
+                        x={item.x}
+                        y={index < btnLen - 4 ? item.y : item.y + 30}
+                        fill={getTextColor(index)}
+                    >
+                        {index !== btnLen - 1 ? index + 1 : "Fn"}
+                    </StyledText>
                 ))}
             </StyledSvg>
         </Box>

@@ -47,7 +47,7 @@ export function DialogConfirm() {
         <DialogRoot open={isOpen} onOpenChange={handleClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle fontSize="sm" color="gray.300">{title}</DialogTitle>
+                    <DialogTitle fontSize="sm" opacity={0.75} >{title}</DialogTitle>
                 </DialogHeader>
                 <DialogBody>
                     <Alert fontSize="sm" colorPalette={"yellow"}>{message}</Alert>

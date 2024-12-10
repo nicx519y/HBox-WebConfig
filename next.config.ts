@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    build: "export",
+    distDir: '.dist',
     experimental: {
         optimizePackageImports: ["@chakra-ui/react"],
     },
@@ -70,6 +72,10 @@ const nextConfig: NextConfig = {
                 source: '/leds',
                 destination: '/',
             },
+            // {
+            //     source: '/calibration',
+            //     destination: '/',
+            // },
             {
                 source: '/rapid-trigger',
                 destination: '/',

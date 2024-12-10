@@ -94,7 +94,7 @@ export function HotkeysSettingContent() {
                         <Fieldset.Legend fontSize="2rem" color="green.600">
                             {t.SETTINGS_HOTKEYS_TITLE}
                         </Fieldset.Legend>
-                        <Fieldset.HelperText fontSize="smaller" color="gray.400">
+                        <Fieldset.HelperText fontSize="smaller" opacity={0.75} >
                             <Text whiteSpace="pre-wrap" >{t.SETTINGS_HOTKEYS_HELPER_TEXT}</Text>
                         </Fieldset.HelperText>
                         <Fieldset.Content pt="30px" >
