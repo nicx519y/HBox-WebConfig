@@ -57,7 +57,7 @@ export function SettingsLayout({ children }: { children: React.ReactNode }) {
             
             <Flex direction="column" flex={1} height="100%">
                 <Center pt={4} height="50px">
-                    {currentRoute !== 'hotkeys' && <ProfileSelect />}
+                    {['keys', 'leds', 'rapid-trigger'].includes(currentRoute) && <ProfileSelect />}
                 </Center>
                 <Center pt={4} flex={1}>
                     {children}

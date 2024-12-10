@@ -1,6 +1,5 @@
 "use client";
 
-import { Field } from "@/components/ui/field"
 import { Tag } from "@/components/ui/tag"
 import { Box, HStack, Text, VStack } from "@chakra-ui/react"
 import { useLanguage } from "@/contexts/language-context";

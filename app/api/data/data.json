@@ -325,7 +325,14 @@
         "fourWayMode": false,
         "socdMode": "SOCD_MODE_SECOND_INPUT_PRIORITY",
         "inputMode": "XINPUT",
-        "keyMapping": {}
+        "keyMapping": {
+          "DPAD_UP": [
+            14
+          ],
+          "DPAD_DOWN": [
+            12
+          ]
+        }
       },
       "ledsConfigs": {
         "ledEnabled": false,

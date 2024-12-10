@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
     build: "export",
-    distDir: '.dist',
+    distDir: '.dest',
     experimental: {
         optimizePackageImports: ["@chakra-ui/react"],
     },

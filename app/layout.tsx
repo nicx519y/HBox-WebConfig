@@ -4,7 +4,7 @@ import { Provider } from "@/components/ui/provider"
 import StyledComponentsRegistry from '@/lib/registry'
 import { SettingsLayout } from '@/components/settings-layout'
 import { GamepadConfigProvider, useGamepadConfig } from '@/contexts/gamepad-config-context'
-import { Box, Flex, Center, Text } from '@chakra-ui/react'
+import { Flex, Center, Text, HStack } from '@chakra-ui/react'
 import { toaster, Toaster } from "@/components/ui/toaster"
 import { LoadingModal } from "@/components/ui/loading-modal"
 import { useState, useEffect } from 'react'
@@ -13,6 +13,7 @@ import { DialogForm } from "@/components/dialog-form";
 import { DialogCannotClose } from '@/components/dialog-cannot-close'
 import { LanguageProvider } from '@/contexts/language-context';
 import { LanguageSwitcher } from '@/components/language-switcher'
+import { ColorModeSwitcher } from "@/components/color-mode-switcher";
 
 // 创建一个内部组件来使用 context
 function AppContent({ children }: { children: React.ReactNode }) {
@@ -57,16 +58,18 @@ function AppContent({ children }: { children: React.ReactNode }) {
             overflow="auto"
         >
             {/* 添加语言切换按钮 */}
-            <Box
+            <HStack
+                gap={4}
                 position="fixed"
-                top={"5.5px"}
+                top={"8px"}
                 right={4}
                 zIndex={2}
             >
                 <LanguageSwitcher />
-            </Box>
+                <ColorModeSwitcher />
+            </HStack>
 
-           
+
             {/* 内容区域 */}
             <Flex direction="column" height="100%" zIndex={1}>
                 <SettingsLayout>

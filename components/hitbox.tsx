@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState, useRef, useMemo } from "react";
-import { LEDS_ANIMATION_CYCLE, LEDS_COLOR_DEFAULT, LedsEffectStyle } from "@/types/gamepad-config";
+import { useEffect, useState, useRef } from "react";
+import { LEDS_ANIMATION_CYCLE, LedsEffectStyle } from "@/types/gamepad-config";
 import { Color, parseColor, Box } from '@chakra-ui/react';
 import styled from "styled-components";
 import { useGamepadConfig } from "@/contexts/gamepad-config-context";
@@ -161,6 +161,7 @@ export default function Hitbox(props: {
     const colorEnabledRef = useRef(props.colorEnabled ?? false);
     const effectStyleRef = useRef(props.effectStyle ?? LedsEffectStyle.STATIC);
     const pressedButtonListRef = useRef(Array(btnLen).fill(-1));
+    const defaultFrontColorRef = useRef(defaultFrontColor);
 
     const { contextJsReady, setContextJsReady } = useGamepadConfig();
 
@@ -168,11 +169,13 @@ export default function Hitbox(props: {
      * 根据颜色模式设置默认颜色
      */
     useEffect(() => {
-        if(colorMode === "dark") {
+        if (colorMode === "dark") {
             setDefaultFrontColor(parseColor("#000000"));
+            defaultFrontColorRef.current = parseColor("#000000");
             setColorList(Array(btnLen).fill(parseColor("#000000")));
         } else {
             setDefaultFrontColor(parseColor("#ffffff"));
+            defaultFrontColorRef.current = parseColor("#ffffff");
             setColorList(Array(btnLen).fill(parseColor("#ffffff")));
         }
     }, [colorMode]);
@@ -258,7 +261,7 @@ export default function Hitbox(props: {
                         return backColor1Ref.current;
                     }
                 }
-                return defaultFrontColor;
+                return defaultFrontColorRef.current;
             });
 
             setColorList(newColors as Color[]);

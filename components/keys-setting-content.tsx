@@ -11,7 +11,6 @@ import {
     RadioCardLabel,
     Text,
 } from "@chakra-ui/react";
-import { Tooltip } from "@/components/ui/tooltip"
 import KeymappingFieldset from "@/components/keymapping-fieldset";
 import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
