@@ -1,13 +1,10 @@
 import type { NextConfig } from "next";
 import withBundleAnalyzer from '@next/bundle-analyzer';
-
+import TerserPlugin from 'terser-webpack-plugin';
 
 const nextConfig: NextConfig = {
-    build: "export",
-    distDir: '.dest',
-    // experimental: {
-    //     optimizePackageImports: ["@chakra-ui/react"],
-    // },
+    // output: "export",   // 指定输出模式，export 表示导出静态文件，export 模式下，next 会生成一个 dist 目录，里面包含所有静态文件，使用这个模式的时候 要暂时删除 app/api 
+    // distDir: '.dest',
     // 忽略 build 错误
     typescript: {
         ignoreBuildErrors: true,
@@ -18,36 +15,36 @@ const nextConfig: NextConfig = {
     },
     webpack: (config, { isServer }) => {
         if (!isServer) {
-            config.optimization.splitChunks = {
-                cacheGroups: {
-                    default: false,
-                    vendors: false,
-                    // 将所有的代码打包成一个文件
-                    all: {
-                        test: /[\\/]node_modules[\\/]/,
-                        name: 'vendor',
-                        chunks: 'all',
-                        enforce: true,
-                    },
-                },
+            // 禁用代码分割
+            config.optimization = {
+                minimize: true,
+                minimizer: [
+                    new TerserPlugin({
+                        terserOptions: {
+                            compress: {
+                                drop_console: true,
+                                drop_debugger: true
+                            },
+                            output: {
+                                comments: false,
+                            },
+                            mangle: true
+                        },
+                    }),
+                ],
+                // 关键改动：将所有代码强制打包到一个文件
+                concatenateModules: true,
+                splitChunks: false,  // 完全禁用代码分割
+                runtimeChunk: false,
             };
-            // 禁用代码拆分
-            config.optimization.runtimeChunk = false;
-            config.optimization.concatenateModules = true;
 
-            // 将所有入口点合并成一个
-            // const originalEntry = config.entry;
-            // config.entry = async () => {
-            //     const entries = await (typeof originalEntry === 'function' ? originalEntry() : originalEntry);
-            //     if (typeof entries === 'object' && !Array.isArray(entries)) {
-            //         return {
-            //             main: Object.values(entries).flat()
-            //         };
-            //     }
-            //     return entries;
-            // };
+            // 修改输出配置
+            config.output = {
+                ...config.output,
+                filename: 'static/js/file-[name].js',
+                chunkFilename: 'static/js/chunk-[name].js',
+            };
         }
-
         return config;
     },
     // webpack: (config, { isServer }) => {
@@ -125,5 +122,5 @@ const nextConfig: NextConfig = {
 };
 
 export default withBundleAnalyzer({
-    enabled: process.env.ANALYZE === 'true',
+    enabled: process.env.ANALYZE === 'true', // 是否启用分析
 })(nextConfig);
