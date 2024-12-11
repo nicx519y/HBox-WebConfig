@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultProfileId": "profile-1733498969937",
+  "defaultProfileId": "profile-1733882408986",
   "isCalibrateCompleted": false,
   "numProfilesMax": 10,
   "profiles": [
@@ -1031,6 +1031,32 @@
             "releaseAccuracy": 0
           }
         ]
+      }
+    },
+    {
+      "id": "profile-1733882408986",
+      "name": "NewProfile2222",
+      "keysConfig": {
+        "invertXAxis": false,
+        "invertYAxis": false,
+        "fourWayMode": false,
+        "socdMode": "SOCD_MODE_NEUTRAL",
+        "inputMode": "XINPUT",
+        "keyMapping": {}
+      },
+      "ledsConfigs": {
+        "ledEnabled": false,
+        "ledsEffectStyle": "STATIC",
+        "ledColors": [
+          "#000000",
+          "#000000",
+          "#000000"
+        ],
+        "ledBrightness": 100
+      },
+      "triggerConfigs": {
+        "isAllBtnsConfiguring": true,
+        "triggerConfigs": []
       }
     }
   ],

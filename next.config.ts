@@ -41,8 +41,26 @@ const nextConfig: NextConfig = {
             // 修改输出配置
             config.output = {
                 ...config.output,
-                filename: 'static/js/file-[name].js',
-                chunkFilename: 'static/js/chunk-[name].js',
+                filename: 'static/js/[name].[contenthash].js',
+                chunkFilename: 'static/js/[name].[contenthash].js',
+                // assetModuleFilename: 'static/media/[name].[hash][ext]',
+                // path: paths.appBuild,
+                // publicPath: '/',
+                // clean: true,
+                // library: 'myApp',
+                // libraryTarget: 'umd',
+                // strictModuleExceptionHandling: true,
+                // environment: {
+                //     arrowFunction: true,
+                //     bigIntLiteral: false,
+                //     const: true,
+                //     destructuring: true,
+                //     dynamicImport: false,
+                //     forOf: true,
+                //     module: false,
+                // },
+                // hashFunction: 'xxhash64',
+                // hashDigestLength: 8,
             };
         }
         return config;

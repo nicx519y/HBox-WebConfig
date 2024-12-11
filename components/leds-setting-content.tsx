@@ -40,7 +40,6 @@ import {
     LedsEffectStyle,
     LedsEffectStyleList,
     LedsEffectStyleLabelMap,
-    LEDS_COLOR_DEFAULT,
 } from "@/types/gamepad-config";
 import { LuSunDim, LuActivity } from "react-icons/lu";
 import Hitbox from "./hitbox";
@@ -211,7 +210,7 @@ export function LEDsSettingContent() {
                                                     index === 0 ? color1 :
                                                         index === 1 ? color2 :
                                                             index === 2 ? color3 :
-                                                                parseColor(LEDS_COLOR_DEFAULT)
+                                                                defaultFrontColor
                                                 }
                                                 maxW="200px"
                                                 disabled={colorPickerDisabled(index)}

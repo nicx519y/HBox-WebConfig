@@ -87,7 +87,7 @@ export async function getInitialProfileDetails(id: string, name: string): Promis
                 "#000000",
                 "#000000",
             ],  
-            ledBrightness: 0
+            ledBrightness: 100
         },
         triggerConfigs: {
             isAllBtnsConfiguring: true,

@@ -167,6 +167,27 @@ export function ProfileSelect() {
         return await deleteProfile(defaultProfile?.id ?? "");
     }
 
+    const menuItems = [
+        {
+            value: "create",
+            label: t.PROFILE_SELECT_CREATE_BUTTON,
+            icon: <LuPlus />,
+            onClick: createProfileClick
+        },
+        {
+            value: "rename",
+            label: t.PROFILE_SELECT_RENAME_BUTTON,
+            icon: <LuPencil />,
+            onClick: renameProfileClick
+        },
+        {
+            value: "delete",
+            label: t.PROFILE_SELECT_DELETE_BUTTON,
+            icon: <LuTrash />,
+            onClick: deleteProfileClick
+        }
+    ]
+
     return (
         <>
             { // 如果 profileList 存在且 profileList.items 的长度大于 1，则显示选择器
@@ -201,28 +222,13 @@ export function ProfileSelect() {
                                 </IconButton>
                             </MenuTrigger>
                             <MenuContent  >
-                                <MenuItem
-                                    value="create"
-                                    onClick={createProfileClick}
-                                >
-                                    <LuPlus />
-                                    {t.PROFILE_SELECT_CREATE_BUTTON}
-                                </MenuItem>
-                                <MenuItem
-                                    value="rename"
-                                    onClick={renameProfileClick}
-                                >
-                                
-                                    <LuPencil />
-                                    {t.PROFILE_SELECT_RENAME_BUTTON}
-                                </MenuItem>
-                                <MenuItem
-                                    value="delete"
-                                    onClick={deleteProfileClick}
-                                    >
-                                    <LuTrash />
-                                    {t.PROFILE_SELECT_DELETE_BUTTON}
-                                </MenuItem>
+                                {
+                                    menuItems.map((item) => (
+                                        <MenuItem key={item.value} value={item.value} onClick={item.onClick}>
+                                            {item.icon} {item.label}
+                                        </MenuItem>
+                                    ))
+                                }
                             </MenuContent>
                         </MenuRoot>
                     </Stack>
